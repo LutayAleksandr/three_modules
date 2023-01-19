@@ -34,5 +34,5 @@
         android:id="@+id/cityFragment"
         android:name="com.example.three_modules.app.presentation.ui.fragments.CityFragment"
         android:label="fragment_city"
-        tools:layout="@layout/fragment_city" />
+        tools:layout="@layout/fragment_town" />
 </navigation>
