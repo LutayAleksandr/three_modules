@@ -8,12 +8,12 @@ sealed class DataModel {
         val buttonText: String,
         val itemType: MainItemType
     ): DataModel()
+}
 
-    enum class MainItemType {
-        CITY,
-        WEATHER,
-        COIN
-    }
+enum class MainItemType {
+    CITY,
+    WEATHER,
+    COIN
 }
 
 

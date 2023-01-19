@@ -13,12 +13,4 @@ class SettingRVViewHolder(val binding: ItemSettingsRecyclerBinding) :
             isrTextView.text = item.textModules
         }
     }
-
-
-
-
-
-
-
-
 }

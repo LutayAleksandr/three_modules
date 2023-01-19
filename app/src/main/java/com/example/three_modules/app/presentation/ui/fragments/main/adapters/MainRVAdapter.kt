@@ -10,13 +10,14 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.three_modules.R
 import com.example.three_modules.app.presentation.ui.fragments.SettingFragment
 import com.example.three_modules.app.presentation.ui.fragments.main.models.DataModel
+import com.example.three_modules.app.presentation.ui.fragments.main.models.MainItemType
 import com.example.three_modules.app.presentation.ui.fragments.main.viewholders.MainRVViewHolder
 import java.util.Collections.addAll
 
 class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
     RecyclerView.Adapter<ViewHolder>() {
 
-    var click: ((itemType: DataModel.MainItemType) -> Unit)? = null
+    var click: ((itemType: MainItemType) -> Unit)? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -40,9 +41,6 @@ class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
             val currentItem = mainRVItemModelList[position]
             holder.bind(data = currentItem)
             holder.click = click
-            holder.itemView.setOnClickListener(View.OnClickListener {
-
-            })
         }
     }
 

@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.action_mainFragment_to_settingFragment)
         }
 
+
     }
 
 

@@ -57,8 +57,9 @@ class SettingFragment : Fragment() {
             recyclerViewList
         )
 
-
         binding.fsRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.fsRecyclerView.adapter = settingRVAdapter
+
+
     }
 }

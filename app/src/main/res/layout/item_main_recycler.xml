@@ -9,6 +9,12 @@
     app:cardBackgroundColor="@color/blue"
     app:cardCornerRadius="24dp">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="City" />
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/imrButton"

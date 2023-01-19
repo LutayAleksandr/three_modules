@@ -8,7 +8,6 @@
     android:layout_width="match_parent"
     android:layout_height="60dp"
     android:layout_marginHorizontal="15dp"
-    android:layout_marginTop="15dp"
     app:cardBackgroundColor="@color/blue">
 
 <LinearLayout
@@ -30,21 +29,21 @@
 
     <TextView
         android:id="@+id/itrTextView2"
-        android:layout_width="240dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="10dp"
-        android:text="City"
+        android:layout_weight="1"
+        android:text="Coin"
         android:textColor="@color/black"
         android:textSize="18sp" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/itrImageButton"
-        android:layout_width="60dp"
+        android:layout_width="24dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:layout_marginStart="10dp"
-        android:background="@color/blue"
+        android:layout_marginEnd="15dp"
         android:src="@drawable/ic_add"
         app:tint="@color/lightGray" />
 

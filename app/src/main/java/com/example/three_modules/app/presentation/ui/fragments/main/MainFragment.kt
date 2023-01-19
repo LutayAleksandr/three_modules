@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.three_modules.R
 import com.example.three_modules.app.presentation.ui.fragments.main.adapters.MainRVAdapter
 import com.example.three_modules.app.presentation.ui.fragments.main.models.DataModel
+import com.example.three_modules.app.presentation.ui.fragments.main.models.MainItemType
 import com.example.three_modules.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
@@ -48,21 +49,21 @@ class MainFragment : Fragment() {
             ),
             DataModel.MainRVItemModel(
                 buttonText = "Выбрать погода",
-                itemType = DataModel.MainItemType.WEATHER
+                itemType = MainItemType.WEATHER
             ),
             DataModel.HeaderRVItemModel(
                 title = "Город"
             ),
             DataModel.MainRVItemModel(
                 buttonText = "Выбрать город",
-                itemType = DataModel.MainItemType.CITY
+                itemType = MainItemType.CITY
             ),
             DataModel.HeaderRVItemModel(
                 title = "Курс криптовалют"
             ),
             DataModel.MainRVItemModel(
                 buttonText = "Выбрать криптовалюту",
-                itemType = DataModel.MainItemType.COIN
+                itemType = MainItemType.COIN
             ),
         )
         val mainRVAdapter = MainRVAdapter(
@@ -71,9 +72,8 @@ class MainFragment : Fragment() {
 
         mainRVAdapter.click = { itemType ->
             when (itemType) {
-
-                DataModel.MainItemType.CITY -> findNavController().navigate(R.id.action_mainFragment_to_cityFragment)
-                DataModel.MainItemType.COIN -> findNavController().navigate(R.id.action_mainFragment_to_coinFragment)
+                MainItemType.CITY -> findNavController().navigate(R.id.action_mainFragment_to_cityFragment)
+                MainItemType.COIN -> findNavController().navigate(R.id.action_mainFragment_to_coinFragment)
                 else -> {
                     Toast.makeText(requireContext(), "Will be implemented soon", Toast.LENGTH_SHORT).show()
                 }
