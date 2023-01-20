@@ -7,10 +7,13 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.three_modules.R
 import com.example.three_modules.app.di.activity.ActivityComponent
 import com.example.three_modules.app.di.activity.ActivityModule
 import com.example.three_modules.app.di.activity.DaggerActivityComponent
+import com.example.three_modules.app.presentation.ui.fragments.SettingFragment
 import com.example.three_modules.databinding.ActivityMainBinding
 import com.example.three_modules.test.TestManager
 import javax.inject.Inject
@@ -47,9 +50,5 @@ class MainActivity : AppCompatActivity() {
         binding.amToolbar.tbImageButton.setOnClickListener {
             navController.navigate(R.id.action_mainFragment_to_settingFragment)
         }
-
-
     }
-
-
 }

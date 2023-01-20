@@ -34,7 +34,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginStart="10dp"
         android:layout_weight="1"
-        android:text="Coin"
+        android:text="Город"
         android:textColor="@color/black"
         android:textSize="18sp" />
 

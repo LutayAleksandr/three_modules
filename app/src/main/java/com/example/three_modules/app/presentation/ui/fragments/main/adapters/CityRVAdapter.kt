@@ -3,8 +3,9 @@ package com.example.three_modules.app.presentation.ui.fragments.main.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.three_modules.R
+import com.example.three_modules.app.presentation.ui.fragments.main.models.CityItemType
 import com.example.three_modules.app.presentation.ui.fragments.main.models.CityRVItemModel
-import com.example.three_modules.app.presentation.ui.fragments.main.models.SettingRVItemModel
 import com.example.three_modules.app.presentation.ui.fragments.main.viewholders.CityRVViewHolder
 import com.example.three_modules.app.presentation.ui.fragments.main.viewholders.SettingRVViewHolder
 import com.example.three_modules.databinding.ItemSettingsRecyclerBinding
@@ -27,6 +28,7 @@ class CityRVAdapter(private val cityRVItemModelList: List<CityRVItemModel>) :
         if (holder is CityRVViewHolder) {
             val currentItem = cityRVItemModelList[position]
             holder.bind(item = currentItem)
+
         }
     }
 

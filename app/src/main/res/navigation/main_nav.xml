@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.three_modules.app.presentation.ui.fragments.main.MainFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
+        android:label="Главный экран"
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_settingFragment"
             app:destination="@id/settingFragment" />
@@ -23,16 +23,16 @@
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.example.three_modules.app.presentation.ui.fragments.SettingFragment"
-        android:label="fragment_setting"
+        android:label="Настройки"
         tools:layout="@layout/fragment_setting" />
     <fragment
         android:id="@+id/coinFragment"
         android:name="com.example.three_modules.app.presentation.ui.fragments.CoinFragment"
-        android:label="fragment_coin"
+        android:label="Выбрать криптовалюты"
         tools:layout="@layout/fragment_coin" />
     <fragment
         android:id="@+id/cityFragment"
         android:name="com.example.three_modules.app.presentation.ui.fragments.CityFragment"
-        android:label="fragment_city"
+        android:label="Выбрать город"
         tools:layout="@layout/fragment_town" />
 </navigation>

@@ -37,6 +37,7 @@ class CityFragment : Fragment() {
         _binding = null
     }
 
+
     private fun setupRecyclerView() {
         val recyclerViewList = listOf(
             CityRVItemModel(
@@ -57,9 +58,12 @@ class CityFragment : Fragment() {
             recyclerViewList
         )
 
+
+
         binding.ftRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.ftRecyclerView.adapter = cityRVAdapter
     }
+
 
 
 }
