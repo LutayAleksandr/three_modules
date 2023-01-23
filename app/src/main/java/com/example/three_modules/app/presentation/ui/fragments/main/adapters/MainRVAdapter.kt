@@ -22,6 +22,7 @@ class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
+
         val layout = when(viewType){
             VIEW_HEADER -> R.layout.item_header_main_recycler
             VIEW_MAIN_ITEMS -> R.layout.item_main_recycler
@@ -31,7 +32,9 @@ class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
         val itemView = LayoutInflater
             .from(parent.context)
             .inflate(
-                layout, parent, false
+                layout,
+                parent,
+                false
             )
         return MainRVViewHolder(itemView)
     }

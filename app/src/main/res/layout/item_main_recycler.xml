@@ -10,6 +10,7 @@
     app:cardCornerRadius="24dp">
 
     <TextView
+        android:id="@+id/imrTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -28,5 +29,10 @@
         android:textSize="14sp"
         android:textStyle="normal"
         app:cornerRadius="24dp" />
+
+    <com.yandex.mapkit.mapview.MapView
+        android:id="@+id/mapview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </androidx.cardview.widget.CardView>

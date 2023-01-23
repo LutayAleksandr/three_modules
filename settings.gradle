@@ -3,6 +3,10 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
+        maven {
+            url "maven.google.com"
+        }
+
     }
 }
 dependencyResolutionManagement {

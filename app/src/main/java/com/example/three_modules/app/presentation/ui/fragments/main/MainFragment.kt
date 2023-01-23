@@ -26,8 +26,6 @@ class MainFragment : Fragment() {
     ): View? {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,7 +80,4 @@ class MainFragment : Fragment() {
         binding.fmRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.fmRecyclerView.adapter = mainRVAdapter
     }
-
-
-
 }

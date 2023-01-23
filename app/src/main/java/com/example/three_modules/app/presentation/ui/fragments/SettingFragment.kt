@@ -34,7 +34,7 @@ class SettingFragment : Fragment() {
                 var startPosition = viewHolder.adapterPosition
                 var endPosition = target.adapterPosition
 
-                Collection.swap(recyclerViewList, startPosition, endPosition)
+                //Collection.(recyclerViewList, startPosition, endPosition)
                 recyclerView.adapter?.notifyItemMoved(startPosition, endPosition)
                 return true
             }
@@ -79,6 +79,7 @@ class SettingFragment : Fragment() {
                 color = ContextCompat.getColor(requireContext(), R.color.blue)
             )
         )
+
         val settingRVAdapter = SettingRVAdapter(
             recyclerViewList
         )

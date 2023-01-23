@@ -12,13 +12,15 @@ import com.google.android.material.button.MaterialButton
 class CityRVViewHolder(val binding: ItemTownRecyclerBinding) :
     RecyclerView.ViewHolder(binding.root)  {
 
+    var click: ((itemType: CityItemType) -> Unit)? = null
+
     fun bind(item: CityRVItemModel) {
         binding.apply {
             itrCardView.setCardBackgroundColor(item.color)
             itrTextView2.text = item.cityName
             itrTextView1.text = item.countryName
             itrImageButton.setOnClickListener{
-
+                click?.invoke(item.itemType)
             }
         }
     }
