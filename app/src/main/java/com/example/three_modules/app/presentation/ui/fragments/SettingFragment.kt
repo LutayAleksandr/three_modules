@@ -15,35 +15,12 @@ import com.example.three_modules.R
 import com.example.three_modules.app.presentation.ui.fragments.main.adapters.SettingRVAdapter
 import com.example.three_modules.app.presentation.ui.fragments.main.models.SettingRVItemModel
 import com.example.three_modules.databinding.FragmentSettingBinding
+import java.util.Collections
 
 
 class SettingFragment : Fragment() {
     private var _binding: FragmentSettingBinding? = null
     private val binding get() = _binding!!
-
-    private val itemTouchHelper by lazy {
-        var simpleCallback = object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP.or(ItemTouchHelper.DOWN),
-            0
-        ) {  // drag and drop
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                var startPosition = viewHolder.adapterPosition
-                var endPosition = target.adapterPosition
-
-                //Collection.(recyclerViewList, startPosition, endPosition)
-                recyclerView.adapter?.notifyItemMoved(startPosition, endPosition)
-                return true
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            }
-        }
-        ItemTouchHelper(simpleCallback)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -79,6 +56,13 @@ class SettingFragment : Fragment() {
                 color = ContextCompat.getColor(requireContext(), R.color.blue)
             )
         )
+        /*for (element in recyclerViewList) {
+            if (element)
+                ContextCompat.getColor(requireContext(), R.color.blue)
+            else
+                ContextCompat.getColor(requireContext(), R.color.lightBlue)
+        }*/
+
 
         val settingRVAdapter = SettingRVAdapter(
             recyclerViewList
@@ -86,6 +70,31 @@ class SettingFragment : Fragment() {
 
         binding.fsRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.fsRecyclerView.adapter = settingRVAdapter
+
+        val itemTouchHelper by lazy {
+            var simpleCallback = object : ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP.or(ItemTouchHelper.DOWN),
+                0
+            ) {  // drag and drop
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    val startPosition = viewHolder.adapterPosition
+                    val endPosition = target.adapterPosition
+
+                    Collections.swap(recyclerViewList, startPosition, endPosition)
+                    recyclerView.adapter?.notifyItemMoved(startPosition, endPosition)
+                    return true
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                }
+            }
+            ItemTouchHelper(simpleCallback)
+        }
+        itemTouchHelper.attachToRecyclerView(binding.fsRecyclerView)
     }
 
 }

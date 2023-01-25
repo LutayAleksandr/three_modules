@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "cityName": "Таганрог",
+    "countryName": "Ru"
+  },
+  {
+    "id": 2,
+    "cityName": "Ростов-на-Дону",
+    "countryName": "Ru"
+  },
+  {
+    "id": 3,
+    "cityName": "Москва",
+    "countryName": "Санкт-Петербург"
+  },
+  {
+    "id": 4,
+    "cityName": "Волгоград",
+    "countryName": "Ru"
+  },
+  {
+    "id": 5,
+    "cityName": "Краснодар",
+    "countryName": "Ru"
+  },
+  {
+    "id": 6,
+    "cityName": "Прага",
+    "countryName": "Cz"
+  },
+  {
+    "id": 7,
+    "cityName": "Берлин",
+    "countryName": "De"
+  },
+  {
+    "id": 8,
+    "cityName": "Рим",
+    "countryName": "It"
+  },
+  {
+    "id": 9,
+    "cityName": "Париж",
+    "countryName": "Fr"
+  },
+  {
+    "id": 10,
+    "cityName": "Лондон",
+    "countryName": "Uk"
+  }
+]

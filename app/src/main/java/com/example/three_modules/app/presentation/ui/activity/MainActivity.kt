@@ -2,13 +2,14 @@ package com.example.three_modules.app.presentation.ui.activity
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.three_modules.R
 import com.example.three_modules.app.di.activity.ActivityComponent
 import com.example.three_modules.app.di.activity.ActivityModule
@@ -26,8 +27,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private lateinit var viewModel: MainActivityViewModel
+    private lateinit var viewModel: MainViewModel
     private lateinit var mapView: MapView
+    private val mainViewModel: MainViewModel by viewModels()
+    private lateinit var recyclerView: RecyclerView
+
 
 
     val activityComponent: ActivityComponent by lazy {
@@ -41,14 +45,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MapKitInitializer.initialize("3eb038a7-9dc2-4c92-95dc-7fc8bd7239de", this)
 
+        MapKitInitializer.initialize("3eb038a7-9dc2-4c92-95dc-7fc8bd7239de", this)//MapKit Yandex
         setContentView(R.layout.item_main_recycler)
         mapView = findViewById(R.id.mapview)
         mapView.map.move(
-            CameraPosition( Point(47.208736, 38.936694), 11.0f, 0.0f, 0.0f),
+            CameraPosition( Point(47.208739, 38.936695), 11.0f, 0.0f, 0.0f),
             Animation(Animation.Type.SMOOTH, 0F),
             null)
+
+
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding = ActivityMainBinding.inflate(layoutInflater)

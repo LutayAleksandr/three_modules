@@ -1,22 +1,15 @@
 package com.example.three_modules.app.presentation.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.three_modules.R
 import com.example.three_modules.app.presentation.ui.fragments.main.adapters.CityRVAdapter
-import com.example.three_modules.app.presentation.ui.fragments.main.adapters.SettingRVAdapter
-import com.example.three_modules.app.presentation.ui.fragments.main.models.CityItemType
 import com.example.three_modules.app.presentation.ui.fragments.main.models.CityRVItemModel
-import com.example.three_modules.app.presentation.ui.fragments.main.models.SettingRVItemModel
-import com.example.three_modules.databinding.FragmentSettingBinding
 import com.example.three_modules.databinding.FragmentTownBinding
 
 class CityFragment : Fragment() {
@@ -45,14 +38,12 @@ class CityFragment : Fragment() {
             CityRVItemModel(
                 cityName = "Таганрог",
                 countryName = "Ru",
-                color = ContextCompat.getColor(requireContext(), R.color.blue),
-                itemType = CityItemType.ADD
+                color = ContextCompat.getColor(requireContext(), R.color.blue)
             ),
             CityRVItemModel(
                 cityName = "Ростов-на-дону",
                 countryName = "Ru",
-                color = ContextCompat.getColor(requireContext(), R.color.lightBlue),
-                itemType = CityItemType.ADD
+                color = ContextCompat.getColor(requireContext(), R.color.lightBlue)
             ),
 
         )
@@ -60,12 +51,8 @@ class CityFragment : Fragment() {
             recyclerViewList
         )
 
-        cityRVAdapter.click = { itemType ->
-            when (itemType) {
-                CityItemType.ADD -> {
-                    binding.ftTextView.text = recyclerViewList.get(index = 0).cityName
-                }
-            }
+        cityRVAdapter.click = { item ->
+            binding.ftTextView.text = item.cityName
         }
         binding.ftRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.ftRecyclerView.adapter = cityRVAdapter
