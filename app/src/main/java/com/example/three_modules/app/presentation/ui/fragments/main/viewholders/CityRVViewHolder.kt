@@ -1,6 +1,7 @@
 package com.example.three_modules.app.presentation.ui.fragments.main.viewholders
 
 import androidx.recyclerview.widget.RecyclerView
+import com.example.three_modules.app.presentation.ui.fragments.main.models.CityJsonModel
 import com.example.three_modules.app.presentation.ui.fragments.main.models.CityRVItemModel
 import com.example.three_modules.databinding.ItemTownRecyclerBinding
 
@@ -11,7 +12,7 @@ class CityRVViewHolder(val binding: ItemTownRecyclerBinding) :
 
     fun bind(item: CityRVItemModel) {
         binding.apply {
-            itrCardView.setCardBackgroundColor(item.color)
+            //itrCardView.setCardBackgroundColor(item.color)
             itrTextView2.text = item.cityName
             itrTextView1.text = item.countryName
             itrImageButton.setOnClickListener{
