@@ -12,7 +12,7 @@
   {
     "id": 3,
     "cityName": "Москва",
-    "countryName": "Санкт-Петербург"
+    "countryName": "Ru"
   },
   {
     "id": 4,
@@ -48,5 +48,10 @@
     "id": 10,
     "cityName": "Лондон",
     "countryName": "Uk"
+  },
+  {
+    "id": 11,
+    "cityName": "Череповец",
+    "countryName": "Ru"
   }
 ]

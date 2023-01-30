@@ -1,5 +1,6 @@
 package com.example.three_modules.app.presentation.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.three_modules.app.presentation.ui.fragments.main.adapters.CityRVAdapter
 import com.example.three_modules.app.presentation.ui.fragments.main.models.CityJsonModel
 import com.example.three_modules.databinding.FragmentTownBinding
+import com.example.three_modules.databinding.ItemTownRecyclerBinding
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import kotlinx.android.synthetic.main.fragment_coin.view.*
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
@@ -28,10 +34,12 @@ class CityFragment : Fragment() {
 
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -54,27 +62,27 @@ class CityFragment : Fragment() {
             ),
         )*/
 
+        val context: Context = this.requireContext()
+        val json = context.assets.open("towns.json").bufferedReader().use { it.readText() }
+        val cities = Gson().fromJson<List<CityJsonModel>>(json, object : TypeToken<List<CityJsonModel>>() {}.type)
+
         val citiesList: ArrayList<CityJsonModel> = ArrayList()
         try {
+            val jsonArray = JSONArray(json)
+            for (i in 0 until jsonArray.length()) {
 
-            val obj = JSONObject(getJSONFromAssets()!!)
-            val citiesArray = obj.getJSONArray("cities")
-            for (i in 0 until citiesArray.length()) {
-
-                val city = citiesArray.getJSONObject(i)
+                val city = jsonArray.getJSONObject(i)
 
                 val id = city.getInt("id")
                 val cityName = city.getString("cityName")
                 val countryName = city.getString("countryName")
 
-                val cityDetails =
-                    CityJsonModel(id, cityName, countryName)
+                val cityDetails = CityJsonModel(id, cityName, countryName)
 
                 citiesList.add(cityDetails)
 
-
             }
-        }catch (e: JSONException) {
+        } catch (e: JSONException) {
             e.printStackTrace()
         }
 
@@ -84,41 +92,11 @@ class CityFragment : Fragment() {
 
         cityRVAdapter.click = { item ->
             binding.ftTextView.text = item.cityName
-        }
-
-
-        binding.ftRecyclerView.layoutManager = LinearLayoutManager(context)
-        binding.ftRecyclerView.adapter = CityRVAdapter(citiesList)
-
-        /*val cityRVAdapter = CityRVAdapter(
-            recyclerViewList
-        )
-
-        cityRVAdapter.click = { item ->
-            binding.ftTextView.text = item.cityName
+            
         }
 
         binding.ftRecyclerView.layoutManager = LinearLayoutManager(context)
-        binding.ftRecyclerView.adapter = cityRVAdapter*/
-
+        binding.ftRecyclerView.adapter = cityRVAdapter
     }
-    private fun getJSONFromAssets(): String? {
-
-        var json: String? = null
-        val charset: Charset = Charsets.UTF_8
-        try {
-            val citiesJSONFile = assets.open("towns.json")
-            val size = citiesJSONFile.available()
-            val buffer = ByteArray(size)
-            citiesJSONFile.read(buffer)
-            citiesJSONFile.close()
-            json = String(buffer, charset)
-        } catch (ex: IOException) {
-            ex.printStackTrace()
-            return null
-        }
-        return json
-    }
-
 }
 

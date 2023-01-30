@@ -13,8 +13,14 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.three_modules.R
-import com.example.three_modules.app.presentation.ui.fragments.main.adapters.CityRVAdapter
+import com.example.three_modules.app.di.activity.ActivityComponent
+import com.example.three_modules.app.di.activity.ActivityModule
+import com.example.three_modules.app.di.activity.DaggerActivityComponent
+import com.example.three_modules.app.presentation.ui.fragments.main.adapters.CoinRVAdapter
 import com.example.three_modules.app.presentation.ui.fragments.main.models.CityJsonModel
+import com.example.three_modules.app.presentation.ui.fragments.main.models.CoinRVItemModel
+import com.example.three_modules.app.presentation.ui.retrofit.Common
+import com.example.three_modules.app.presentation.ui.retrofit.RetrofitService
 import com.example.three_modules.databinding.ActivityMainBinding
 import com.example.three_modules.test.TestManager
 import com.google.gson.Gson
@@ -24,11 +30,11 @@ import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.mapview.MapView
+import kotlinx.android.synthetic.main.fragment_coin.*
 import kotlinx.android.synthetic.main.fragment_town.*
-import org.json.JSONException
-import org.json.JSONObject
-import java.io.IOException
-import java.nio.charset.Charset
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import javax.inject.Inject
 
 
@@ -41,11 +47,11 @@ class MainActivity : AppCompatActivity() {
     private val mainViewModel: MainViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
 
-    /*val activityComponent: ActivityComponent by lazy {
+    val activityComponent: ActivityComponent by lazy {
         DaggerActivityComponent.builder()
             .activityModule(ActivityModule(activity = this))
             .build()
-    }*/
+    }
 
     @Inject
     lateinit var testManager: TestManager
@@ -53,13 +59,15 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MapKitInitializer.initialize("3eb038a7-9dc2-4c92-95dc-7fc8bd7239de", this)//MapKit Yandex
+
+        /*MapKitInitializer.initialize("3eb038a7-9dc2-4c92-95dc-7fc8bd7239de", this)//MapKit Yandex
         setContentView(R.layout.item_main_recycler)
         mapView = findViewById(R.id.mapview)
         mapView.map.move(
-            CameraPosition( Point(47.208739, 38.936695), 11.0f, 0.0f, 0.0f),
+            CameraPosition(Point(47.208739, 38.936695), 11.0f, 0.0f, 0.0f),
             Animation(Animation.Type.SMOOTH, 0F),
-            null)
+            null
+        )*/
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -70,44 +78,21 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         setSupportActionBar(binding.amToolbar.toolbar)
         val config = AppBarConfiguration(navController.graph)
-        binding.amToolbar.toolbar.setupWithNavController(navController,
-            config)
+        binding.amToolbar.toolbar.setupWithNavController(
+            navController,
+            config
+        )
         binding.amToolbar.tbImageButton.setOnClickListener {
             navController.navigate(R.id.action_mainFragment_to_settingFragment)
         }
 
-        val json = this.assets.open("towns.json").bufferedReader().use { it.readText() }
-        val cities = Gson().fromJson<List<CityJsonModel>>(json, object : TypeToken<List<CityJsonModel>>(){}.type)
-
-        val citiesList: ArrayList<CityJsonModel> = ArrayList()
-        try {
-
-            val obj = JSONObject(getJSONFromAssets()!!)
-            val citiesArray = obj.getJSONArray("cities")
-            for (i in 0 until citiesArray.length()) {
-
-                val city = citiesArray.getJSONObject(i)
-
-                val id = city.getInt("id")
-                val cityName = city.getString("cityName")
-                val countryName = city.getString("countryName")
-
-                val cityDetails =
-                    CityJsonModel(id, cityName, countryName)
-
-                citiesList.add(cityDetails)
-
-
-            }
-        }catch (e: JSONException) {
-            e.printStackTrace()
-        }
-
-        ftRecyclerView.layoutManager = LinearLayoutManager(this)
-        ftRecyclerView.adapter = CityRVAdapter(citiesList)
+        //val json = this.assets.open("towns.json").bufferedReader().use { it.readText() }
+        //val cities = Gson().fromJson<List<CityJsonModel>>(json, object : TypeToken<List<CityJsonModel>>() {}.type)
     }
 
-    override fun onStop() {
+
+
+    /*override fun onStop() {
         mapView.onStop()
         MapKitFactory.getInstance().onStop()
         super.onStop()
@@ -130,22 +115,5 @@ class MainActivity : AppCompatActivity() {
             MapKitFactory.initialize(context)
             initialized = true
         }
-    }
-    private fun getJSONFromAssets(): String? {
-
-        var json: String? = null
-        val charset: Charset = Charsets.UTF_8
-        try {
-            val citiesJSONFile = assets.open("towns.json")
-            val size = citiesJSONFile.available()
-            val buffer = ByteArray(size)
-            citiesJSONFile.read(buffer)
-            citiesJSONFile.close()
-            json = String(buffer, charset)
-        } catch (ex: IOException) {
-            ex.printStackTrace()
-            return null
-        }
-        return json
-    }
+    }*/
 }

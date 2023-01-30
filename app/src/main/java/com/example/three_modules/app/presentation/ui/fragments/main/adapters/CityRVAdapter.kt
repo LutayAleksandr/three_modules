@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.item_town_recycler.view.*
 class CityRVAdapter(private val cityRVItemModelList: ArrayList<CityJsonModel>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var click: ((itemType: CityRVItemModel) -> Unit)? = null
+    var click: ((itemType: CityJsonModel) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return CityRVViewHolder(

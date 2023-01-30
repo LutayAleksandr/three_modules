@@ -8,9 +8,9 @@ import com.example.three_modules.databinding.ItemTownRecyclerBinding
 class CityRVViewHolder(val binding: ItemTownRecyclerBinding) :
     RecyclerView.ViewHolder(binding.root)  {
 
-    var click: ((itemType: CityRVItemModel) -> Unit)? = null
+    var click: ((itemType: CityJsonModel) -> Unit)? = null
 
-    fun bind(item: CityRVItemModel) {
+    fun bind(item: CityJsonModel) {
         binding.apply {
             //itrCardView.setCardBackgroundColor(item.color)
             itrTextView2.text = item.cityName
