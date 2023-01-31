@@ -9,7 +9,7 @@ import com.example.three_modules.app.presentation.ui.fragments.main.viewholders.
 import com.example.three_modules.databinding.ItemTownRecyclerBinding
 import kotlinx.android.synthetic.main.item_town_recycler.view.*
 
-class CityRVAdapter(private val cityRVItemModelList: ArrayList<CityJsonModel>) :
+class CityRVAdapter(private val cityRVItemModelList: List<CityJsonModel>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var click: ((itemType: CityJsonModel) -> Unit)? = null

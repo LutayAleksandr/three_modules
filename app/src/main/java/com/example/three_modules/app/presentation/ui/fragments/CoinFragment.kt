@@ -70,7 +70,7 @@ class CoinFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<MutableList<CoinRVItemModel>>, t: Throwable) {
-
+                val sd = ""
             }
 
         })

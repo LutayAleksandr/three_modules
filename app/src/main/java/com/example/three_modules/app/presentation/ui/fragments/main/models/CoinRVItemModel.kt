@@ -8,7 +8,7 @@ data class CoinRVItemModel(
     @SerializedName("image")
     val imageUrl: String,
     @SerializedName("current_price")
-    val current_price: Int,
+    val current_price: Float,
     @SerializedName("price_change_24h")
-    val price_change_24h: Int,
+    val price_change_24h: Float,
 )
