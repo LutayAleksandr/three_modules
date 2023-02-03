@@ -32,7 +32,7 @@
         tools:layout="@layout/fragment_coin" />
     <fragment
         android:id="@+id/cityFragment"
-        android:name="com.example.three_modules.app.presentation.ui.fragments.CityFragment"
+        android:name="com.example.three_modules.app.presentation.ui.fragments.city.CityFragment"
         android:label="Выбрать город"
         tools:layout="@layout/fragment_town" />
 </navigation>

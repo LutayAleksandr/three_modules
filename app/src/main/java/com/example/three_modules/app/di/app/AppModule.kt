@@ -2,8 +2,7 @@ package com.example.three_modules.app.di.app
 
 import android.app.Application
 import android.content.Context
-import com.example.three_modules.test.TestManager
-import com.example.three_modules.test.TestUtils
+import com.example.three_modules.app.data.CityRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -25,21 +24,7 @@ class AppModule(private val application: Application) {
 
     @Singleton
     @Provides
-    fun provideTestUtils(
+    fun provideRepository(
         context: Context
-    ): TestUtils {
-        return TestUtils(context)
-    }
-
-    @Singleton
-    @Provides
-    fun provideTestManager(
-        context: Context,
-        testUtils: TestUtils
-    ): TestManager {
-        return TestManager(
-            context = context,
-            testUtils = testUtils
-        )
-    }
+    ): CityRepository = CityRepository(context = context)
 }

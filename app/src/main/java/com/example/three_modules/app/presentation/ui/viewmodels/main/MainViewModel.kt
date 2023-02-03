@@ -1,4 +1,4 @@
-package com.example.three_modules.app.presentation.ui.activity
+package com.example.three_modules.app.presentation.ui.viewmodels.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

@@ -1,7 +1,6 @@
-package com.example.three_modules.app.presentation.ui.activity
+package com.example.three_modules.app.presentation.activity
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -10,55 +9,38 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.three_modules.R
-import com.example.three_modules.app.di.activity.ActivityComponent
-import com.example.three_modules.app.di.activity.ActivityModule
-import com.example.three_modules.app.di.activity.DaggerActivityComponent
-import com.example.three_modules.app.presentation.ui.fragments.main.adapters.CoinRVAdapter
-import com.example.three_modules.app.presentation.ui.fragments.main.models.CityJsonModel
-import com.example.three_modules.app.presentation.ui.fragments.main.models.CoinRVItemModel
-import com.example.three_modules.app.presentation.ui.retrofit.Common
-import com.example.three_modules.app.presentation.ui.retrofit.RetrofitService
+import com.example.three_modules.app.presentation.ui.viewmodels.main.MainViewModel
 import com.example.three_modules.databinding.ActivityMainBinding
-import com.example.three_modules.test.TestManager
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.yandex.mapkit.Animation
-import com.yandex.mapkit.MapKitFactory
-import com.yandex.mapkit.geometry.Point
-import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.mapview.MapView
 import kotlinx.android.synthetic.main.fragment_coin.*
 import kotlinx.android.synthetic.main.fragment_town.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import javax.inject.Inject
-
 
 class MainActivity : AppCompatActivity() {
 
+//    @Inject
+//    lateinit var viewModelFactory: ViewModelFactory
+
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private lateinit var viewModel: MainViewModel
+
     private lateinit var mapView: MapView
     private val mainViewModel: MainViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
 
-    val activityComponent: ActivityComponent by lazy {
-        DaggerActivityComponent.builder()
-            .activityModule(ActivityModule(activity = this))
-            .build()
-    }
-
-    @Inject
-    lateinit var testManager: TestManager
+//    val activityComponent: ActivityComponent by lazy {
+//        DaggerActivityComponent.builder()
+//            .activityModule(ActivityModule(activity = this))
+//            .build()
+//    }
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+//        ViewModelProvider(this, viewModelFactory)[SampleViewmodel::class.java]
+
 
         /*MapKitInitializer.initialize("3eb038a7-9dc2-4c92-95dc-7fc8bd7239de", this)//MapKit Yandex
         setContentView(R.layout.item_main_recycler)
@@ -85,12 +67,7 @@ class MainActivity : AppCompatActivity() {
         binding.amToolbar.tbImageButton.setOnClickListener {
             navController.navigate(R.id.action_mainFragment_to_settingFragment)
         }
-
-        //val json = this.assets.open("towns.json").bufferedReader().use { it.readText() }
-        //val cities = Gson().fromJson<List<CityJsonModel>>(json, object : TypeToken<List<CityJsonModel>>() {}.type)
     }
-
-
 
     /*override fun onStop() {
         mapView.onStop()

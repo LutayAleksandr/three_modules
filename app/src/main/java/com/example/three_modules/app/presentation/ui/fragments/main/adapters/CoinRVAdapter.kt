@@ -9,8 +9,7 @@ import com.example.three_modules.databinding.ItemCoinRecyclerBinding
 
 class CoinRVAdapter(
     private val coinRVItemModelList: MutableList<CoinRVItemModel>
-) :
-RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var click: ((itemType: CoinRVItemModel) -> Unit)? = null
 
@@ -34,6 +33,14 @@ RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
     override fun getItemCount(): Int {
         return coinRVItemModelList.size
+    }
+
+    fun addCoins(coins: List<CoinRVItemModel>) {
+        this.coinRVItemModelList.apply {
+            clear()
+            addAll(coins)
+        }
+        this.notifyDataSetChanged()
     }
 
 }

@@ -5,6 +5,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 
 interface RetrofitService {
+
     @GET("markets?vs_currency=usd&order=market_cap_desc&")
-    fun getCoinList(): Call<MutableList<CoinRVItemModel>>
+    suspend fun getCoinList(): List<CoinRVItemModel>
 }

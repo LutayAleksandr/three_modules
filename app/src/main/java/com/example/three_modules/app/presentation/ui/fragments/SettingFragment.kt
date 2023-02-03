@@ -81,8 +81,8 @@ class SettingFragment : Fragment() {
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder
                 ): Boolean {
-                    val startPosition = viewHolder.adapterPosition
-                    val endPosition = target.adapterPosition
+                    val startPosition = viewHolder.absoluteAdapterPosition
+                    val endPosition = target.absoluteAdapterPosition
 
                     Collections.swap(recyclerViewList, startPosition, endPosition)
                     recyclerView.adapter?.notifyItemMoved(startPosition, endPosition)
