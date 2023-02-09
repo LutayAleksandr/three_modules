@@ -1,7 +1,7 @@
 package com.example.three_modules.app.presentation.ui.fragments.city.adapters
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.three_modules.app.presentation.ui.fragments.main.models.CityRVItemModel
+import com.example.three_modules.app.presentation.ui.fragments.city.models.CityRVItemModel
 
 class CityDiffCallback: DiffUtil.ItemCallback<CityRVItemModel>() {
 

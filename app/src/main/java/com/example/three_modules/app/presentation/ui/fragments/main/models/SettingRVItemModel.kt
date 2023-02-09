@@ -6,3 +6,4 @@ data class SettingRVItemModel(
     val textModules: String,
     val color: Int = Color.BLUE
 )
+

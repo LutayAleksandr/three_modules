@@ -1,18 +1,13 @@
 package com.example.three_modules.app.presentation.ui.fragments.main.adapters
 
-import android.content.Intent
-import android.text.method.TextKeyListener.clear
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.three_modules.R
-import com.example.three_modules.app.presentation.ui.fragments.SettingFragment
 import com.example.three_modules.app.presentation.ui.fragments.main.models.DataModel
 import com.example.three_modules.app.presentation.ui.fragments.main.models.MainItemType
 import com.example.three_modules.app.presentation.ui.fragments.main.viewholders.MainRVViewHolder
-import java.util.Collections.addAll
 
 class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
     RecyclerView.Adapter<ViewHolder>() {

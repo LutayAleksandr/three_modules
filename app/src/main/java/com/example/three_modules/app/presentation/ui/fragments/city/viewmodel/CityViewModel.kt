@@ -3,7 +3,7 @@ package com.example.three_modules.app.presentation.ui.fragments.city.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.three_modules.app.data.CityRepository
-import com.example.three_modules.app.presentation.ui.fragments.main.models.CityRVItemModel
+import com.example.three_modules.app.presentation.ui.fragments.city.models.CityRVItemModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -15,17 +15,21 @@ class CityViewModel @Inject constructor(
 
     private val _cities = MutableSharedFlow<List<CityRVItemModel>>()
     val cities = _cities.asSharedFlow()
-    private var citiesList = mutableListOf<CityRVItemModel>()
 
     fun getAllCities() {
         viewModelScope.launch {
-            citiesList = repository.getAllMappedCities().toMutableList()
-            _cities.emit(value = citiesList)
+            _cities.emit(value = repository.getAllMappedCities().toMutableList())
         }
     }
-//    itrImageButton
+
     fun selectedModel(item: CityRVItemModel) {
-        
+        viewModelScope.launch {
+            val list = repository.getAllMappedCities().toMutableList()
+            list.find {
+                it.id == item.id
+            }?.isSelected = !item.isSelected
+            _cities.emit(list)
+        }
     }
 
 }

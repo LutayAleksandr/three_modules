@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity() {
             navController,
             config
         )
+        binding.amToolbar.toolbar.setTitleTextColor(android.graphics.Color.WHITE)
         binding.amToolbar.tbImageButton.setOnClickListener {
             navController.navigate(R.id.action_mainFragment_to_settingFragment)
         }

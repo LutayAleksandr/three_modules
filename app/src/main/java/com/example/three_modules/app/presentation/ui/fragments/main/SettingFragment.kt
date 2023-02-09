@@ -1,12 +1,10 @@
-package com.example.three_modules.app.presentation.ui.fragments
+package com.example.three_modules.app.presentation.ui.fragments.main
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +13,7 @@ import com.example.three_modules.R
 import com.example.three_modules.app.presentation.ui.fragments.main.adapters.SettingRVAdapter
 import com.example.three_modules.app.presentation.ui.fragments.main.models.SettingRVItemModel
 import com.example.three_modules.databinding.FragmentSettingBinding
-import java.util.Collections
+import java.util.*
 
 
 class SettingFragment : Fragment() {

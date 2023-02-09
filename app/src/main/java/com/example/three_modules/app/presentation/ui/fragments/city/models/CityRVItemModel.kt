@@ -1,4 +1,4 @@
-package com.example.three_modules.app.presentation.ui.fragments.main.models
+package com.example.three_modules.app.presentation.ui.fragments.city.models
 
 import com.example.three_modules.R
 

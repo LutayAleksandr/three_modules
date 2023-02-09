@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.three_modules.app.App
 import com.example.three_modules.app.presentation.ui.fragments.city.adapters.CityRVAdapter
 import com.example.three_modules.app.presentation.ui.fragments.city.viewmodel.CityViewModel
-import com.example.three_modules.app.presentation.ui.fragments.main.models.CityRVItemModel
 import com.example.three_modules.databinding.FragmentTownBinding
 import kotlinx.coroutines.launch
 
@@ -19,6 +18,7 @@ class CityFragment : Fragment() {
 
     private var _binding: FragmentTownBinding? = null
     private val binding get() = _binding!!
+    private var rvAdapter = CityRVAdapter()
 
     private val cityViewModel: CityViewModel by viewModels {
         (requireActivity().application as App).appComponent.provideViewModelFactory()
@@ -36,15 +36,16 @@ class CityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
+        setupRecyclerView()
+        cityViewModel.getAllCities()
     }
 
     private fun setupViewModel() {
         lifecycleScope.launch {
-            cityViewModel.cities.collect { cities ->
-                setupRecyclerView(cities = cities)
+            cityViewModel.cities.collect { list ->
+               rvAdapter.submitList(list)
             }
         }
-        cityViewModel.getAllCities()
     }
 
     override fun onDestroyView() {
@@ -53,15 +54,13 @@ class CityFragment : Fragment() {
     }
 
 
-    private fun setupRecyclerView(cities: List<CityRVItemModel>) {
-        val cityRVAdapter = CityRVAdapter()
-        cityRVAdapter.submitList(cities)
-        cityRVAdapter.click = { item ->
+    private fun setupRecyclerView() {
+        rvAdapter.click = { item ->
             binding.ftTextView.text = item.cityName
             cityViewModel.selectedModel(item)
         }
         binding.ftRecyclerView.layoutManager = LinearLayoutManager(context)
-        binding.ftRecyclerView.adapter = cityRVAdapter
+        binding.ftRecyclerView.adapter = rvAdapter
     }
 }
 

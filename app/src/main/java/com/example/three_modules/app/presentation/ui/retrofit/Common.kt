@@ -5,5 +5,7 @@ object Common {
     private const val baseURL = "https://api.coingecko.com/api/v3/coins/"
 
     val retrofitService: RetrofitService
-    get() = RetrofitCoin.getCoin(baseURL).create(RetrofitService::class.java)
+    get() = RetrofitCoin
+        .getCoin(baseURL)
+        .create(RetrofitService::class.java)
 }

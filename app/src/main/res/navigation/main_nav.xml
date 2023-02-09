@@ -22,12 +22,12 @@
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.example.three_modules.app.presentation.ui.fragments.SettingFragment"
+        android:name="com.example.three_modules.app.presentation.ui.fragments.main.SettingFragment"
         android:label="Настройки"
         tools:layout="@layout/fragment_setting" />
     <fragment
         android:id="@+id/coinFragment"
-        android:name="com.example.three_modules.app.presentation.ui.fragments.CoinFragment"
+        android:name="com.example.three_modules.app.presentation.ui.fragments.coin.CoinFragment"
         android:label="Выбрать криптовалюты"
         tools:layout="@layout/fragment_coin" />
     <fragment

@@ -18,8 +18,7 @@
             android:layout_marginBottom="2.5dp"
             android:layout_marginStart="2.5dp"
             android:layout_marginTop="2.5dp"
-            android:layout_marginEnd="2.5dp"
-            android:background="@color/blue" />
+            android:layout_marginEnd="2.5dp" />
 
         <TextView
             android:id="@+id/icrTextView"
@@ -35,9 +34,9 @@
         <ImageView
             android:id="@+id/icrImageButton"
             android:layout_width="24dp"
-            android:layout_height="match_parent"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginEnd="15dp"
-            android:background="@color/blue"
             android:src="@drawable/ic_add"
             app:tint="@color/lightGray" />
 
