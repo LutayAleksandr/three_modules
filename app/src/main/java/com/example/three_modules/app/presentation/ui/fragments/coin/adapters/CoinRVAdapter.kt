@@ -1,12 +1,14 @@
 package com.example.three_modules.app.presentation.ui.fragments.coin.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinRVItemModel
 import com.example.three_modules.app.presentation.ui.fragments.coin.viewholder.CoinRVViewHolder
 import com.example.three_modules.databinding.ItemCoinRecyclerBinding
+import kotlinx.android.synthetic.main.item_town_recycler.view.*
 
 class CoinRVAdapter:
     ListAdapter<CoinRVItemModel, RecyclerView.ViewHolder>(CoinDiffCallback()) {
@@ -29,6 +31,11 @@ class CoinRVAdapter:
             holder.bind(item = currentItem)
             holder.click = click
         }
+        holder.itemView.itrImageButton.setOnClickListener(View.OnClickListener() {
+            fun onClick( view: View){
+
+            }
+        })
     }
 
     override fun onBindViewHolder(
@@ -45,10 +52,10 @@ class CoinRVAdapter:
     }
 
     fun getSelectedCoin(): List<CoinRVItemModel>{
-        val selectedCoinList: List<CoinRVItemModel> = mutableListOf()
+        val selectedCoinList: MutableList<CoinRVItemModel> = mutableListOf()
         for (coin in currentList) {
             if (coin.isSelected) {
-//                selectedCoinList.add
+                selectedCoinList.add(coin)
             }
         }
             return selectedCoinList

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.example.three_modules.app.data.CityRepository
 import com.example.three_modules.app.data.CoinRepository
+import com.example.three_modules.app.data.WeatherRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -34,4 +35,10 @@ class AppModule(private val application: Application) {
     fun provideCoinRepository(
         context: Context
     ): CoinRepository = CoinRepository(context = context)
+
+    @Singleton
+    @Provides
+    fun provideWeatherRepository(
+        context: Context
+    ): WeatherRepository = WeatherRepository(context = context)
 }

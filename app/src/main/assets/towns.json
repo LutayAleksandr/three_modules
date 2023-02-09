@@ -2,56 +2,86 @@
   {
     "id": 1,
     "cityName": "Таганрог",
-    "countryName": "Ru"
+    "countryName": "Ru",
+    "latitude": 47.2362,
+    "longitude": 38.8969
   },
   {
     "id": 2,
     "cityName": "Ростов-на-Дону",
-    "countryName": "Ru"
+    "countryName": "Ru",
+    "latitude": 47.2313,
+    "longitude": 39.7233
   },
   {
     "id": 3,
     "cityName": "Москва",
-    "countryName": "Ru"
+    "countryName": "Ru",
+    "latitude": 55.7522,
+    "longitude": 37.6156
   },
   {
     "id": 4,
     "cityName": "Волгоград",
-    "countryName": "Ru"
+    "countryName": "Ru",
+    "latitude": 48.7194,
+    "longitude": 44.5018
   },
   {
     "id": 5,
     "cityName": "Краснодар",
-    "countryName": "Ru"
+    "countryName": "Ru",
+    "latitude": 45.0448,
+    "longitude": 38.976
   },
   {
     "id": 6,
     "cityName": "Прага",
-    "countryName": "Cz"
+    "countryName": "Cz",
+    "latitude": 50.088,
+    "longitude": 14.4208
   },
   {
     "id": 7,
     "cityName": "Берлин",
-    "countryName": "De"
+    "countryName": "De",
+    "latitude": 52.5244,
+    "longitude": 13.4105
   },
   {
     "id": 8,
     "cityName": "Рим",
-    "countryName": "It"
+    "countryName": "It",
+    "latitude": 41.8919,
+    "longitude": 12.5113
   },
   {
     "id": 9,
     "cityName": "Париж",
-    "countryName": "Fr"
+    "countryName": "Fr",
+    "latitude": 48.8534,
+    "longitude": 2.3488
   },
   {
     "id": 10,
     "cityName": "Лондон",
-    "countryName": "Uk"
+    "countryName": "Uk",
+    "latitude": 51.5085,
+    "longitude": -0.12574
   },
   {
     "id": 11,
     "cityName": "Череповец",
-    "countryName": "Ru"
+    "countryName": "Ru",
+    "latitude": 59.1333,
+    "longitude": 37.9
+  },
+  {
+    "id": 12,
+    "cityName": "Нью-Йорк",
+    "countryName": "Us",
+    "latitude": 40.7143,
+    "longitude": -74.006
   }
+
 ]

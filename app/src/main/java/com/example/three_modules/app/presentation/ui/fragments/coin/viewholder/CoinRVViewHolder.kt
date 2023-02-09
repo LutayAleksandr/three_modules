@@ -28,7 +28,7 @@ class CoinRVViewHolder(val binding: ItemCoinRecyclerBinding) :
             icrImageButton.setOnClickListener {
                 click?.invoke(item)
             }
-
         }
     }
+
 }

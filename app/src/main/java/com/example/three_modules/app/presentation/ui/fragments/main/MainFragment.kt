@@ -1,19 +1,18 @@
 package com.example.three_modules.app.presentation.ui.fragments.main
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.three_modules.R
-import com.example.three_modules.app.presentation.ui.viewmodels.main.MainViewModel
 import com.example.three_modules.app.presentation.ui.fragments.main.adapters.MainRVAdapter
 import com.example.three_modules.app.presentation.ui.fragments.main.models.DataModel
 import com.example.three_modules.app.presentation.ui.fragments.main.models.MainItemType
+import com.example.three_modules.app.presentation.ui.viewmodels.main.MainViewModel
 import com.example.three_modules.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
@@ -50,7 +49,7 @@ class MainFragment : Fragment() {
                 title = "Погода"
             ),
             DataModel.MainRVItemModel(
-                buttonText = "Выбрать погода",
+                buttonText = "Выбрать город",
                 itemType = MainItemType.WEATHER
             ),
             DataModel.HeaderRVItemModel(
@@ -76,9 +75,10 @@ class MainFragment : Fragment() {
             when (itemType) {
                 MainItemType.CITY -> findNavController().navigate(R.id.action_mainFragment_to_cityFragment)
                 MainItemType.COIN -> findNavController().navigate(R.id.action_mainFragment_to_coinFragment)
-                else -> {
-                    Toast.makeText(requireContext(), "Will be implemented soon", Toast.LENGTH_SHORT).show()
-                }
+                MainItemType.WEATHER -> findNavController().navigate(R.id.action_mainFragment_to_weatherFragment2)
+//                else -> {
+//                    Toast.makeText(requireContext(), "Will be implemented soon", Toast.LENGTH_SHORT).show()
+//                }
             }
         }
         binding.fmRecyclerView.layoutManager = LinearLayoutManager(context)

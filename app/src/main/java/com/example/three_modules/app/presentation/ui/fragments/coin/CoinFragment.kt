@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.three_modules.app.App
 import com.example.three_modules.app.presentation.ui.fragments.coin.adapters.CoinRVAdapter
@@ -22,7 +23,7 @@ class CoinFragment : Fragment() {
     private val binding get() = _binding!!
     private var rvAdapter = CoinRVAdapter()
 
-//  private val viewModel by viewModels<CoinViewModel>()
+    private var tracker: SelectionTracker<Long>? = null
 
     private val coinViewModel: CoinViewModel by viewModels {
         (requireActivity().application as App).appComponent.provideViewModelFactory()
@@ -47,6 +48,16 @@ class CoinFragment : Fragment() {
             binding.fcTextView1.text = item.name
             coinViewModel.selectedModel(item)
         }
+
+//        tracker = SelectionTracker.Builder(
+//            "selection-1",
+//            fcRecyclerView,
+//            StableIdKeyProvider(fcRecyclerView),
+//            rvAdapter.click(fcRecyclerView),
+//            StorageStrategy.createLongStorage()
+//        ).withSelectionPredicate(
+//            SelectionPredicates.createSelectAnything()
+//        ).build()
     }
     private fun setupViewModel() {
         lifecycleScope.launch {

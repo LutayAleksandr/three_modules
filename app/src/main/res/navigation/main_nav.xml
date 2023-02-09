@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_mainFragment_to_coinFragment"
             app:destination="@id/coinFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_weatherFragment2"
+            app:destination="@id/weatherFragment2" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
@@ -35,4 +38,8 @@
         android:name="com.example.three_modules.app.presentation.ui.fragments.city.CityFragment"
         android:label="Выбрать город"
         tools:layout="@layout/fragment_town" />
+    <fragment
+        android:id="@+id/weatherFragment2"
+        android:name="com.example.three_modules.app.presentation.ui.fragments.weather.WeatherFragment"
+        android:label="Выбрать город " />
 </navigation>

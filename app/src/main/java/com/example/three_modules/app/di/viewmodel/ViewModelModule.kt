@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.three_modules.app.presentation.ui.fragments.city.viewmodel.CityViewModel
 import com.example.three_modules.app.presentation.ui.fragments.coin.viewmodel.CoinViewModel
+import com.example.three_modules.app.presentation.ui.fragments.weather.viewmodel.WeatherViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -23,4 +24,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CoinViewModel::class)
     abstract fun coinViewModel(viewModel: CoinViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(WeatherViewModel::class)
+    abstract fun weatherViewModel(viewModel: WeatherViewModel): ViewModel
 }
