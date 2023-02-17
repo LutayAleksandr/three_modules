@@ -2,9 +2,7 @@ package com.example.three_modules.app.extensions
 
 import android.content.Context
 import com.example.three_modules.app.presentation.ui.fragments.city.models.CityJsonModel
-import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinJsonURLModel
 import com.example.three_modules.app.presentation.ui.fragments.weather.models.WeatherJsonModel
-import com.example.three_modules.app.presentation.ui.retrofit.Common
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.IOException
@@ -37,8 +35,3 @@ fun Context.getTownsFromAssetsForWeather(): List<WeatherJsonModel> {
     return cities
 }
 
-suspend fun Context.getCoinsFromURL(): List<CoinJsonURLModel> {
-
-    return Common.retrofitService.getCoinList()
-
-}

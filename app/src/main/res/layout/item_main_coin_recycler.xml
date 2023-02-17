@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/imcrCardView"
+    android:layout_width="match_parent"
+    android:layout_height="240dp"
+    android:layout_marginHorizontal="24dp"
+    android:layout_marginTop="10dp"
+    app:cardBackgroundColor="@color/blue"
+    app:cardCornerRadius="24dp">
+
+    <ImageView
+        android:id="@+id/imcrSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/blue"
+        android:src="@drawable/ic_settings"
+        app:tint="@color/darkBlue" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/imcrButton"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:letterSpacing="0.01"
+        android:text="Выбрать"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:cornerRadius="24dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/imcrRecyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+</androidx.cardview.widget.CardView>

@@ -17,45 +17,18 @@
         android:background="@color/darkBlue"
         app:layout_constraintTop_toTopOf="parent">
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/fcTextView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
-                android:letterSpacing="0.0001"
-                android:text="Не выбрано"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/fcTextView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
-                android:letterSpacing="0.0001"
-                android:text=""
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/fcTextView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:letterSpacing="0.0001"
-                android:text=""
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/fcTextView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:letterSpacing="0.0001"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="Не выбрано"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
     </FrameLayout>
 

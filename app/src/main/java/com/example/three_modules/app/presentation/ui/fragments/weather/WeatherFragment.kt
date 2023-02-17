@@ -55,9 +55,10 @@ class WeatherFragment: Fragment() {
 
 
     private fun setupRecyclerView() {
-        rvAdapter.click = { item ->
+        rvAdapter.click = { item, position ->
             binding.fwTextView.text = item.cityName
             weatherViewModel.selectedModel(item)
+            rvAdapter.notifyItemChanged(position)
         }
         binding.fwRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.fwRecyclerView.adapter = rvAdapter

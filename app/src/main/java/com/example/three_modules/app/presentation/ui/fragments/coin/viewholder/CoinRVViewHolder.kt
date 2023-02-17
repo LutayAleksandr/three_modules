@@ -11,7 +11,7 @@ import com.example.three_modules.databinding.ItemCoinRecyclerBinding
 class CoinRVViewHolder(val binding: ItemCoinRecyclerBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    var click: ((itemType: CoinRVItemModel) -> Unit)? = null
+    var click: ((itemType: CoinRVItemModel, position: Int) -> Unit)? = null
 
     fun bind(item: CoinRVItemModel) {
         binding.apply {
@@ -19,14 +19,13 @@ class CoinRVViewHolder(val binding: ItemCoinRecyclerBinding) :
             icrTextView.text = item.name
             Glide.with(itemView).load(item.imageUrl).placeholder(R.drawable.ic_coin_placeholder)
                 .into(icrImageView)
-
-            if (item.isSelected ) {
+            if (item.isSelected) {
                 icrImageButton.setImageResource(R.drawable.ic_check)
             } else {
                 icrImageButton.setImageResource(R.drawable.ic_add)
             }
-            icrImageButton.setOnClickListener {
-                click?.invoke(item)
+            itemView.setOnClickListener {
+                click?.invoke(item, absoluteAdapterPosition)
             }
         }
     }

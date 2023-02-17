@@ -12,4 +12,9 @@ class CoinDiffCallback:DiffUtil.ItemCallback<CoinRVItemModel>() {
         return oldItem.isSelected == newItem.isSelected
     }
 
+
+    override fun getChangePayload(oldItem: CoinRVItemModel, newItem: CoinRVItemModel): Any? {
+        return super.getChangePayload(oldItem, newItem)
+    }
+
 }

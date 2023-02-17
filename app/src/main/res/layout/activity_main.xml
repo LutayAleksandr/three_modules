@@ -23,5 +23,4 @@
         layout="@layout/toolbar"
         app:layout_constraintTop_toTopOf="parent" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -55,9 +55,10 @@ class CityFragment : Fragment() {
 
 
     private fun setupRecyclerView() {
-        rvAdapter.click = { item ->
+        rvAdapter.click = { item, position ->
             binding.ftTextView.text = item.cityName
             cityViewModel.selectedModel(item)
+            rvAdapter.notifyItemChanged(position)
         }
         binding.ftRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.ftRecyclerView.adapter = rvAdapter

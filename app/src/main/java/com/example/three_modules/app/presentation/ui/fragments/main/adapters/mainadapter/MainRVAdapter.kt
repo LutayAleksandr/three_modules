@@ -1,4 +1,4 @@
-package com.example.three_modules.app.presentation.ui.fragments.main.adapters
+package com.example.three_modules.app.presentation.ui.fragments.main.adapters.mainadapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.three_modules.R
 import com.example.three_modules.app.presentation.ui.fragments.main.models.DataModel
 import com.example.three_modules.app.presentation.ui.fragments.main.models.MainItemType
-import com.example.three_modules.app.presentation.ui.fragments.main.viewholders.MainRVViewHolder
+import com.example.three_modules.app.presentation.ui.fragments.main.viewholders.mainviewholder.MainRVViewHolder
 
 class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
     RecyclerView.Adapter<ViewHolder>() {
@@ -21,6 +21,7 @@ class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
         val layout = when(viewType){
             VIEW_HEADER -> R.layout.item_header_main_recycler
             VIEW_MAIN_ITEMS -> R.layout.item_main_recycler
+            VIEW_MAIN_COIN_ITEM -> R.layout.item_main_coin_recycler
             else -> 0
         }
 
@@ -46,6 +47,7 @@ class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
         return when(mainRVItemModelList[position]){
             is DataModel.HeaderRVItemModel -> VIEW_HEADER
             is DataModel.MainRVItemModel -> VIEW_MAIN_ITEMS
+            is DataModel.MainCoinRVItemModel -> VIEW_MAIN_COIN_ITEM
         }
     }
 
@@ -56,5 +58,6 @@ class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
     companion object{
         const val VIEW_HEADER = 0
         const val VIEW_MAIN_ITEMS = 1
+        const val VIEW_MAIN_COIN_ITEM = 2
     }
 }

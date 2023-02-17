@@ -11,7 +11,7 @@ import com.example.three_modules.databinding.ItemTownRecyclerBinding
 class CityRVAdapter :
     ListAdapter<CityRVItemModel, RecyclerView.ViewHolder>(CityDiffCallback()) {
 
-    var click: ((itemType: CityRVItemModel) -> Unit)? = null
+    var click: ((itemType: CityRVItemModel, position: Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return CityRVViewHolder(

@@ -9,7 +9,7 @@ import com.example.three_modules.databinding.ItemTownRecyclerBinding
 class CityRVViewHolder(val binding: ItemTownRecyclerBinding) :
     RecyclerView.ViewHolder(binding.root)  {
 
-    var click: ((itemType: CityRVItemModel) -> Unit)? = null
+    var click: ((itemType: CityRVItemModel, position: Int) -> Unit)? = null
 
     fun bind(item: CityRVItemModel) {
         binding.apply {
@@ -22,7 +22,7 @@ class CityRVViewHolder(val binding: ItemTownRecyclerBinding) :
                 itrImageButton.setImageResource(R.drawable.ic_add)
             }
             itrImageButton.setOnClickListener {
-                click?.invoke(item)
+                click?.invoke(item, absoluteAdapterPosition)
             }
         }
     }

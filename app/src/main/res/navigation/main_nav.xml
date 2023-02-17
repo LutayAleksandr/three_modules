@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
+    android:label="Выбирите криптовалюту"
     app:startDestination="@id/mainFragment">
 
     <fragment
@@ -25,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.example.three_modules.app.presentation.ui.fragments.main.SettingFragment"
+        android:name="com.example.three_modules.app.presentation.ui.fragments.settings.SettingFragment"
         android:label="Настройки"
         tools:layout="@layout/fragment_setting" />
     <fragment
@@ -36,10 +37,10 @@
     <fragment
         android:id="@+id/cityFragment"
         android:name="com.example.three_modules.app.presentation.ui.fragments.city.CityFragment"
-        android:label="Выбрать город"
+        android:label="Выбирите город"
         tools:layout="@layout/fragment_town" />
     <fragment
         android:id="@+id/weatherFragment2"
         android:name="com.example.three_modules.app.presentation.ui.fragments.weather.WeatherFragment"
-        android:label="Выбрать город " />
+        android:label="Выбирите город " />
 </navigation>

@@ -9,7 +9,7 @@ import com.example.three_modules.databinding.ItemWeatherRecyclerBinding
 class WeatherRVViewHolder(val binding: ItemWeatherRecyclerBinding) :
     RecyclerView.ViewHolder(binding.root)  {
 
-    var click: ((itemType: WeatherRVItemModel) -> Unit)? = null
+    var click: ((itemType: WeatherRVItemModel, position: Int) -> Unit)? = null
 
     fun bind(item: WeatherRVItemModel) {
         binding.apply {
@@ -22,7 +22,7 @@ class WeatherRVViewHolder(val binding: ItemWeatherRecyclerBinding) :
                 iwrImageButton.setImageResource(R.drawable.ic_add)
             }
             iwrImageButton.setOnClickListener {
-                click?.invoke(item)
+                click?.invoke(item, absoluteAdapterPosition)
             }
         }
     }

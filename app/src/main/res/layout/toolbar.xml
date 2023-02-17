@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="55dp"
     android:id="@+id/toolbar"
-    android:background="@color/darkBlue">
+    android:background="@color/darkBlue"
+    >
 
     <ImageView
         android:id="@+id/tbImageButton"

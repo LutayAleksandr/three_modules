@@ -9,7 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.three_modules.R
-import com.example.three_modules.app.presentation.ui.fragments.main.adapters.MainRVAdapter
+import com.example.three_modules.app.presentation.ui.fragments.main.adapters.mainadapter.MainRVAdapter
 import com.example.three_modules.app.presentation.ui.fragments.main.models.DataModel
 import com.example.three_modules.app.presentation.ui.fragments.main.models.MainItemType
 import com.example.three_modules.app.presentation.ui.viewmodels.main.MainViewModel
@@ -33,7 +33,6 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-
     }
 
     override fun onDestroyView() {
@@ -62,7 +61,7 @@ class MainFragment : Fragment() {
             DataModel.HeaderRVItemModel(
                 title = "Курс криптовалют"
             ),
-            DataModel.MainRVItemModel(
+            DataModel.MainCoinRVItemModel(
                 buttonText = "Выбрать криптовалюту",
                 itemType = MainItemType.COIN
             ),
@@ -76,9 +75,6 @@ class MainFragment : Fragment() {
                 MainItemType.CITY -> findNavController().navigate(R.id.action_mainFragment_to_cityFragment)
                 MainItemType.COIN -> findNavController().navigate(R.id.action_mainFragment_to_coinFragment)
                 MainItemType.WEATHER -> findNavController().navigate(R.id.action_mainFragment_to_weatherFragment2)
-//                else -> {
-//                    Toast.makeText(requireContext(), "Will be implemented soon", Toast.LENGTH_SHORT).show()
-//                }
             }
         }
         binding.fmRecyclerView.layoutManager = LinearLayoutManager(context)

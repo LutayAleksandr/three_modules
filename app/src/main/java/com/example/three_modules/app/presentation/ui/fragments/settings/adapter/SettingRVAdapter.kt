@@ -1,4 +1,4 @@
-package com.example.three_modules.app.presentation.ui.fragments.main.adapters
+package com.example.three_modules.app.presentation.ui.fragments.settings.adapter
 
 
 import android.view.LayoutInflater
@@ -8,8 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.three_modules.R
-import com.example.three_modules.app.presentation.ui.fragments.main.models.SettingRVItemModel
-import com.example.three_modules.app.presentation.ui.fragments.main.viewholders.SettingRVViewHolder
+import com.example.three_modules.app.presentation.ui.fragments.settings.model.SettingRVItemModel
+import com.example.three_modules.app.presentation.ui.fragments.settings.viewholder.SettingRVViewHolder
 import com.example.three_modules.databinding.ItemSettingsRecyclerBinding
 
 class SettingRVAdapter(private val settingRVItemModelList: List<SettingRVItemModel>) :

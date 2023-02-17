@@ -1,4 +1,4 @@
-package com.example.three_modules.app.presentation.ui.fragments.main.models
+package com.example.three_modules.app.presentation.ui.fragments.settings.model
 
 import android.graphics.Color
 

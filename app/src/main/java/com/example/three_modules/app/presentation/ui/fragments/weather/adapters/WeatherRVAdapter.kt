@@ -11,7 +11,7 @@ import com.example.three_modules.databinding.ItemWeatherRecyclerBinding
 class WeatherRVAdapter :
     ListAdapter<WeatherRVItemModel, RecyclerView.ViewHolder>(WeatherDiffCallback()) {
 
-    var click: ((itemType: WeatherRVItemModel) -> Unit)? = null
+    var click: ((itemType: WeatherRVItemModel, position: Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return WeatherRVViewHolder(

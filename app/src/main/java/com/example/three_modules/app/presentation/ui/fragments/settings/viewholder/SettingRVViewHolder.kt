@@ -1,8 +1,8 @@
-package com.example.three_modules.app.presentation.ui.fragments.main.viewholders
+package com.example.three_modules.app.presentation.ui.fragments.settings.viewholder
 
 
 import androidx.recyclerview.widget.RecyclerView
-import com.example.three_modules.app.presentation.ui.fragments.main.models.SettingRVItemModel
+import com.example.three_modules.app.presentation.ui.fragments.settings.model.SettingRVItemModel
 import com.example.three_modules.databinding.ItemSettingsRecyclerBinding
 
 

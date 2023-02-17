@@ -8,6 +8,11 @@ sealed class DataModel {
         val buttonText: String,
         val itemType: MainItemType
     ): DataModel()
+
+    data class MainCoinRVItemModel(
+        val buttonText: String,
+        val itemType: MainItemType
+    ): DataModel()
 }
 
 enum class MainItemType {

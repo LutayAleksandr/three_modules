@@ -4,26 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.three_modules.app.App
 import com.example.three_modules.app.presentation.ui.fragments.coin.adapters.CoinRVAdapter
-import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinRVItemModel
 import com.example.three_modules.app.presentation.ui.fragments.coin.viewmodel.CoinViewModel
 import com.example.three_modules.databinding.FragmentCoinBinding
-import com.example.three_modules.utils.Status
 import kotlinx.coroutines.launch
 
 class CoinFragment : Fragment() {
+
     private var _binding: FragmentCoinBinding? = null
     private val binding get() = _binding!!
     private var rvAdapter = CoinRVAdapter()
-
-    private var tracker: SelectionTracker<Long>? = null
 
     private val coinViewModel: CoinViewModel by viewModels {
         (requireActivity().application as App).appComponent.provideViewModelFactory()
@@ -42,27 +37,25 @@ class CoinFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
         setupViewModel()
-        setupObservers()
         coinViewModel.getAllCoin()
-        rvAdapter.click = { item ->
-            binding.fcTextView1.text = item.name
-            coinViewModel.selectedModel(item)
+        rvAdapter.click = { item, position ->
+            coinViewModel.countSelectedCoin(item)
+            rvAdapter.notifyItemChanged(position)
         }
-
-//        tracker = SelectionTracker.Builder(
-//            "selection-1",
-//            fcRecyclerView,
-//            StableIdKeyProvider(fcRecyclerView),
-//            rvAdapter.click(fcRecyclerView),
-//            StorageStrategy.createLongStorage()
-//        ).withSelectionPredicate(
-//            SelectionPredicates.createSelectAnything()
-//        ).build()
     }
+
+
     private fun setupViewModel() {
         lifecycleScope.launch {
             coinViewModel.coins.collect { list ->
+                binding.fcProgressBar.visibility = View.GONE
                 rvAdapter.submitList(list)
+                rvAdapter.notifyItemRangeChanged(0, list.size)
+            }
+        }
+        lifecycleScope.launch {
+            coinViewModel.selectedTitle.collect { title ->
+                binding.fcTextView1.text = title
             }
         }
     }
@@ -75,41 +68,8 @@ class CoinFragment : Fragment() {
 
     private fun setupUI() {
         binding.fcRecyclerView.layoutManager = LinearLayoutManager(context)
-//        binding.fcRecyclerView.addItemDecoration( //бесячая полоска между элементами списка
-//            DividerItemDecoration(
-//                fcRecyclerView.context,
-//                (fcRecyclerView.layoutManager as LinearLayoutManager).orientation
-//            )
-//        )
         binding.fcRecyclerView.adapter = rvAdapter
+        binding.fcRecyclerView.setHasFixedSize(true)
     }
-
-    private fun setupObservers() {
-        coinViewModel.getCoin().observe(viewLifecycleOwner) {
-            it?.let { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        binding.fcRecyclerView.visibility = View.VISIBLE
-                        binding.fcProgressBar.visibility = View.GONE
-                        resource.data?.let { coins -> retrieveList(coins) }
-                    }
-                    Status.ERROR -> {
-                        binding.fcRecyclerView.visibility = View.VISIBLE
-                        binding.fcProgressBar.visibility = View.GONE
-                        Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
-                    }
-                    Status.LOADING -> {
-                        binding.fcProgressBar.visibility = View.VISIBLE
-                        binding.fcRecyclerView.visibility = View.GONE
-                    }
-                }
-            }
-        }
-    }
-
-    private fun retrieveList(coins: List<CoinRVItemModel>) {
-        rvAdapter.addCoins(coins = coins)
-    }
-
 }
 

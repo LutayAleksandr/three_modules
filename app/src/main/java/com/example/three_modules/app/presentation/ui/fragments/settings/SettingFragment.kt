@@ -1,4 +1,4 @@
-package com.example.three_modules.app.presentation.ui.fragments.main
+package com.example.three_modules.app.presentation.ui.fragments.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.three_modules.R
-import com.example.three_modules.app.presentation.ui.fragments.main.adapters.SettingRVAdapter
-import com.example.three_modules.app.presentation.ui.fragments.main.models.SettingRVItemModel
+import com.example.three_modules.app.presentation.ui.fragments.settings.adapter.SettingRVAdapter
+import com.example.three_modules.app.presentation.ui.fragments.settings.model.SettingRVItemModel
 import com.example.three_modules.databinding.FragmentSettingBinding
 import java.util.*
 
