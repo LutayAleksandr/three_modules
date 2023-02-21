@@ -1,5 +1,7 @@
 package com.example.three_modules.app.presentation.ui.fragments.main.models
 
+import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinRVItemModel
+
 sealed class DataModel {
     data class HeaderRVItemModel(
         val title: String): DataModel()
@@ -11,7 +13,8 @@ sealed class DataModel {
 
     data class MainCoinRVItemModel(
         val buttonText: String,
-        val itemType: MainItemType
+        val itemType: MainItemType,
+        val coins: List<CoinRVItemModel>
     ): DataModel()
 }
 

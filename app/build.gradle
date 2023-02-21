@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace 'com.example.three_modules'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.three_modules"
         minSdk 29
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -80,4 +80,10 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
 
     implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
+    implementation 'androidx.fragment:fragment-ktx:1.5.5'
+
+    implementation 'androidx.room:room-ktx:2.5.0'
+    kapt 'androidx.room:room-compiler:2.5.0'
+    implementation 'androidx.room:room-runtime:2.5.0'
+
 }

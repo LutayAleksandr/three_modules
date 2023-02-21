@@ -45,5 +45,4 @@ class CoinRVAdapter:
     override fun getItemCount(): Int {
         return currentList.size
     }
-
 }

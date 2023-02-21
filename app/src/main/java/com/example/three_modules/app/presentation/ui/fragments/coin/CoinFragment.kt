@@ -5,14 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.three_modules.app.App
 import com.example.three_modules.app.presentation.ui.fragments.coin.adapters.CoinRVAdapter
+import com.example.three_modules.app.presentation.ui.fragments.coin.database.AppDataBase
+import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinRVItemModel
 import com.example.three_modules.app.presentation.ui.fragments.coin.viewmodel.CoinViewModel
 import com.example.three_modules.databinding.FragmentCoinBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CoinFragment : Fragment() {
 
@@ -20,7 +24,7 @@ class CoinFragment : Fragment() {
     private val binding get() = _binding!!
     private var rvAdapter = CoinRVAdapter()
 
-    private val coinViewModel: CoinViewModel by viewModels {
+    private val coinViewModel: CoinViewModel by activityViewModels {
         (requireActivity().application as App).appComponent.provideViewModelFactory()
     }
 
@@ -42,8 +46,21 @@ class CoinFragment : Fragment() {
             coinViewModel.countSelectedCoin(item)
             rvAdapter.notifyItemChanged(position)
         }
-    }
+        retrieveCoins()
+        val coinBD = AppDataBase.getDB(view.context)
+        binding.fcSaveButton.setOnClickListener{
+            val coins = coinViewModel.selectedCoinList
 
+//            lifecycleScope.launch {
+//                coinBD.coinsDao().deleteAllCoins()
+//            }
+
+            insertCoins(coins)
+//            lifecycleScope.launch{
+//                coinBD.coinsDao().coinUpdate(coins)
+//            }
+        }
+    }
 
     private fun setupViewModel() {
         lifecycleScope.launch {
@@ -71,5 +88,22 @@ class CoinFragment : Fragment() {
         binding.fcRecyclerView.adapter = rvAdapter
         binding.fcRecyclerView.setHasFixedSize(true)
     }
+
+    private fun insertCoins(coins: MutableList<CoinRVItemModel>){
+        lifecycleScope.launch(Dispatchers.IO){
+            (context?.applicationContext as App).repositoryRoom.insert(coins = coins)
+        }
+    }
+
+    private fun retrieveCoins(){
+        lifecycleScope.launch(Dispatchers.IO) {
+            val coins = (context?.applicationContext as App).repositoryRoom.getAllCoins()
+            withContext(Dispatchers.IO) {
+                coinViewModel.setCoins(coins)
+            }
+        }
+    }
+
+
 }
 

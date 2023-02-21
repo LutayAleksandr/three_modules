@@ -33,7 +33,11 @@
         android:id="@+id/coinFragment"
         android:name="com.example.three_modules.app.presentation.ui.fragments.coin.CoinFragment"
         android:label="Выбрать криптовалюты"
-        tools:layout="@layout/fragment_coin" />
+        tools:layout="@layout/fragment_coin" >
+        <action
+            android:id="@+id/action_coinFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
     <fragment
         android:id="@+id/cityFragment"
         android:name="com.example.three_modules.app.presentation.ui.fragments.city.CityFragment"

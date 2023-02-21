@@ -21,9 +21,9 @@ class CoinViewModel @Inject constructor(
     private val _selectedCoin = MutableSharedFlow<List<CoinRVItemModel>>()
     val selectedCoin = _selectedCoin.asSharedFlow()
     private var tracker: SelectionTracker<Long>? = null
-    private var coinsList = mutableListOf<CoinRVItemModel>()
+    var coinsList = mutableListOf<CoinRVItemModel>()
 
-    private val selectedCoinList = mutableListOf<CoinRVItemModel>()
+    val selectedCoinList = mutableListOf<CoinRVItemModel>()
 
     fun getAllCoin() {
         viewModelScope.launch {
@@ -33,7 +33,7 @@ class CoinViewModel @Inject constructor(
         }
     }
 
-    fun countSelectedCoin(item: CoinRVItemModel)  {
+    fun countSelectedCoin(item: CoinRVItemModel) {
         viewModelScope.launch {
             if (!item.isSelected) {
                 selectedCoinList.add(item)
@@ -48,7 +48,6 @@ class CoinViewModel @Inject constructor(
                 }?.isSelected = false
                 selectedCoinList.remove(element)
             }
-
             _selectedCoin.emit(
                 selectedCoinList
             )
@@ -62,6 +61,11 @@ class CoinViewModel @Inject constructor(
             _selectedTitle.emit(selectedTitle)
             _coins.emit(coinsList)
         }
+    }
+
+    fun setCoins(coinsRoom: MutableList<CoinRVItemModel>){
+        selectedCoinList.clear()
+        selectedCoinList.addAll(coinsRoom)
     }
 }
 

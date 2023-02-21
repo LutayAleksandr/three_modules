@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.example.three_modules.app.data.CityRepository
 import com.example.three_modules.app.data.CoinRepository
+import com.example.three_modules.app.data.MainRepository
 import com.example.three_modules.app.data.WeatherRepository
 import dagger.Module
 import dagger.Provides
@@ -23,6 +24,12 @@ class AppModule(private val application: Application) {
     fun provideApplication(): Application {
         return application
     }
+
+    @Singleton
+    @Provides
+    fun provideMainRepository(
+        context: Context
+    ): MainRepository = MainRepository(context = context)
 
     @Singleton
     @Provides

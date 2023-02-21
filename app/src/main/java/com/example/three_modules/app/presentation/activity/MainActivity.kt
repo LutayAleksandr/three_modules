@@ -11,7 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.three_modules.R
-import com.example.three_modules.app.presentation.ui.viewmodels.main.MainViewModel
+import com.example.three_modules.app.presentation.ui.fragments.main.viewmodel.MainViewModel
 import com.example.three_modules.databinding.ActivityMainBinding
 import com.yandex.mapkit.mapview.MapView
 import kotlinx.android.synthetic.main.fragment_coin.*
@@ -29,6 +29,8 @@ class MainActivity : AppCompatActivity() {
     private val mainViewModel: MainViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
 
+
+
 //    val activityComponent: ActivityComponent by lazy {
 //        DaggerActivityComponent.builder()
 //            .activityModule(ActivityModule(activity = this))
@@ -38,18 +40,6 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        ViewModelProvider(this, viewModelFactory)[SampleViewmodel::class.java]
-
-
-        /*MapKitInitializer.initialize("3eb038a7-9dc2-4c92-95dc-7fc8bd7239de", this)//MapKit Yandex
-        setContentView(R.layout.item_main_recycler)
-        mapView = findViewById(R.id.mapview)
-        mapView.map.move(
-            CameraPosition(Point(47.208739, 38.936695), 11.0f, 0.0f, 0.0f),
-            Animation(Animation.Type.SMOOTH, 0F),
-            null
-        )*/
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -68,6 +58,18 @@ class MainActivity : AppCompatActivity() {
         binding.amToolbar.tbImageButton.setOnClickListener {
             navController.navigate(R.id.action_mainFragment_to_settingFragment)
         }
+
+        //        ViewModelProvider(this, viewModelFactory)[SampleViewmodel::class.java]
+
+
+        /*MapKitInitializer.initialize("3eb038a7-9dc2-4c92-95dc-7fc8bd7239de", this)//MapKit Yandex
+        setContentView(R.layout.item_main_recycler)
+        mapView = findViewById(R.id.mapview)
+        mapView.map.move(
+            CameraPosition(Point(47.208739, 38.936695), 11.0f, 0.0f, 0.0f),
+            Animation(Animation.Type.SMOOTH, 0F),
+            null
+        )*/
     }
 
     /*override fun onStop() {

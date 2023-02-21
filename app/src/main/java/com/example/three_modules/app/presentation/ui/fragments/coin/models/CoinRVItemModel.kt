@@ -1,14 +1,25 @@
 package com.example.three_modules.app.presentation.ui.fragments.coin.models
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.example.three_modules.R
 
+@Entity (tableName = "CoinItems")
 data class CoinRVItemModel(
-    val id: Int,
+    @PrimaryKey
+    val id: Int? = null,
+    @ColumnInfo(name = "name")
     val name: String,
+    @ColumnInfo(name = "imageUrl")
     val imageUrl: String,
+    @ColumnInfo(name = "current_price")
     val current_price: Float,
+    @ColumnInfo(name = "price_change_24h")
     val price_change_24h: Float,
+    @ColumnInfo(name = "isSelected")
     var isSelected: Boolean = false,
+    @ColumnInfo(name = "color")
     val color: Int,
  )
 
