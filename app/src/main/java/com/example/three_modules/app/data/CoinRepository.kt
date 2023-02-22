@@ -1,9 +1,9 @@
 package com.example.three_modules.app.data
 
 import android.content.Context
-import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinJsonURLModel
-import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinRVItemModel
-import com.example.three_modules.app.presentation.ui.fragments.coin.models.toRVItemModel
+import com.example.three_modules.app.presentation.ui.fragments.coin.database.CoinDatabase
+import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinEntity
+import com.example.three_modules.app.presentation.ui.fragments.coin.models.toCoinEntity
 import com.example.three_modules.app.presentation.ui.retrofit.Common
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,18 +12,24 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CoinRepository @Inject constructor(
-    val context: Context
+    private val context: Context,
+    private val coinDatabase: CoinDatabase
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    private var coins = listOf<CoinJsonURLModel>()
+    private var coins: List<CoinEntity> = listOf()
 
     suspend fun loadCoins() = withContext(scope.coroutineContext) {
+        coins = coinDatabase.coinsDao().getAllCoins()
         if (coins.isEmpty()) {
-            coins = Common.retrofitService.getCoinList()
+            coins = Common.retrofitService.getCoinList().mapIndexed{ _, coinJsonURLModel ->  coinJsonURLModel.toCoinEntity()}.toMutableList()
+            coinDatabase.coinsDao().insert(coins.toMutableList())
         }
     }
 
-    fun getAllMappedCoins(): List<CoinRVItemModel> {
-        return  coins.mapIndexed{ index, coinJsonURLModel ->  coinJsonURLModel.toRVItemModel(index = index)}
+    fun getAllCoins(): List<CoinEntity> = coins
+
+    fun updateCoin(id: String, isSelected: Boolean, selectedPosition: Int) {
+        //TODO coinsDao update
     }
+
 }

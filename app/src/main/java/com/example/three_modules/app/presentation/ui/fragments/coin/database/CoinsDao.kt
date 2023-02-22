@@ -1,20 +1,26 @@
 package com.example.three_modules.app.presentation.ui.fragments.coin.database
 
 import androidx.room.*
-import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinRVItemModel
+import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinEntity
 
 @Dao
-interface CoinsDao {
+abstract class CoinsDao {
 
-    @Insert
-    fun insert(coins: MutableList<CoinRVItemModel>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun insert(coins: MutableList<CoinEntity>)
 
-    @Query("SELECT * FROM CoinItems")
-    fun getAllCoins(): MutableList<CoinRVItemModel>
+    @Query("SELECT * FROM coins_table")
+    abstract suspend fun getAllCoins(): MutableList<CoinEntity>
 
     @Update
-    suspend fun coinUpdate(coins: MutableList<CoinRVItemModel>)
+    abstract suspend fun coinUpdate(coins: MutableList<CoinEntity>)
 
-    @Query("DELETE FROM CoinItems")
-    suspend fun deleteAllCoins()
+    @Query("SELECT * FROM coins_table WHERE isSelected =:isSelected")
+    abstract suspend fun getCoinsBySelection(isSelected: Boolean): List<CoinEntity>
+
+    @Query("DELETE FROM coins_table")
+    abstract suspend fun deleteAll()
+
+//    @Query("SELECT FROM ")
+//    abstract fun updateSelection(isSelected: Boolean, id: String)
 }

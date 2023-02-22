@@ -10,13 +10,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.three_modules.app.App
 import com.example.three_modules.app.presentation.ui.fragments.coin.adapters.CoinRVAdapter
-import com.example.three_modules.app.presentation.ui.fragments.coin.database.AppDataBase
-import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinRVItemModel
+import com.example.three_modules.app.presentation.ui.fragments.coin.models.toCoinEntityFromItem
 import com.example.three_modules.app.presentation.ui.fragments.coin.viewmodel.CoinViewModel
 import com.example.three_modules.databinding.FragmentCoinBinding
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class CoinFragment : Fragment() {
 
@@ -46,19 +43,14 @@ class CoinFragment : Fragment() {
             coinViewModel.countSelectedCoin(item)
             rvAdapter.notifyItemChanged(position)
         }
-        retrieveCoins()
-        val coinBD = AppDataBase.getDB(view.context)
+//        retrieveCoins()
         binding.fcSaveButton.setOnClickListener{
-            val coins = coinViewModel.selectedCoinList
-
-//            lifecycleScope.launch {
-//                coinBD.coinsDao().deleteAllCoins()
-//            }
-
-            insertCoins(coins)
-//            lifecycleScope.launch{
-//                coinBD.coinsDao().coinUpdate(coins)
-//            }
+            lifecycleScope.launch{
+                val coins =
+                    coinViewModel.coinsList.mapIndexed { _, coinRVItemModel -> coinRVItemModel.toCoinEntityFromItem() }
+                        .toMutableList()
+                coinViewModel.saveSelectedCoins()
+            }
         }
     }
 
@@ -89,20 +81,20 @@ class CoinFragment : Fragment() {
         binding.fcRecyclerView.setHasFixedSize(true)
     }
 
-    private fun insertCoins(coins: MutableList<CoinRVItemModel>){
-        lifecycleScope.launch(Dispatchers.IO){
-            (context?.applicationContext as App).repositoryRoom.insert(coins = coins)
-        }
-    }
-
-    private fun retrieveCoins(){
-        lifecycleScope.launch(Dispatchers.IO) {
-            val coins = (context?.applicationContext as App).repositoryRoom.getAllCoins()
-            withContext(Dispatchers.IO) {
-                coinViewModel.setCoins(coins)
-            }
-        }
-    }
+//    private fun insertCoins(coins: MutableList<CoinRVItemModel>){
+//        lifecycleScope.launch(Dispatchers.IO){
+//            (context?.applicationContext as App).repositoryRoom.insert(coins = coins)
+//        }
+//    }
+//
+//    private fun retrieveCoins(){
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            val coins = (context?.applicationContext as App).repositoryRoom.getAllCoins()
+//            withContext(Dispatchers.IO) {
+//                coinViewModel.setCoins(coins)
+//            }
+//        }
+//    }
 
 
 }

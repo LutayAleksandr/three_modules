@@ -12,8 +12,8 @@ class ThreeCoinRVViewHolder(val binding: ItemThreeCoinRecyclerviewBinding) :
     fun bind(item: CoinRVItemModel) {
         binding.apply {
             itcrNameCoin.text = item.name
-            itcrPriceCoin.text = item.current_price.toString()
-            itcrPriceChange.text = item.price_change_24h.toString()
+            itcrPriceCoin.text = item.currentPrice.toString()
+            itcrPriceChange.text = item.priceChange24h.toString()
             Glide.with(itemView).load(item.imageUrl).placeholder(R.drawable.ic_coin_placeholder)
                 .into(itcrImageCoin)
         }

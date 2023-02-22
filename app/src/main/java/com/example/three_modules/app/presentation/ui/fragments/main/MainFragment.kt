@@ -1,27 +1,21 @@
 package com.example.three_modules.app.presentation.ui.fragments.main
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.three_modules.R
 import com.example.three_modules.app.App
-import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinRVItemModel
 import com.example.three_modules.app.presentation.ui.fragments.coin.viewmodel.CoinViewModel
 import com.example.three_modules.app.presentation.ui.fragments.main.adapters.mainadapter.MainRVAdapter
 import com.example.three_modules.app.presentation.ui.fragments.main.models.DataModel
 import com.example.three_modules.app.presentation.ui.fragments.main.models.MainItemType
 import com.example.three_modules.app.presentation.ui.fragments.main.viewmodel.MainViewModel
 import com.example.three_modules.databinding.FragmentMainBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainFragment : Fragment() {
 
@@ -45,7 +39,6 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        retrieveCoins()
     }
 
     override fun onDestroyView() {
@@ -97,41 +90,12 @@ class MainFragment : Fragment() {
         binding.fmRecyclerView.adapter = mainRVAdapter
     }
 
-    private fun retrieveCoins(){
-        lifecycleScope.launch(Dispatchers.IO) {
-            val coins = (context?.applicationContext as App).repositoryRoom.getAllCoins()
-            withContext(Dispatchers.IO) {
-                coinViewModel.setCoins(coins)
-            }
-        }
-    }
-
-    private fun setupTestCoinsList(): List<CoinRVItemModel> {
-        return listOf(
-            CoinRVItemModel(
-                id = 1,
-                name = "Bitcoin",
-                imageUrl = "",
-                current_price = "25435.23".toFloat(),
-                price_change_24h = "100.233".toFloat(),
-                color = Color.BLUE
-            ),
-            CoinRVItemModel(
-                id = 1,
-                name = "Bitcoin",
-                imageUrl = "",
-                current_price = "25435.23".toFloat(),
-                price_change_24h = "100.233".toFloat(),
-                color = Color.BLUE
-            ),
-            CoinRVItemModel(
-                id = 1,
-                name = "Bitcoin",
-                imageUrl = "",
-                current_price = "25435.23".toFloat(),
-                price_change_24h = "100.233".toFloat(),
-                color = Color.BLUE
-            ),
-        )
-    }
+//    private fun retrieveCoins(){
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            val coins = (context?.applicationContext as App).repositoryRoom.getAllCoins()
+//            withContext(Dispatchers.IO) {
+//                coinViewModel.setCoins(coins)
+//            }
+//        }
+//    }
 }
