@@ -28,6 +28,8 @@ class CityRVAdapter :
             val currentItem = currentList[position]
             holder.bind(item = currentItem)
             holder.click = click
+
+            getItem(position)?.let { holder.bind(it) }
         }
     }
 

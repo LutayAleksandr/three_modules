@@ -12,6 +12,7 @@ import com.example.three_modules.app.App
 import com.example.three_modules.app.presentation.ui.fragments.city.adapters.CityRVAdapter
 import com.example.three_modules.app.presentation.ui.fragments.city.viewmodel.CityViewModel
 import com.example.three_modules.databinding.FragmentTownBinding
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class CityFragment : Fragment() {
@@ -38,12 +39,27 @@ class CityFragment : Fragment() {
         setupViewModel()
         setupRecyclerView()
         cityViewModel.getAllCities()
+        rvAdapter.click = { item, position ->
+            cityViewModel.selectedModel(item)
+            rvAdapter.notifyItemChanged(position)
+        }
+
+        binding.ftSaveButton.setOnClickListener {
+            lifecycleScope.launch {
+                cityViewModel.saveSelectedCity()
+            }
+        }
     }
 
     private fun setupViewModel() {
         lifecycleScope.launch {
             cityViewModel.cities.collect { list ->
                rvAdapter.submitList(list)
+            }
+        }
+        lifecycleScope.launch {
+            cityViewModel.selectedTitle.collect{ title ->
+                binding.ftTextView.text = title
             }
         }
     }
@@ -55,11 +71,6 @@ class CityFragment : Fragment() {
 
 
     private fun setupRecyclerView() {
-        rvAdapter.click = { item, position ->
-            binding.ftTextView.text = item.cityName
-            cityViewModel.selectedModel(item)
-            rvAdapter.notifyItemChanged(position)
-        }
         binding.ftRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.ftRecyclerView.adapter = rvAdapter
     }

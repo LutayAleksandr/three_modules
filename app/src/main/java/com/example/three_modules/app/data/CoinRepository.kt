@@ -26,10 +26,18 @@ class CoinRepository @Inject constructor(
         }
     }
 
+    suspend fun getBySelected(isSelected: Boolean){
+        coinDatabase.coinsDao().getCoinsBySelection(isSelected)
+    }
+
     fun getAllCoins(): List<CoinEntity> = coins
 
-    fun updateCoin(id: String, isSelected: Boolean, selectedPosition: Int) {
-        //TODO coinsDao update
+    suspend fun updateCoin(id: String, isSelected: Boolean, selectedPosition: Int) {
+        coinDatabase.coinsDao().updateSelection(isSelected, id)
+    }
+
+    suspend fun updateAllCoins(id: String, isSelected: Boolean) {
+        coinDatabase.coinsDao().updateSelection(isSelected, id)
     }
 
 }

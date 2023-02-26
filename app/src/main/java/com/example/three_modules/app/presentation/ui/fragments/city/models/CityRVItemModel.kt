@@ -19,3 +19,13 @@ fun CityJsonModel.toRVItemModel(index: Int): CityRVItemModel {
         countryName = this.countryName ?: ""
     )
 }
+
+fun CityEntity.toRVItemModelFromCityEntity(index: Int): CityRVItemModel {
+    return CityRVItemModel(
+        id = this.id ?: 0,
+        color = if (index % 2 == 0) R.color.blue else R.color.lightBlue,
+        cityName = this.cityName ?: "",
+        countryName = this.countryName ?: "",
+        isSelected = this.isSelected
+    )
+}

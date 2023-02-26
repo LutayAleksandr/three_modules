@@ -7,6 +7,8 @@ import com.example.three_modules.app.data.CityRepository
 import com.example.three_modules.app.data.CoinRepository
 import com.example.three_modules.app.data.MainRepository
 import com.example.three_modules.app.data.WeatherRepository
+import com.example.three_modules.app.presentation.ui.fragments.city.database.CityDao
+import com.example.three_modules.app.presentation.ui.fragments.city.database.CityDatabase
 import com.example.three_modules.app.presentation.ui.fragments.coin.database.CoinDatabase
 import com.example.three_modules.app.presentation.ui.fragments.coin.database.CoinsDao
 import dagger.Module
@@ -15,6 +17,24 @@ import javax.inject.Singleton
 
 @Module
 class AppModule(private val application: Application) {
+
+    @Singleton
+    @Provides
+    fun getCityDao(cityDatabase: CityDatabase): CityDao {
+        return cityDatabase.cityDao()
+    }
+
+    @Singleton
+    @Provides
+    fun getCityDatabase(
+        context: Context
+    ): CityDatabase {
+        return Room.databaseBuilder(
+            context.applicationContext,
+            CityDatabase::class.java,
+            "city.db"
+        ).build()
+    }
 
     @Singleton
     @Provides
@@ -55,8 +75,9 @@ class AppModule(private val application: Application) {
     @Singleton
     @Provides
     fun provideRepository(
-        context: Context
-    ): CityRepository = CityRepository(context = context)
+        context: Context,
+        cityDatabase: CityDatabase
+    ): CityRepository = CityRepository(context = context, cityDatabase = cityDatabase)
 
     @Singleton
     @Provides

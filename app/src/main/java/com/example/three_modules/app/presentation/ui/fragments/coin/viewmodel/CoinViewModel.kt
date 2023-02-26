@@ -28,7 +28,7 @@ class CoinViewModel @Inject constructor(
     var coinsList = listOf<CoinRVItemModel>()
     var coinsListEntity = listOf<CoinEntity>()
 
-    val selectedCoinList = mutableListOf<CoinRVItemModel>()
+    var selectedCoinList = mutableListOf<CoinRVItemModel>()
 
     @Inject
     lateinit var coinDao: CoinsDao
@@ -46,6 +46,13 @@ class CoinViewModel @Inject constructor(
             coinsListEntity = repository.getAllCoins()
             coinsList = coinsListEntity.mapIndexed{ index, coinEntity ->  coinEntity.toRVItemModel(index = index)}
             _coins.emit(value = coinsList)
+            getSelectedCoins()
+        }
+    }
+
+    fun loadCoins() {
+        viewModelScope.launch {
+            repository.loadCoins()
         }
     }
 
@@ -80,10 +87,36 @@ class CoinViewModel @Inject constructor(
         }
     }
 
-    fun saveSelectedCoins() {
-        selectedCoinList.forEachIndexed { index, item ->
-            repository.updateCoin(id = item.id, isSelected = item.isSelected, selectedPosition = index)
+    suspend fun saveSelectedCoins() {
+        coinsList.forEach { item ->
+            repository.updateAllCoins(
+                id = item.id,
+                isSelected = false,
+            )
         }
+        selectedCoinList.forEachIndexed { index, item ->
+            repository.updateCoin(
+                id = item.id,
+                isSelected = item.isSelected,
+                selectedPosition = index
+            )
+        }
+    }
+
+    fun getSelectedCoins(): List<CoinRVItemModel> {
+
+        selectedCoinList = repository.getAllCoins().filter {
+            it.isSelected
+        }.mapIndexed { index, coinEntity -> coinEntity.toRVItemModel(index = index) }.toMutableList()
+
+        return selectedCoinList
+    }
+
+    fun getSelectedCoinsToMain(): List<CoinRVItemModel> {
+        val listSelected = repository.getAllCoins().filter {
+            it.isSelected
+        }.mapIndexed { index, coinEntity -> coinEntity.toRVItemModel(index = index) }
+        return listSelected
     }
 }
 

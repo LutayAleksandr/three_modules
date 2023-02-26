@@ -43,12 +43,10 @@ class CoinFragment : Fragment() {
             coinViewModel.countSelectedCoin(item)
             rvAdapter.notifyItemChanged(position)
         }
-//        retrieveCoins()
+
         binding.fcSaveButton.setOnClickListener{
             lifecycleScope.launch{
-                val coins =
-                    coinViewModel.coinsList.mapIndexed { _, coinRVItemModel -> coinRVItemModel.toCoinEntityFromItem() }
-                        .toMutableList()
+
                 coinViewModel.saveSelectedCoins()
             }
         }
@@ -74,28 +72,10 @@ class CoinFragment : Fragment() {
         _binding = null
     }
 
-
     private fun setupUI() {
         binding.fcRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.fcRecyclerView.adapter = rvAdapter
         binding.fcRecyclerView.setHasFixedSize(true)
     }
-
-//    private fun insertCoins(coins: MutableList<CoinRVItemModel>){
-//        lifecycleScope.launch(Dispatchers.IO){
-//            (context?.applicationContext as App).repositoryRoom.insert(coins = coins)
-//        }
-//    }
-//
-//    private fun retrieveCoins(){
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            val coins = (context?.applicationContext as App).repositoryRoom.getAllCoins()
-//            withContext(Dispatchers.IO) {
-//                coinViewModel.setCoins(coins)
-//            }
-//        }
-//    }
-
-
 }
 

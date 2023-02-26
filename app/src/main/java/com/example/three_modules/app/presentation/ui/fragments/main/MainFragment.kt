@@ -10,6 +10,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.three_modules.R
 import com.example.three_modules.app.App
+import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinRVItemModel
+import com.example.three_modules.app.presentation.ui.fragments.coin.models.toRVItemModel
+import com.example.three_modules.app.presentation.ui.fragments.coin.retrofit.restThreeCoinsApi
 import com.example.three_modules.app.presentation.ui.fragments.coin.viewmodel.CoinViewModel
 import com.example.three_modules.app.presentation.ui.fragments.main.adapters.mainadapter.MainRVAdapter
 import com.example.three_modules.app.presentation.ui.fragments.main.models.DataModel
@@ -39,11 +42,18 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        coinViewModel.loadCoins()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    suspend fun ThreeCoinsFromApi(item: CoinRVItemModel) {
+        val coins = coinViewModel.getSelectedCoinsToMain()
+        val threeCoins = restThreeCoinsApi.getThreeCoinsRetrofit(item.id)
+
     }
 
     private fun setupRecyclerView() {
@@ -69,13 +79,12 @@ class MainFragment : Fragment() {
             DataModel.MainCoinRVItemModel(
                 buttonText = "Выбрать криптовалюту",
                 itemType = MainItemType.COIN,
-                coins = coinViewModel.selectedCoinList
+                coins = coinViewModel.getSelectedCoinsToMain()
             )
         )
         val mainRVAdapter = MainRVAdapter(
             recyclerViewList
         )
-
 
         mainRVAdapter.click = { itemType ->
             when (itemType) {
@@ -83,19 +92,9 @@ class MainFragment : Fragment() {
                 MainItemType.COIN -> findNavController().navigate(R.id.action_mainFragment_to_coinFragment)
                 MainItemType.WEATHER -> findNavController().navigate(R.id.action_mainFragment_to_weatherFragment2)
             }
-
         }
 
         binding.fmRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.fmRecyclerView.adapter = mainRVAdapter
     }
-
-//    private fun retrieveCoins(){
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            val coins = (context?.applicationContext as App).repositoryRoom.getAllCoins()
-//            withContext(Dispatchers.IO) {
-//                coinViewModel.setCoins(coins)
-//            }
-//        }
-//    }
 }
