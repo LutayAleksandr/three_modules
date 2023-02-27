@@ -13,5 +13,9 @@ data class CityJsonModel(
     @SerializedName("cityName")
     val cityName: String? = null,
     @SerializedName("countryName")
-    val countryName: String? = null
+    val countryName: String? = null,
+    @SerializedName("latitude")
+    val latitude: Double,
+    @SerializedName("longitude")
+    val longitude: Double,
 )

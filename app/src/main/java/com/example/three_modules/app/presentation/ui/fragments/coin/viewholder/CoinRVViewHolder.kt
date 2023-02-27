@@ -17,6 +17,7 @@ class CoinRVViewHolder(val binding: ItemCoinRecyclerBinding) :
         binding.apply {
             icrCardView.setCardBackgroundColor(ContextCompat.getColor(itemView.context, item.color))
             icrTextView.text = item.name
+//            Glide.with(itemView).load("http://openweathermap.org/img/wn/${item.icon}.png").into(icrImageView)
             Glide.with(itemView).load(item.imageUrl).placeholder(R.drawable.ic_coin_placeholder)
                 .into(icrImageView)
             if (item.isSelected) {

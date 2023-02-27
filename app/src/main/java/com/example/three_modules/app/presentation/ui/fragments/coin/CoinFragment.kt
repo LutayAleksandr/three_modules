@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.three_modules.R
 import com.example.three_modules.app.App
 import com.example.three_modules.app.presentation.ui.fragments.coin.adapters.CoinRVAdapter
-import com.example.three_modules.app.presentation.ui.fragments.coin.models.toCoinEntityFromItem
 import com.example.three_modules.app.presentation.ui.fragments.coin.viewmodel.CoinViewModel
 import com.example.three_modules.databinding.FragmentCoinBinding
 import kotlinx.coroutines.launch
@@ -48,6 +49,7 @@ class CoinFragment : Fragment() {
             lifecycleScope.launch{
 
                 coinViewModel.saveSelectedCoins()
+                findNavController().navigate(R.id.action_coinFragment_to_mainFragment)
             }
         }
     }
@@ -55,7 +57,7 @@ class CoinFragment : Fragment() {
     private fun setupViewModel() {
         lifecycleScope.launch {
             coinViewModel.coins.collect { list ->
-                binding.fcProgressBar.visibility = View.GONE
+//                binding.fcProgressBar.visibility = View.GONE
                 rvAdapter.submitList(list)
                 rvAdapter.notifyItemRangeChanged(0, list.size)
             }

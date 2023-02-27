@@ -1,6 +1,5 @@
 package com.example.three_modules.app.presentation.ui.fragments.coin.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.selection.SelectionTracker
@@ -28,16 +27,12 @@ class CoinViewModel @Inject constructor(
     var coinsList = listOf<CoinRVItemModel>()
     var coinsListEntity = listOf<CoinEntity>()
 
+
+
     var selectedCoinList = mutableListOf<CoinRVItemModel>()
 
     @Inject
     lateinit var coinDao: CoinsDao
-
-    var allCoinsList: MutableLiveData<MutableList<CoinEntity>> = MutableLiveData()
-
-    fun getCoinObserver(): MutableLiveData<MutableList<CoinEntity>> {
-        return allCoinsList
-    }
 
 
     fun getAllCoin() {
@@ -53,6 +48,7 @@ class CoinViewModel @Inject constructor(
     fun loadCoins() {
         viewModelScope.launch {
             repository.loadCoins()
+            repository.getAllCoins()
         }
     }
 
@@ -75,14 +71,14 @@ class CoinViewModel @Inject constructor(
             _selectedCoin.emit(
                 selectedCoinList
             )
-            var selectedTitle = ""
+            var selectedTitleList = ""
             selectedCoinList.forEach { selected ->
-                selectedTitle += "${selected.name}  "
+                selectedTitleList += "${selected.name}  "
                 coinsList.find {
                     it.name == selected.name
                 }?.isSelected = true
             }
-            _selectedTitle.emit(selectedTitle)
+            _selectedTitle.emit(selectedTitleList)
             _coins.emit(coinsList)
         }
     }
@@ -103,20 +99,23 @@ class CoinViewModel @Inject constructor(
         }
     }
 
-    fun getSelectedCoins(): List<CoinRVItemModel> {
 
-        selectedCoinList = repository.getAllCoins().filter {
-            it.isSelected
-        }.mapIndexed { index, coinEntity -> coinEntity.toRVItemModel(index = index) }.toMutableList()
 
-        return selectedCoinList
+    fun getSelectedCoins(callback: ((list: List<CoinRVItemModel>) -> Unit)? = null) {
+        var ids = selectedCoinList.joinToString(",") { it.id }
+        viewModelScope.launch {
+            selectedCoinList = repository.getAllCoins().filter {
+                it.isSelected
+            }.mapIndexed { index, coinEntity -> coinEntity.toRVItemModel(index = index) }.toMutableList()
+            callback?.invoke(selectedCoinList)
+        }
     }
 
-    fun getSelectedCoinsToMain(): List<CoinRVItemModel> {
-        val listSelected = repository.getAllCoins().filter {
-            it.isSelected
-        }.mapIndexed { index, coinEntity -> coinEntity.toRVItemModel(index = index) }
-        return listSelected
-    }
+//    fun getSelectedCoinsToMain(): List<CoinRVItemModel> {
+//        val listSelected = repository.getAllCoins().filter {
+//            it.isSelected
+//        }.mapIndexed { index, coinEntity -> coinEntity.toRVItemModel(index = index) }
+//        return listSelected
+//    }
 }
 

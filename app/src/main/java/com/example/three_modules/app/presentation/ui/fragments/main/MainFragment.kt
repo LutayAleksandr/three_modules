@@ -1,19 +1,18 @@
 package com.example.three_modules.app.presentation.ui.fragments.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.three_modules.R
 import com.example.three_modules.app.App
 import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinRVItemModel
-import com.example.three_modules.app.presentation.ui.fragments.coin.models.toRVItemModel
-import com.example.three_modules.app.presentation.ui.fragments.coin.retrofit.restThreeCoinsApi
-import com.example.three_modules.app.presentation.ui.fragments.coin.viewmodel.CoinViewModel
 import com.example.three_modules.app.presentation.ui.fragments.main.adapters.mainadapter.MainRVAdapter
 import com.example.three_modules.app.presentation.ui.fragments.main.models.DataModel
 import com.example.three_modules.app.presentation.ui.fragments.main.models.MainItemType
@@ -24,11 +23,10 @@ class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-    private val mainViewModel: MainViewModel by activityViewModels()
-
-    private val coinViewModel: CoinViewModel by activityViewModels {
+    private val mainViewModel: MainViewModel by viewModels {
         (requireActivity().application as App).appComponent.provideViewModelFactory()
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,8 +39,17 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
-        coinViewModel.loadCoins()
+        try {
+            lifecycleScope.launchWhenStarted {
+                mainViewModel.coins.collect {
+                    setupRecyclerView(list = it)
+                }
+            }
+
+        } catch (e: Exception) {
+
+        }
+        mainViewModel.getSelectedCoins()
     }
 
     override fun onDestroyView() {
@@ -50,13 +57,9 @@ class MainFragment : Fragment() {
         _binding = null
     }
 
-    suspend fun ThreeCoinsFromApi(item: CoinRVItemModel) {
-        val coins = coinViewModel.getSelectedCoinsToMain()
-        val threeCoins = restThreeCoinsApi.getThreeCoinsRetrofit(item.id)
 
-    }
 
-    private fun setupRecyclerView() {
+    private fun setupRecyclerView(list: List<CoinRVItemModel>) {
         val recyclerViewList = listOf(
 
             DataModel.HeaderRVItemModel(
@@ -79,9 +82,10 @@ class MainFragment : Fragment() {
             DataModel.MainCoinRVItemModel(
                 buttonText = "Выбрать криптовалюту",
                 itemType = MainItemType.COIN,
-                coins = coinViewModel.getSelectedCoinsToMain()
+                coins = list
             )
         )
+        Log.d("LOG_TEST", "called")
         val mainRVAdapter = MainRVAdapter(
             recyclerViewList
         )

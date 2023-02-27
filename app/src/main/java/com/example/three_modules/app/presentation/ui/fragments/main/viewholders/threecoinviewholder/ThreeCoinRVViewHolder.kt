@@ -15,7 +15,7 @@ class ThreeCoinRVViewHolder(val binding: ItemThreeCoinRecyclerviewBinding) :
         binding.apply {
             itcrNameCoin.text = item.name
             itcrPriceCoin.text = "${item.currentPrice} $"
-            itcrPriceChange.text = item.priceChange24h.toString()
+            itcrPriceChange.text = item.priceChange24h.toString().take(6)
             if (item.priceChange24h > 0){
                 itcrPriceChange.setTextColor(android.graphics.Color.GREEN)
                 itcrImageChange.setImageResource(R.drawable.ic_up)

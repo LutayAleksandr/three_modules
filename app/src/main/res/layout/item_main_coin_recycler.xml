@@ -19,8 +19,6 @@
         android:background="@color/blue"
         android:src="@drawable/ic_settings"
         app:tint="@color/darkBlue" />
-
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/imcrButton"
         android:layout_width="130dp"

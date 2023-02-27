@@ -7,8 +7,6 @@ import com.example.three_modules.app.presentation.ui.fragments.city.database.Cit
 import com.example.three_modules.app.presentation.ui.fragments.city.models.CityEntity
 import com.example.three_modules.app.presentation.ui.fragments.city.models.CityRVItemModel
 import com.example.three_modules.app.presentation.ui.fragments.city.models.toRVItemModelFromCityEntity
-import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinEntity
-import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinRVItemModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
