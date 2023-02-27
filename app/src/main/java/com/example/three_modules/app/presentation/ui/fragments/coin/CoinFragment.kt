@@ -47,17 +47,16 @@ class CoinFragment : Fragment() {
 
         binding.fcSaveButton.setOnClickListener{
             lifecycleScope.launch{
-
                 coinViewModel.saveSelectedCoins()
-                findNavController().navigate(R.id.action_coinFragment_to_mainFragment)
             }
+            findNavController().navigate(R.id.action_coinFragment_to_mainFragment)
         }
     }
 
     private fun setupViewModel() {
         lifecycleScope.launch {
             coinViewModel.coins.collect { list ->
-//                binding.fcProgressBar.visibility = View.GONE
+                binding.fcProgressBar.visibility = View.GONE
                 rvAdapter.submitList(list)
                 rvAdapter.notifyItemRangeChanged(0, list.size)
             }

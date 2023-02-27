@@ -33,4 +33,11 @@ open class MainViewModel @Inject constructor(
             }
         }
     }
+
+    fun getEmptyList() {
+        viewModelScope.launch {
+            val threeCoins = listOf<CoinRVItemModel>()
+            _coins.emit(threeCoins)
+        }
+    }
 }

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +19,10 @@ import com.example.three_modules.app.presentation.ui.fragments.main.models.DataM
 import com.example.three_modules.app.presentation.ui.fragments.main.models.MainItemType
 import com.example.three_modules.app.presentation.ui.fragments.main.viewmodel.MainViewModel
 import com.example.three_modules.databinding.FragmentMainBinding
+import com.yandex.mapkit.Animation
+import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.map.CameraPosition
+import com.yandex.mapkit.mapview.MapView
 
 class MainFragment : Fragment() {
 
@@ -26,6 +31,7 @@ class MainFragment : Fragment() {
     private val mainViewModel: MainViewModel by viewModels {
         (requireActivity().application as App).appComponent.provideViewModelFactory()
     }
+    private lateinit var mapView: MapView
 
 
     override fun onCreateView(
@@ -40,6 +46,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         try {
+            mainViewModel.getSelectedCoins()
             lifecycleScope.launchWhenStarted {
                 mainViewModel.coins.collect {
                     setupRecyclerView(list = it)
@@ -47,17 +54,25 @@ class MainFragment : Fragment() {
             }
 
         } catch (e: Exception) {
+            Toast.makeText(context, "При загрузке произошла ошибка", Toast.LENGTH_SHORT).show()
 
+            val repeat = getView()?.findViewById<View>(R.id.imcrCardView)
+
+            repeat?.setOnClickListener {
+                mainViewModel.getSelectedCoins()
+                lifecycleScope.launchWhenStarted {
+                    mainViewModel.coins.collect {
+                        setupRecyclerView(list = it)
+                    }
+                }
+            }
         }
-        mainViewModel.getSelectedCoins()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-
 
     private fun setupRecyclerView(list: List<CoinRVItemModel>) {
         val recyclerViewList = listOf(

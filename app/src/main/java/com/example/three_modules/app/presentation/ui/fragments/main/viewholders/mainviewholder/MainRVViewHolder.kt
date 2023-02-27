@@ -2,6 +2,7 @@ package com.example.three_modules.app.presentation.ui.fragments.main.viewholders
 
 import android.view.View
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.three_modules.R

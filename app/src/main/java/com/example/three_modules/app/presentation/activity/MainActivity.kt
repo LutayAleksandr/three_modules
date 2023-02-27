@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -62,17 +63,17 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.action_mainFragment_to_settingFragment)
         }
 
-        //        ViewModelProvider(this, viewModelFactory)[SampleViewmodel::class.java]
+//        ViewModelProvider(this, viewModelFactory)[SampleViewmodel::class.java]
 
 
-        /*MapKitInitializer.initialize("3eb038a7-9dc2-4c92-95dc-7fc8bd7239de", this)//MapKit Yandex
-        setContentView(R.layout.item_main_recycler)
-        mapView = findViewById(R.id.mapview)
-        mapView.map.move(
-            CameraPosition(Point(47.208739, 38.936695), 11.0f, 0.0f, 0.0f),
-            Animation(Animation.Type.SMOOTH, 0F),
-            null
-        )*/
+//        MapKitInitializer.initialize("3eb038a7-9dc2-4c92-95dc-7fc8bd7239de", this)//MapKit Yandex
+//        setContentView(R.layout.item_main_recycler)
+//        mapView = findViewById(R.id.mapview)
+//        mapView.map.move(
+//            CameraPosition(Point(47.208739, 38.936695), 11.0f, 0.0f, 0.0f),
+//            Animation(Animation.Type.SMOOTH, 0F),
+//            null
+//        )
     }
 
     /*override fun onStop() {

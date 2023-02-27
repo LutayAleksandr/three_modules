@@ -2,7 +2,9 @@ package com.example.three_modules.app.presentation.ui.fragments.coin.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.selection.SelectionTracker
+import com.example.three_modules.R
 import com.example.three_modules.app.data.CoinRepository
 import com.example.three_modules.app.presentation.ui.fragments.coin.database.CoinsDao
 import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinEntity
