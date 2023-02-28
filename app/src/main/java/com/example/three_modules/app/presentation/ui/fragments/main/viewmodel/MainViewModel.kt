@@ -23,47 +23,44 @@ open class MainViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository
 ) : ViewModel() {
 
-    private val _coins = MutableSharedFlow<List<DataModel>>()
-    val coins = _coins.asSharedFlow()
-    private val _city = MutableSharedFlow<List<WeatherJsonApiModel>>()
+    private val _list = MutableSharedFlow<List<DataModel>>()
+    val list = _list.asSharedFlow()
+    private val _city = MutableSharedFlow<WeatherJsonApiModel>()
     val cityOne = _city.asSharedFlow()
 
-    suspend fun getSelectedCoins() = withContext(viewModelScope.coroutineContext) {
+    suspend fun getSelectedCoins(callback: ((List<CoinRVItemModel>) -> Unit)? = null) = withContext(viewModelScope.coroutineContext) {
             val threeCoins = coinRepository.getAllCoins().filter {
                 it.isSelected
             }
             if (threeCoins.isNotEmpty()) {
                 val ids = threeCoins.joinToString(",") { it.id }
-                _coins.emit(
-                    Common.retrofitService.getThreeCoinsRetrofit(ids = ids)
-                        .mapIndexed { index, coinJsonURLModel -> coinJsonURLModel.toRVItemModel(index = index) })
+                val coin = Common.retrofitService.getThreeCoinsRetrofit(ids = ids)
+                    .mapIndexed { index, coinJsonURLModel -> coinJsonURLModel.toRVItemModel(index = index) }
+                callback?.invoke(coin)
             } else {
                 val coinIsEmpty = listOf<CoinRVItemModel>()
-                _coins.emit(coinIsEmpty)
+                callback?.invoke(coinIsEmpty)
             }
     }
 
-    suspend fun getSelectedCityForWeather() = withContext(viewModelScope.coroutineContext) {
+    suspend fun getSelectedCityForWeather(callback: ((WeatherJsonApiModel) -> Unit)? = null) {
         val city = weatherRepository.getAllCities().filter {
             it.isSelected
         }
         if (city.isNotEmpty()) {
             val lat = city.joinToString("") { it.latitude.toString() }
             val lon = city.joinToString("") { it.longitude.toString() }
-
-            _city.emit(
-                WeatherCommon.retrofitService.getWeatherRetrofit(lat = lat, lon = lon)
-            )
+            callback?.invoke(WeatherCommon.retrofitService.getWeatherRetrofit(lat = lat, lon = lon))
         } else {
-            val cityIsEmpty = listOf<WeatherJsonApiModel>()
-            _city.emit(cityIsEmpty)
+            val cityIsEmpty = WeatherJsonApiModel
+            callback?.invoke(cityIsEmpty)
         }
     }
 
-    fun buildList() {
+    suspend fun buildList() {
         val coins = getSelectedCoins()
         val weather = getSelectedCityForWeather()
-        val city = getSelectedCity()
+//        val city = getSelectedCity()
         val recyclerViewList = listOf(
 
             DataModel.HeaderRVItemModel(

@@ -30,8 +30,7 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val button = itemView.findViewById<MaterialButton>(R.id.imwrButton)
         val buttonSettings = itemView.findViewById<View>(R.id.imwrSettings)
         val cardWeather = itemView.findViewById<View>(R.id.imwrCardView)
-        item.weather.weather[]
-        if () {
+        if (item.weather.weather.isEmpty()) {
             button.text = item.buttonText
             button.setOnClickListener {
                 click?.invoke(item.itemType)
@@ -44,6 +43,27 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             }
             button.visibility = View.GONE
         }
+        val icon = itemView.findViewById<ImageView>(R.id.imwrImage)
+        Glide.with(itemView).load("http://openweathermap.org/img/wn/${item.weather.weather[0].icon}.png").into(icon)
+        val description = itemView.findViewById<TextView>(R.id.imwrRain)
+        description.text = item.weather.weather[0].description
+        val cityName = itemView.findViewById<TextView>(R.id.imwrCityName)
+        cityName.text = item.weather.cityName
+        val clouds = itemView.findViewById<TextView>(R.id.imwrCloudiness)
+        clouds.text = item.weather.clouds[0].clouds.toString()
+        val temp = itemView.findViewById<TextView>(R.id.imwrTemp)
+        temp.text = "${item.weather.main[0].temp}°C"
+        val feelsLikeTemp = itemView.findViewById<TextView>(R.id.imwrFeelingTemp)
+        feelsLikeTemp.text = "${item.weather.main[0].feelsLikeTemp}°C"
+        val pressure = itemView.findViewById<TextView>(R.id.imwrPressure)
+        pressure.text = item.weather.main[0].pressure.toString()
+        val visibility = itemView.findViewById<TextView>(R.id.imwrVisibility)
+        visibility.text = item.weather.visibility.toString()
+        val wind = itemView.findViewById<TextView>(R.id.imwrWind)
+        wind.text = item.weather.wind[0].speed.toString()
+        val humidity = itemView.findViewById<TextView>(R.id.imwrHumidity)
+        humidity.text = item.weather.main[0].humidity.toString()
+
     }
 
     private fun bindMainCoin(item: DataModel.MainCoinRVItemModel) {
@@ -80,30 +100,7 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         }
     }
 
-    fun bind(item: WeatherJsonApiModel) {
-        val icon = itemView.findViewById<ImageView>(R.id.imwrImage)
-        Glide.with(itemView).load("http://openweathermap.org/img/wn/${item.weather[1]}.png").into(icon)
-        val description = itemView.findViewById<TextView>(R.id.imwrRain)
-        description.text = item.weather[0].toString()
-        val cityName = itemView.findViewById<TextView>(R.id.imwrCityName)
-        cityName.text = item.cityName
-        val clouds = itemView.findViewById<TextView>(R.id.imwrCloudiness)
-        clouds.text = item.clouds[0].toString()
-        val temp = itemView.findViewById<TextView>(R.id.imwrTemp)
-        temp.text = "${item.main[0]}°C"
-        val feelsLikeTemp = itemView.findViewById<TextView>(R.id.imwrFeelingTemp)
-        feelsLikeTemp.text = "${item.main[1]}°C"
-        val pressure = itemView.findViewById<TextView>(R.id.imwrPressure)
-        pressure.text = item.main[2].toString()
-        val visibility = itemView.findViewById<TextView>(R.id.imwrVisibility)
-        visibility.text = item.visibility.toString()
-        val wind = itemView.findViewById<TextView>(R.id.imwrWind)
-        wind.text = item.wind[0].toString()
-        val humidity = itemView.findViewById<TextView>(R.id.imwrHumidity)
-        humidity.text = item.main[3].toString()
-    }
-
-    fun setupRecyclerViewThreeCoin(coins: List<CoinRVItemModel>) {
+    private fun setupRecyclerViewThreeCoin(coins: List<CoinRVItemModel>) {
         val rv = itemView.findViewById<RecyclerView>(R.id.imcrRecyclerview)
         val threeCoinAdapter = ThreeCoinAdapter(
             coins

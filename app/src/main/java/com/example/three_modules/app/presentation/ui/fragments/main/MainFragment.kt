@@ -46,7 +46,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launchWhenResumed {
             mainViewModel.getSelectedCoins()
-            mainViewModel.coins.collect { list ->
+            mainViewModel.list.collect { list ->
                 if (list.isNotEmpty()) {
                     setupRecyclerView(list = list)
                     binding.fmProgressBar.visibility = View.GONE
