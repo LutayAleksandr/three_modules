@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.three_modules.app.App
 import com.example.three_modules.app.presentation.ui.fragments.city.adapters.CityRVAdapter
+import com.example.three_modules.app.presentation.ui.fragments.city.states.CitiesActions
 import com.example.three_modules.app.presentation.ui.fragments.city.viewmodel.CityViewModel
 import com.example.three_modules.databinding.FragmentTownBinding
 import kotlinx.coroutines.launch
@@ -38,6 +40,7 @@ class CityFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
         setupRecyclerView()
+        setupActions()
         cityViewModel.getAllCities()
         rvAdapter.click = { item, position ->
             cityViewModel.selectedModel(item)
@@ -61,6 +64,14 @@ class CityFragment : Fragment() {
         lifecycleScope.launch {
             cityViewModel.selectedTitle.collect { title ->
                 binding.ftTextView.text = title
+            }
+        }
+    }
+
+    private fun setupActions() = lifecycleScope.launchWhenStarted {
+        cityViewModel.action.collect {
+            if (it is CitiesActions.PopBackStack) {
+                findNavController().popBackStack()
             }
         }
     }

@@ -13,6 +13,8 @@ data class CoinJsonURLModel(
     val currentPrice: Float,
     @SerializedName("price_change_24h")
     val priceChange24h: Float,
+    @SerializedName("market_cap_rank")
+    val marketCapRank: Int
 )
 
 //val mutableState = MutableStateFlow(RecyclerView.State())

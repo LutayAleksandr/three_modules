@@ -1,6 +1,7 @@
 package com.example.three_modules.app.presentation.ui.fragments.main.models
 
 import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinRVItemModel
+import com.example.three_modules.app.presentation.ui.fragments.weather.models.WeatherJsonApiModel
 
 sealed class DataModel {
     data class HeaderRVItemModel(
@@ -15,6 +16,12 @@ sealed class DataModel {
         val buttonText: String,
         val itemType: MainItemType,
         val coins: List<CoinRVItemModel>
+    ): DataModel()
+
+    data class MainWeatherItemModel(
+        val buttonText: String,
+        val itemType: MainItemType,
+        val weather: WeatherJsonApiModel
     ): DataModel()
 }
 

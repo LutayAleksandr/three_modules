@@ -6,3 +6,7 @@ sealed class CityStates {
     object Empty: CityStates()
     data class Success(val list: List<CityRVItemModel>): CityStates()
 }
+
+sealed class CitiesActions {
+    object PopBackStack: CitiesActions()
+}

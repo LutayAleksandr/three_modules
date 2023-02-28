@@ -1,6 +1,7 @@
 package com.example.three_modules.app.presentation.ui.fragments.coin
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.three_modules.R
 import com.example.three_modules.app.App
 import com.example.three_modules.app.presentation.ui.fragments.coin.adapters.CoinRVAdapter
+import com.example.three_modules.app.presentation.ui.fragments.coin.states.CoinsActions
 import com.example.three_modules.app.presentation.ui.fragments.coin.viewmodel.CoinViewModel
 import com.example.three_modules.databinding.FragmentCoinBinding
 import kotlinx.coroutines.launch
@@ -39,17 +40,26 @@ class CoinFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
         setupViewModel()
+        setupActions()
         coinViewModel.getAllCoin()
         rvAdapter.click = { item, position ->
             coinViewModel.countSelectedCoin(item)
             rvAdapter.notifyItemChanged(position)
+            Log.d("LOG_TEST", "cityList updated")
         }
 
         binding.fcSaveButton.setOnClickListener{
             lifecycleScope.launch{
                 coinViewModel.saveSelectedCoins()
             }
-            findNavController().navigate(R.id.action_coinFragment_to_mainFragment)
+        }
+    }
+
+    private fun setupActions() = lifecycleScope.launchWhenStarted {
+        coinViewModel.action.collect {
+            if (it is CoinsActions.PopBackStack) {
+                findNavController().popBackStack()
+            }
         }
     }
 

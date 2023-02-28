@@ -26,6 +26,17 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
 
+        <ImageView
+            android:id="@+id/fwSaveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="18dp"
+            android:background="@color/darkBlue"
+            android:src="@drawable/ic_save"
+            app:tint="@color/white"/>
+
     </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView

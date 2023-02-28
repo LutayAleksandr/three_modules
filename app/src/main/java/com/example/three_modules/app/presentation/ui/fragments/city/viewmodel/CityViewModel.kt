@@ -7,6 +7,7 @@ import com.example.three_modules.app.presentation.ui.fragments.city.database.Cit
 import com.example.three_modules.app.presentation.ui.fragments.city.models.CityEntity
 import com.example.three_modules.app.presentation.ui.fragments.city.models.CityRVItemModel
 import com.example.three_modules.app.presentation.ui.fragments.city.models.toRVItemModelFromCityEntity
+import com.example.three_modules.app.presentation.ui.fragments.city.states.CitiesActions
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -23,8 +24,8 @@ class CityViewModel @Inject constructor(
     val cities = _cities.asSharedFlow()
     private val _selectedTitle = MutableSharedFlow<String>()
     val selectedTitle = _selectedTitle.asSharedFlow()
-    private val _selectedCity = MutableSharedFlow<List<CityRVItemModel>>()
-//    val selectedCity = _selectedCoin.asSharedFlow()
+    private val _action = MutableSharedFlow<CitiesActions>()
+    val action = _action.asSharedFlow()
 
     private var citiesList = listOf<CityRVItemModel>()
     var citiesListEntity = listOf<CityEntity>()
@@ -46,7 +47,8 @@ class CityViewModel @Inject constructor(
         viewModelScope.launch {
             if (!item.isSelected) {
                 list.add(item)
-            } else {
+            }
+            if (item.isSelected) {
                 list.remove(item)
                 item.isSelected = false
             }
@@ -57,8 +59,9 @@ class CityViewModel @Inject constructor(
                 }?.isSelected = false
                 list.remove(element)
             }
-            var selectedTitle = ""
+            var selectedTitle = "Не выбрано"
             list.forEach { selected ->
+                selectedTitle = ""
                 selectedTitle += "${selected.cityName}  "
                 citiesList.find {
                     it.id == selected.id
@@ -82,14 +85,26 @@ class CityViewModel @Inject constructor(
                 isSelected = item.isSelected
             )
         }
+        _action.emit(CitiesActions.PopBackStack)
     }
 
-    fun getSelectedCity(): List<CityRVItemModel> {
+    private fun getSelectedCity(callback: ((list: List<CityRVItemModel>) -> Unit)? = null) {
         list = repository.getAllCities().filter {
             it.isSelected
         }.mapIndexed{ index, cityEntity ->  cityEntity.toRVItemModelFromCityEntity(index = index)}.toMutableList()
+        var selectedTitle = "Не выбрано"
 
-        return list
+        if (list.isEmpty()) {
+            viewModelScope.launch {
+                _selectedTitle.emit(selectedTitle)
+            }
+        } else {
+            selectedTitle = list.joinToString("") { it.cityName }
+            viewModelScope.launch {
+                _selectedTitle.emit(selectedTitle)
+            }
+        }
+        callback?.invoke(list)
     }
 
 }

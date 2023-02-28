@@ -13,7 +13,6 @@ class CityRVViewHolder(val binding: ItemTownRecyclerBinding) :
 
     fun bind(item: CityRVItemModel) {
         binding.apply {
-            itrCardView.setCardBackgroundColor(ContextCompat.getColor(itemView.context, item.color))
             itrTextView2.text = item.cityName
             itrTextView1.text = item.countryName
             if (item.isSelected ) {
@@ -23,6 +22,11 @@ class CityRVViewHolder(val binding: ItemTownRecyclerBinding) :
             }
             itrImageButton.setOnClickListener {
                 click?.invoke(item, absoluteAdapterPosition)
+            }
+            if (item.id % 2 == 0) {
+                itrCardView.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.lightBlue))
+            }else {
+                itrCardView.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.blue))
             }
         }
     }

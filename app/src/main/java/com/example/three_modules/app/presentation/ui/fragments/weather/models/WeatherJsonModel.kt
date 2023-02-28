@@ -8,5 +8,8 @@ data class WeatherJsonModel(
     @SerializedName("cityName")
     val cityName: String? = null,
     @SerializedName("countryName")
-    val countryName: String? = null
+    val countryName: String? = null,
+    val latitude: Double,
+    @SerializedName("longitude")
+    val longitude: Double,
 )

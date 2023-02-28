@@ -13,7 +13,6 @@ class WeatherRVViewHolder(val binding: ItemWeatherRecyclerBinding) :
 
     fun bind(item: WeatherRVItemModel) {
         binding.apply {
-            iwrCardView.setCardBackgroundColor(ContextCompat.getColor(itemView.context, item.color))
             iwrTextView2.text = item.cityName
             iwrTextView1.text = item.countryName
             if (item.isSelected ) {
@@ -23,6 +22,12 @@ class WeatherRVViewHolder(val binding: ItemWeatherRecyclerBinding) :
             }
             iwrImageButton.setOnClickListener {
                 click?.invoke(item, absoluteAdapterPosition)
+            }
+
+            if (item.id % 2 == 0) {
+                iwrCardView.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.lightBlue))
+            }else {
+                iwrCardView.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.blue))
             }
         }
     }

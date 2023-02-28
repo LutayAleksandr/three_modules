@@ -11,12 +11,32 @@ import com.example.three_modules.app.presentation.ui.fragments.city.database.Cit
 import com.example.three_modules.app.presentation.ui.fragments.city.database.CityDatabase
 import com.example.three_modules.app.presentation.ui.fragments.coin.database.CoinDatabase
 import com.example.three_modules.app.presentation.ui.fragments.coin.database.CoinsDao
+import com.example.three_modules.app.presentation.ui.fragments.weather.datamodel.WeatherDao
+import com.example.three_modules.app.presentation.ui.fragments.weather.datamodel.WeatherDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
 class AppModule(private val application: Application) {
+
+    @Singleton
+    @Provides
+    fun getWeatherDao(weatherDatabase: WeatherDatabase): WeatherDao {
+        return weatherDatabase.weatherDao()
+    }
+
+    @Singleton
+    @Provides
+    fun getWeatherDatabase(
+        context: Context
+    ): WeatherDatabase {
+        return Room.databaseBuilder(
+            context.applicationContext,
+            WeatherDatabase::class.java,
+            "weather.db"
+        ).build()
+    }
 
     @Singleton
     @Provides
@@ -89,6 +109,7 @@ class AppModule(private val application: Application) {
     @Singleton
     @Provides
     fun provideWeatherRepository(
-        context: Context
-    ): WeatherRepository = WeatherRepository(context = context)
+        context: Context,
+        weatherDatabase: WeatherDatabase
+    ): WeatherRepository = WeatherRepository(context = context, weatherDatabase = weatherDatabase)
 }

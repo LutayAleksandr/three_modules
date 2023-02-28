@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.three_modules.app.App
 import com.example.three_modules.app.presentation.ui.fragments.weather.adapters.WeatherRVAdapter
+import com.example.three_modules.app.presentation.ui.fragments.weather.states.WeatherActions
 import com.example.three_modules.app.presentation.ui.fragments.weather.viewmodel.WeatherViewModel
 import com.example.three_modules.databinding.FragmentWeatherBinding
 import kotlinx.coroutines.launch
@@ -37,13 +39,36 @@ class WeatherFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
         setupRecyclerView()
+        setupActions()
         weatherViewModel.getAllCities()
+        rvAdapter.click = { item, position ->
+            weatherViewModel.selectedModel(item)
+        }
+        binding.fwSaveButton.setOnClickListener {
+            lifecycleScope.launch {
+                weatherViewModel.saveSelectedCity()
+            }
+        }
     }
 
     private fun setupViewModel() {
         lifecycleScope.launch {
-            weatherViewModel.weathers.collect { list ->
-                rvAdapter.submitList(list)
+            weatherViewModel.cities.collect { state ->
+                rvAdapter.submitList(state)
+                rvAdapter.notifyItemRangeChanged(0, state.size)
+            }
+        }
+        lifecycleScope.launch {
+            weatherViewModel.selectedTitle.collect { title ->
+                binding.fwTextView.text = title
+            }
+        }
+    }
+
+    private fun setupActions() = lifecycleScope.launchWhenStarted {
+        weatherViewModel.action.collect {
+            if (it is WeatherActions.PopBackStack) {
+                findNavController().popBackStack()
             }
         }
     }
@@ -55,11 +80,6 @@ class WeatherFragment: Fragment() {
 
 
     private fun setupRecyclerView() {
-        rvAdapter.click = { item, position ->
-            binding.fwTextView.text = item.cityName
-            weatherViewModel.selectedModel(item)
-            rvAdapter.notifyItemChanged(position)
-        }
         binding.fwRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.fwRecyclerView.adapter = rvAdapter
     }

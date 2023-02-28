@@ -2,14 +2,13 @@ package com.example.three_modules.app.presentation.ui.fragments.coin.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.selection.SelectionTracker
-import com.example.three_modules.R
 import com.example.three_modules.app.data.CoinRepository
 import com.example.three_modules.app.presentation.ui.fragments.coin.database.CoinsDao
 import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinEntity
 import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinRVItemModel
 import com.example.three_modules.app.presentation.ui.fragments.coin.models.toRVItemModel
+import com.example.three_modules.app.presentation.ui.fragments.coin.states.CoinsActions
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -28,6 +27,9 @@ class CoinViewModel @Inject constructor(
     private var tracker: SelectionTracker<Long>? = null
     var coinsList = listOf<CoinRVItemModel>()
     var coinsListEntity = listOf<CoinEntity>()
+
+    private val _action = MutableSharedFlow<CoinsActions>()
+    val action = _action.asSharedFlow()
 
 
 
@@ -66,18 +68,24 @@ class CoinViewModel @Inject constructor(
             if (selectedCoinList.size > 3) {
                 val element = selectedCoinList[0]
                 coinsList.find {
-                    it.name == element.name
+                    it.id == element.id
                 }?.isSelected = false
                 selectedCoinList.remove(element)
             }
-            _selectedCoin.emit(
-                selectedCoinList
-            )
+
             var selectedTitleList = ""
+
+            if (selectedCoinList.isEmpty()) {
+                selectedTitleList = "Не выбрано"
+
+            } else {
+                selectedCoinList.forEach { selected ->
+                    selectedTitleList += "${selected.name}  "
+                }
+            }
             selectedCoinList.forEach { selected ->
-                selectedTitleList += "${selected.name}  "
                 coinsList.find {
-                    it.name == selected.name
+                    it.id == selected.id
                 }?.isSelected = true
             }
             _selectedTitle.emit(selectedTitleList)
@@ -85,7 +93,7 @@ class CoinViewModel @Inject constructor(
         }
     }
 
-    suspend fun saveSelectedCoins() {
+    suspend fun saveSelectedCoins() = viewModelScope.launch {
         coinsList.forEach { item ->
             repository.updateAllCoins(
                 id = item.id,
@@ -99,18 +107,28 @@ class CoinViewModel @Inject constructor(
                 selectedPosition = index
             )
         }
+        _action.emit(CoinsActions.PopBackStack)
     }
 
 
 
     fun getSelectedCoins(callback: ((list: List<CoinRVItemModel>) -> Unit)? = null) {
-        var ids = selectedCoinList.joinToString(",") { it.id }
         viewModelScope.launch {
             selectedCoinList = repository.getAllCoins().filter {
                 it.isSelected
             }.mapIndexed { index, coinEntity -> coinEntity.toRVItemModel(index = index) }.toMutableList()
             callback?.invoke(selectedCoinList)
+            var selectedTitle = "Не выбрано"
+            if (selectedCoinList.isEmpty()){
+                _selectedTitle.emit(selectedTitle)
+            } else {
+                selectedTitle = selectedCoinList.joinToString("  ") { it.name }
+                viewModelScope.launch {
+                    _selectedTitle.emit(selectedTitle)
+                }
+            }
         }
+
     }
 
 //    fun getSelectedCoinsToMain(): List<CoinRVItemModel> {

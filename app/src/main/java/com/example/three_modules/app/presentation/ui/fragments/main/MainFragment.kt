@@ -1,11 +1,11 @@
 package com.example.three_modules.app.presentation.ui.fragments.main
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -13,15 +13,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.three_modules.R
 import com.example.three_modules.app.App
-import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinRVItemModel
 import com.example.three_modules.app.presentation.ui.fragments.main.adapters.mainadapter.MainRVAdapter
 import com.example.three_modules.app.presentation.ui.fragments.main.models.DataModel
 import com.example.three_modules.app.presentation.ui.fragments.main.models.MainItemType
 import com.example.three_modules.app.presentation.ui.fragments.main.viewmodel.MainViewModel
 import com.example.three_modules.databinding.FragmentMainBinding
-import com.yandex.mapkit.Animation
-import com.yandex.mapkit.geometry.Point
-import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.mapview.MapView
 
 class MainFragment : Fragment() {
@@ -32,6 +28,9 @@ class MainFragment : Fragment() {
         (requireActivity().application as App).appComponent.provideViewModelFactory()
     }
     private lateinit var mapView: MapView
+    var handler: Handler = Handler()
+    var runnable: Runnable? = null
+    var delay = 5000
 
 
     override fun onCreateView(
@@ -45,64 +44,67 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        try {
+        lifecycleScope.launchWhenResumed {
             mainViewModel.getSelectedCoins()
-            lifecycleScope.launchWhenStarted {
-                mainViewModel.coins.collect {
-                    setupRecyclerView(list = it)
-                }
-            }
-
-        } catch (e: Exception) {
-            Toast.makeText(context, "При загрузке произошла ошибка", Toast.LENGTH_SHORT).show()
-
-            val repeat = getView()?.findViewById<View>(R.id.imcrCardView)
-
-            repeat?.setOnClickListener {
-                mainViewModel.getSelectedCoins()
-                lifecycleScope.launchWhenStarted {
-                    mainViewModel.coins.collect {
-                        setupRecyclerView(list = it)
-                    }
+            mainViewModel.coins.collect { list ->
+                if (list.isNotEmpty()) {
+                    setupRecyclerView(list = list)
+                    binding.fmProgressBar.visibility = View.GONE
+                } else {
+                    binding.fmProgressBar.visibility = View.VISIBLE
                 }
             }
         }
+//        lifecycleScope.launch {
+//            try {
+//                lifecycleScope.launchWhenResumed {
+//                    mainViewModel.getSelectedCoins()
+//                    mainViewModel.coins.collect {
+//                        mainViewModel.getSelectedCoins()
+//                        setupRecyclerView(list = it)
+//                    }
+//                }
+//
+//            } catch (e: Exception) {
+//                Toast.makeText(context, "При загрузке произошла ошибка", Toast.LENGTH_SHORT).show()
+//
+//                val repeat = getView()?.findViewById<View>(R.id.imcrCardView)
+//
+//                repeat?.setOnClickListener {
+//                    mainViewModel.getSelectedCoins()
+//                    lifecycleScope.launchWhenStarted {
+//                        mainViewModel.coins.collect {
+//                            setupRecyclerView(list = it)
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
+
+//    override fun onResume() {
+//        handler.postDelayed(Runnable {
+//            handler.postDelayed(runnable!!, delay.toLong())
+//            mainViewModel.getSelectedCoins()
+//            lifecycleScope.launchWhenStarted {
+//                mainViewModel.coins.collect {
+//                    setupRecyclerView(list = it)
+//                }
+//            }
+//        }.also { runnable = it }, delay.toLong())
+//        super.onResume()
+//    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    private fun setupRecyclerView(list: List<CoinRVItemModel>) {
-        val recyclerViewList = listOf(
-
-            DataModel.HeaderRVItemModel(
-                title = "Погода"
-            ),
-            DataModel.MainRVItemModel(
-                buttonText = "Выбрать город",
-                itemType = MainItemType.WEATHER
-            ),
-            DataModel.HeaderRVItemModel(
-                title = "Город"
-            ),
-            DataModel.MainRVItemModel(
-                buttonText = "Выбрать город",
-                itemType = MainItemType.CITY
-            ),
-            DataModel.HeaderRVItemModel(
-                title = "Курс криптовалют"
-            ),
-            DataModel.MainCoinRVItemModel(
-                buttonText = "Выбрать криптовалюту",
-                itemType = MainItemType.COIN,
-                coins = list
-            )
-        )
+    private fun setupRecyclerView(list: List<DataModel>) {
         Log.d("LOG_TEST", "called")
         val mainRVAdapter = MainRVAdapter(
-            recyclerViewList
+            list
         )
 
         mainRVAdapter.click = { itemType ->

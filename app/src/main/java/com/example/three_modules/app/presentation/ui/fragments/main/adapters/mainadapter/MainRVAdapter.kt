@@ -20,6 +20,7 @@ class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
             VIEW_HEADER -> R.layout.item_header_main_recycler
             VIEW_MAIN_ITEMS -> R.layout.item_main_recycler
             VIEW_MAIN_COIN_ITEM -> R.layout.item_main_coin_recycler
+            VIEW_MAIN_WEATHER_ITEM -> R.layout.item_main_weather_recycler
             else -> 0
         }
 
@@ -31,6 +32,7 @@ class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
                 false
             )
         return MainRVViewHolder(itemView)
+
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -46,6 +48,7 @@ class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
             is DataModel.HeaderRVItemModel -> VIEW_HEADER
             is DataModel.MainRVItemModel -> VIEW_MAIN_ITEMS
             is DataModel.MainCoinRVItemModel -> VIEW_MAIN_COIN_ITEM
+            is DataModel.MainWeatherItemModel -> VIEW_MAIN_WEATHER_ITEM
         }
     }
 
@@ -57,5 +60,6 @@ class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
         const val VIEW_HEADER = 0
         const val VIEW_MAIN_ITEMS = 1
         const val VIEW_MAIN_COIN_ITEM = 2
+        const val VIEW_MAIN_WEATHER_ITEM = 3
     }
 }

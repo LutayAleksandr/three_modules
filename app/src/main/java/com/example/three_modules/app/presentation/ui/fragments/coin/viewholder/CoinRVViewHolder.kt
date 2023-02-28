@@ -15,9 +15,7 @@ class CoinRVViewHolder(val binding: ItemCoinRecyclerBinding) :
 
     fun bind(item: CoinRVItemModel) {
         binding.apply {
-            icrCardView.setCardBackgroundColor(ContextCompat.getColor(itemView.context, item.color))
             icrTextView.text = item.name
-//            Glide.with(itemView).load("http://openweathermap.org/img/wn/${item.icon}.png").into(icrImageView)
             Glide.with(itemView).load(item.imageUrl).placeholder(R.drawable.ic_coin_placeholder)
                 .into(icrImageView)
             if (item.isSelected) {
@@ -27,6 +25,12 @@ class CoinRVViewHolder(val binding: ItemCoinRecyclerBinding) :
             }
             itemView.setOnClickListener {
                 click?.invoke(item, absoluteAdapterPosition)
+            }
+
+            if (item.marketCapRank % 2 == 0) {
+                icrCardView.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.lightBlue))
+            }else {
+                icrCardView.setCardBackgroundColor(ContextCompat.getColor(itemView.context, R.color.blue))
             }
         }
     }
