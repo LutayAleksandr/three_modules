@@ -1,5 +1,6 @@
 package com.example.three_modules.app.presentation.ui.fragments.main.viewholders.mainviewholder
 
+
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,6 +17,8 @@ import com.yandex.mapkit.Animation
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.mapview.MapView
+import com.yandex.runtime.image.ImageProvider
+
 
 class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
@@ -24,27 +27,33 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     private fun bindMainMap(item: DataModel.MainRVItemModel) {
         val button = itemView.findViewById<MaterialButton>(R.id.imrButton)
         val buttonSettings = itemView.findViewById<View>(R.id.imrSettings)
-        val cardMap = itemView.findViewById<View>(R.id.imrCardView)
+        val cardMap = itemView.findViewById<MapView>(R.id.imrMapview)
         button.text = item.buttonText
         if (item.coordinates.isEmpty()) {
             button.setOnClickListener {
                 click?.invoke(item.itemType)
             }
             buttonSettings.visibility = View.GONE
+            cardMap.visibility = View.GONE
         } else {
             buttonSettings.setOnClickListener {
                 click?.invoke(item.itemType)
             }
+            buttonSettings.visibility = View.VISIBLE
             button.visibility = View.GONE
-
-            val mapView = itemView.findViewById<MapView>(R.id.imrMapview)
-            mapView.map.move(
+            cardMap.map.move(
                 CameraPosition(
                     Point(
                         item.coordinates[0].latitude,
                         item.coordinates[0].longitude
-                    ), 5.0f, 0.0f, 0.0f),
+                    ), 8.0f, 0.0f, 0.0f),
                 Animation(Animation.Type.SMOOTH, 0F), null
+            )
+
+            cardMap.map.mapObjects.addPlacemark(
+                Point(item.coordinates[0].latitude,
+                    item.coordinates[0].longitude),
+                ImageProvider.fromResource(itemView.context, R.drawable.ic_pin)
             )
         }
 
