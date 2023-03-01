@@ -9,7 +9,8 @@ sealed class DataModel {
 
     data class MainRVItemModel(
         val buttonText: String,
-        val itemType: MainItemType
+        val itemType: MainItemType,
+        val coordinates: List<Coordinates>
     ): DataModel()
 
     data class MainCoinRVItemModel(
@@ -21,9 +22,14 @@ sealed class DataModel {
     data class MainWeatherItemModel(
         val buttonText: String,
         val itemType: MainItemType,
-        val weather: WeatherJsonApiModel
+        val weather: WeatherJsonApiModel?
     ): DataModel()
 }
+
+data class Coordinates(
+    var latitude: Double,
+    var longitude: Double
+)
 
 enum class MainItemType {
     CITY,

@@ -46,6 +46,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launchWhenResumed {
             mainViewModel.getSelectedCoins()
+            mainViewModel.buildList()
             mainViewModel.list.collect { list ->
                 if (list.isNotEmpty()) {
                     setupRecyclerView(list = list)
@@ -81,6 +82,20 @@ class MainFragment : Fragment() {
 //            }
 //        }
     }
+
+//    override fun onStop() {
+//        mapView.onStop()
+//        MapKitFactory.getInstance().onStop()
+//        super.onStop()
+//    }
+//
+//    override fun onStart() {
+//        super.onStart()
+//        MapKitFactory.getInstance().onStart()
+//        mapView.onStart()
+//    }
+
+
 
 //    override fun onResume() {
 //        handler.postDelayed(Runnable {

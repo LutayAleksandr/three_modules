@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.three_modules.R
 import com.example.three_modules.app.presentation.ui.fragments.main.viewmodel.MainViewModel
 import com.example.three_modules.databinding.ActivityMainBinding
+import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.mapview.MapView
 import kotlinx.android.synthetic.main.fragment_coin.*
 import kotlinx.android.synthetic.main.fragment_town.*
@@ -42,9 +42,8 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
+        MapKitFactory.initialize(this)
         super.onCreate(savedInstanceState)
-
-
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
@@ -62,42 +61,16 @@ class MainActivity : AppCompatActivity() {
         binding.amToolbar.tbImageButton.setOnClickListener {
             navController.navigate(R.id.action_mainFragment_to_settingFragment)
         }
-
 //        ViewModelProvider(this, viewModelFactory)[SampleViewmodel::class.java]
-
-
-//        MapKitInitializer.initialize("3eb038a7-9dc2-4c92-95dc-7fc8bd7239de", this)//MapKit Yandex
-//        setContentView(R.layout.item_main_recycler)
-//        mapView = findViewById(R.id.mapview)
-//        mapView.map.move(
-//            CameraPosition(Point(47.208739, 38.936695), 11.0f, 0.0f, 0.0f),
-//            Animation(Animation.Type.SMOOTH, 0F),
-//            null
-//        )
     }
 
-    /*override fun onStop() {
-        mapView.onStop()
+    override fun onStop() {
         MapKitFactory.getInstance().onStop()
         super.onStop()
     }
 
     override fun onStart() {
-        super.onStart()
         MapKitFactory.getInstance().onStart()
-        mapView.onStart()
+        super.onStart()
     }
-
-    object MapKitInitializer {
-        private var initialized = false
-
-        fun initialize(apiKey: String, context: Context) {
-            if (initialized) {
-                return
-            }
-            MapKitFactory.setApiKey(apiKey)
-            MapKitFactory.initialize(context)
-            initialized = true
-        }
-    }*/
 }
