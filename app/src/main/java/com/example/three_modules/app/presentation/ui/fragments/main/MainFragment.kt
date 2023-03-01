@@ -46,6 +46,8 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launchWhenResumed {
             mainViewModel.getSelectedCoins()
+            mainViewModel.getSelectedCityForWeather()
+            mainViewModel.getCoordinates()
             mainViewModel.buildList()
             mainViewModel.list.collect { list ->
                 if (list.isNotEmpty()) {

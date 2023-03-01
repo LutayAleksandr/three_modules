@@ -59,6 +59,7 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
                 click?.invoke(item.itemType)
             }
             buttonSettings.visibility = View.GONE
+            cardWeather.visibility = View.GONE
         } else {
             buttonSettings.setOnClickListener {
                 click?.invoke(item.itemType)
@@ -114,6 +115,7 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             }
             button.visibility = View.GONE
             setupRecyclerViewThreeCoin(coins = item.coins)
+            buttonSettings.visibility = View.VISIBLE
         }
     }
 

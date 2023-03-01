@@ -84,7 +84,7 @@
             android:text="2.0 °C"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="5dp"
             app:layout_constraintBottom_toBottomOf="@+id/textView"
             app:layout_constraintStart_toEndOf="@+id/textView"
             tools:ignore="MissingConstraints" />
@@ -98,13 +98,13 @@
             android:textSize="26dp"
             android:textStyle="bold"
             android:layout_marginBottom="20dp"
-            android:layout_marginStart="10dp"
+
             app:layout_constraintBottom_toBottomOf="@+id/imwrImage"
             app:layout_constraintStart_toEndOf="@+id/imwrImage"
             tools:ignore="MissingConstraints" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="180dp"
+            android:layout_width="140dp"
             android:layout_height="132dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
