@@ -6,15 +6,15 @@ data class WeatherJsonApiModel(
     @SerializedName("weather")
     val weather: List<Weather>,
     @SerializedName("main")
-    val main: List<Main>,
+    val main: Main,
     @SerializedName("name")
     val cityName: String,
     @SerializedName("visibility")
     val visibility: Float,
     @SerializedName("wind")
-    val wind: List<Wind>,
+    val wind: Wind,
     @SerializedName("clouds")
-    val clouds: List<Clouds>,
+    val clouds: Clouds,
 )
 
 data class Weather(

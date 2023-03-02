@@ -1,5 +1,6 @@
 package com.example.three_modules.app.presentation.ui.fragments.main.viewmodel
 
+import android.os.Handler
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.three_modules.app.data.CityRepository
@@ -22,11 +23,17 @@ import javax.inject.Inject
 open class MainViewModel @Inject constructor(
     private val coinRepository: CoinRepository,
     private val cityRepository: CityRepository,
-    private val weatherRepository: WeatherRepository
+    private val weatherRepository: WeatherRepository,
+//    private val apiHelper: CoinApiHelper
 ) : ViewModel() {
 
     private val _list = MutableSharedFlow<List<DataModel>>()
     val list = _list.asSharedFlow()
+
+    private var handler: Handler = Handler()
+    var runnable: Runnable? = null
+    var delay = 5000
+
 
 
     suspend fun getSelectedCoins():List<CoinRVItemModel> {
@@ -38,10 +45,23 @@ open class MainViewModel @Inject constructor(
             val coin = Common.retrofitService.getThreeCoinsRetrofit(ids = ids)
                 .mapIndexed { index, coinJsonURLModel -> coinJsonURLModel.toRVItemModel(index = index) }
             return (coin)
+
         } else {
             val coinIsEmpty = listOf<CoinRVItemModel>()
             return (coinIsEmpty)
         }
+//        viewModelScope.launch {
+//            apiHelper.getThreeCoinsRetrofit()
+//                .flowOn(Dispatchers.IO)
+//                .catch { e ->
+//
+//                }
+//                .collect{
+//                    val ids = threeCoins.joinToString(",") { it.id }
+//                    Common.retrofitService.getThreeCoinsRetrofit(ids = ids)
+//                        .mapIndexed { index, coinJsonURLModel -> coinJsonURLModel.toRVItemModel(index = index) }
+//                }
+//        }
     }
 
     suspend fun getSelectedCityForWeather(callback: ((WeatherJsonApiModel?) -> Unit)? = null) {
@@ -58,7 +78,7 @@ open class MainViewModel @Inject constructor(
     }
 
 
-    fun getCoordinates(): List<Coordinates>{
+    suspend fun getCoordinates(): List<Coordinates>{
         val city = cityRepository.getAllCities().filter {
             it.isSelected
         }

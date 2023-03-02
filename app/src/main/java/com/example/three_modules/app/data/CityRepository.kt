@@ -28,7 +28,12 @@ class CityRepository @Inject constructor(
     }
 
 
-    fun getAllCities(): List<CityEntity> = cities
+    suspend fun getAllCities(): List<CityEntity> {
+        return withContext(scope.coroutineContext) {
+            return@withContext cityDatabase.cityDao().getAllCities()
+        }
+    }
+
 
     suspend fun updateAllCities(id: Int, isSelected: Boolean) {
         cityDatabase.cityDao().updateSelection(isSelected, id)

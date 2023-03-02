@@ -22,8 +22,4 @@ interface AppComponent {
 
     fun inject(coinViewModel: CoinViewModel)
 
-//    @Component.Factory
-//    interface Factory{
-//        fun create(@BindsInstance context: Context): AppComponent
-//    }
 }

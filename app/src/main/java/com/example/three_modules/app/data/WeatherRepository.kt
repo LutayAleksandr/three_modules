@@ -28,7 +28,11 @@ class WeatherRepository @Inject constructor(
     }
 
 
-    fun getAllCities(): List<WeatherEntity> = cities
+    suspend fun getAllCities(): List<WeatherEntity> {
+        return withContext(scope.coroutineContext) {
+            return@withContext weatherDatabase.weatherDao().getAllWeather()
+        }
+    }
 
     suspend fun updateAllCities(id: Int, isSelected: Boolean) {
         weatherDatabase.weatherDao().updateSelection(isSelected, id)

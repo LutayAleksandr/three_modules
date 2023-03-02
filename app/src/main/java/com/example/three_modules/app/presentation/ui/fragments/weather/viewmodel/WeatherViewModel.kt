@@ -90,7 +90,7 @@ class WeatherViewModel @Inject constructor(
         _action.emit(WeatherActions.PopBackStack)
     }
 
-    private fun getSelectedCity(callback: ((list: List<WeatherRVItemModel>) -> Unit)? = null) {
+    private suspend fun getSelectedCity(callback: ((list: List<WeatherRVItemModel>) -> Unit)? = null) {
         list = repository.getAllCities().filter {
             it.isSelected
         }.mapIndexed{ index, weatherEntity ->  weatherEntity.toRVItemModelFromWeatherEntity(index = index)}.toMutableList()

@@ -9,6 +9,9 @@ interface RetrofitService {
     @GET("coins/markets?vs_currency=usd&order=market_cap_desc&")
     suspend fun getCoinList(): List<CoinJsonURLModel>
 
+    @GET("error")
+    suspend fun getThreeCoinsError(): List<CoinJsonURLModel>
+
     @GET("coins/markets")
     suspend fun getThreeCoinsRetrofit(
         @Query("vs_currency") currency: String = "usd",

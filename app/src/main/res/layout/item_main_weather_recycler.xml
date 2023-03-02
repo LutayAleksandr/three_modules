@@ -35,9 +35,10 @@
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginStart="10dp"
             android:text="пасмурно"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imwrCityName"
             tools:ignore="MissingConstraints" />
@@ -64,6 +65,15 @@
             android:layout_marginStart="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imwrRain" />
+
+<!--        <ProgressBar-->
+<!--            android:id="@+id/imwrProgressBarIcon"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="@+id/imwrImage"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/imwrImage"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/imwrImage"-->
+<!--            app:layout_constraintTop_toTopOf="@+id/imwrImage" />-->
 
         <TextView
             android:id="@+id/textView"
@@ -104,7 +114,7 @@
             tools:ignore="MissingConstraints" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="140dp"
+            android:layout_width="160dp"
             android:layout_height="132dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -204,7 +214,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:text="км"
+                android:text="м"
                 android:textColor="@color/black"
                 android:textSize="10dp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView5"

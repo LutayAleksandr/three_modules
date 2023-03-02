@@ -88,7 +88,7 @@ class CityViewModel @Inject constructor(
         _action.emit(CitiesActions.PopBackStack)
     }
 
-    private fun getSelectedCity(callback: ((list: List<CityRVItemModel>) -> Unit)? = null) {
+    private suspend fun getSelectedCity(callback: ((list: List<CityRVItemModel>) -> Unit)? = null) {
         list = repository.getAllCities().filter {
             it.isSelected
         }.mapIndexed{ index, cityEntity ->  cityEntity.toRVItemModelFromCityEntity(index = index)}.toMutableList()
