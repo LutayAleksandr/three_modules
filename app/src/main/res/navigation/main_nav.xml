@@ -28,7 +28,11 @@
         android:id="@+id/settingFragment"
         android:name="com.example.three_modules.app.presentation.ui.fragments.settings.SettingFragment"
         android:label="Настройки"
-        tools:layout="@layout/fragment_setting" />
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_settingFragment_to_weatherFragment2"
+            app:destination="@id/weatherFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/coinFragment"
         android:name="com.example.three_modules.app.presentation.ui.fragments.coin.CoinFragment"

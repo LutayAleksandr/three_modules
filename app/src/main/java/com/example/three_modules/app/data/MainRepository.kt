@@ -43,4 +43,8 @@ class MainRepository@Inject constructor(
             return@withContext settingsDatabase.settingsDao().getAllModules()
         }
     }
+
+    suspend fun updateList() = withContext(scope.coroutineContext) {
+        settingsDatabase.settingsDao().insert(modules)
+    }
 }

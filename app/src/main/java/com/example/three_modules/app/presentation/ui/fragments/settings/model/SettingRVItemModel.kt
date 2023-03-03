@@ -25,3 +25,10 @@ fun SettingEntity.toItem(index: Int):SettingRVItemModel {
     )
 }
 
+fun SettingRVItemModel.toEntity(): SettingEntity {
+    return SettingEntity(
+        id = this.id,
+        textModules = this.textModules,
+    )
+}
+

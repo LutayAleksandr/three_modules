@@ -11,10 +11,17 @@ import com.example.three_modules.app.presentation.ui.fragments.city.database.Cit
 import com.example.three_modules.app.presentation.ui.fragments.city.database.CityDatabase
 import com.example.three_modules.app.presentation.ui.fragments.coin.database.CoinDatabase
 import com.example.three_modules.app.presentation.ui.fragments.coin.database.CoinsDao
+import com.example.three_modules.app.presentation.ui.fragments.main.retrofitweather.WeatherApiHelper
+import com.example.three_modules.app.presentation.ui.fragments.main.retrofitweather.WeatherApiHelperImpl
+import com.example.three_modules.app.presentation.ui.fragments.main.retrofitweather.WeatherCommon
 import com.example.three_modules.app.presentation.ui.fragments.settings.database.SettingsDao
 import com.example.three_modules.app.presentation.ui.fragments.settings.database.SettingsDatabase
 import com.example.three_modules.app.presentation.ui.fragments.weather.datamodel.WeatherDao
 import com.example.three_modules.app.presentation.ui.fragments.weather.datamodel.WeatherDatabase
+import com.example.three_modules.app.presentation.ui.retrofit.CoinApiHelper
+import com.example.three_modules.app.presentation.ui.retrofit.CoinApiHelperImpl
+import com.example.three_modules.app.presentation.ui.retrofit.Common
+import com.example.three_modules.app.presentation.ui.toolbarlistener.ToolbarListenerManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -133,4 +140,20 @@ class AppModule(private val application: Application) {
         context: Context,
         weatherDatabase: WeatherDatabase
     ): WeatherRepository = WeatherRepository(context = context, weatherDatabase = weatherDatabase)
+
+    @Singleton
+    @Provides
+    fun provideApiHelper(): CoinApiHelper = CoinApiHelperImpl(
+        apiService = Common.retrofitService
+    )
+
+    @Singleton
+    @Provides
+    fun provideWeatherApiHelper (): WeatherApiHelper = WeatherApiHelperImpl(
+        apiService = WeatherCommon.retrofitService
+    )
+
+    @Singleton
+    @Provides
+    fun provideToolbarListenerManager(): ToolbarListenerManager = ToolbarListenerManager()
 }

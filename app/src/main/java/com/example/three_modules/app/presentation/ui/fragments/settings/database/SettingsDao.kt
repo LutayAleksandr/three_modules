@@ -13,4 +13,5 @@ abstract class SettingsDao {
 
     @Query("SELECT * FROM modules_table")
     abstract suspend fun getAllModules(): List<SettingEntity>
+
 }

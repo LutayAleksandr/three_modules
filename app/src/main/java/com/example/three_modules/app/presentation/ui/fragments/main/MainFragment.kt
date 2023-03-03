@@ -1,7 +1,6 @@
 package com.example.three_modules.app.presentation.ui.fragments.main
 
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +12,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.three_modules.R
 import com.example.three_modules.app.App
+import com.example.three_modules.app.di.fragment.DaggerFragmentComponent
+import com.example.three_modules.app.di.fragment.FragmentModule
+import com.example.three_modules.app.presentation.activity.MainActivity
 import com.example.three_modules.app.presentation.ui.fragments.main.adapters.mainadapter.MainRVAdapter
 import com.example.three_modules.app.presentation.ui.fragments.main.models.DataModel
 import com.example.three_modules.app.presentation.ui.fragments.main.models.MainItemType
 import com.example.three_modules.app.presentation.ui.fragments.main.viewmodel.MainViewModel
 import com.example.three_modules.databinding.FragmentMainBinding
 import com.yandex.mapkit.mapview.MapView
+
 
 class MainFragment : Fragment() {
 
@@ -28,9 +31,16 @@ class MainFragment : Fragment() {
         (requireActivity().application as App).appComponent.provideViewModelFactory()
     }
     private lateinit var mapView: MapView
-    var handler: Handler = Handler()
-    var runnable: Runnable? = null
-    var delay = 5000
+    private val cardCoinButton = view?.findViewById<View>(R.id.imcrCardButton)
+    private val cardWeatherButton = view?.findViewById<View>(R.id.imwrCardButton)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        DaggerFragmentComponent.builder()
+            .activityComponent((activity as MainActivity).activityComponent)
+            .fragmentModule(FragmentModule(fragment = this))
+            .build().inject(this)
+    }
 
 
     override fun onCreateView(
@@ -44,6 +54,18 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupUI()
+
+        cardCoinButton?.setOnClickListener{
+            setupUI()
+        }
+        cardWeatherButton?.setOnClickListener{
+            setupUI()
+        }
+    }
+
+    private fun setupUI(){
         lifecycleScope.launchWhenResumed {
             mainViewModel.getSelectedCoins()
             mainViewModel.getSelectedCityForWeather()
@@ -58,60 +80,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
-//        lifecycleScope.launch {
-//            try {
-//                lifecycleScope.launchWhenResumed {
-//                    mainViewModel.getSelectedCoins()
-//                    mainViewModel.coins.collect {
-//                        mainViewModel.getSelectedCoins()
-//                        setupRecyclerView(list = it)
-//                    }
-//                }
-//
-//            } catch (e: Exception) {
-//                Toast.makeText(context, "При загрузке произошла ошибка", Toast.LENGTH_SHORT).show()
-//
-//                val repeat = getView()?.findViewById<View>(R.id.imcrCardView)
-//
-//                repeat?.setOnClickListener {
-//                    mainViewModel.getSelectedCoins()
-//                    lifecycleScope.launchWhenStarted {
-//                        mainViewModel.coins.collect {
-//                            setupRecyclerView(list = it)
-//                        }
-//                    }
-//                }
-//            }
-//        }
     }
-
-//    override fun onStop() {
-//        mapView.onStop()
-//        MapKitFactory.getInstance().onStop()
-//        super.onStop()
-//    }
-//
-//    override fun onStart() {
-//        super.onStart()
-//        MapKitFactory.getInstance().onStart()
-//        mapView.onStart()
-//    }
-
-
-
-//    override fun onResume() {
-//        handler.postDelayed(Runnable {
-//            handler.postDelayed(runnable!!, delay.toLong())
-//            mainViewModel.getSelectedCoins()
-//            lifecycleScope.launchWhenStarted {
-//                mainViewModel.coins.collect {
-//                    setupRecyclerView(list = it)
-//                }
-//            }
-//        }.also { runnable = it }, delay.toLong())
-//        super.onResume()
-//    }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

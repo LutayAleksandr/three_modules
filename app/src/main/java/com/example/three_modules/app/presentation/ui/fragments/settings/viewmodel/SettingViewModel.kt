@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.three_modules.app.data.MainRepository
 import com.example.three_modules.app.presentation.ui.fragments.settings.database.SettingsDao
+import com.example.three_modules.app.presentation.ui.fragments.settings.database.SettingsDatabase
 import com.example.three_modules.app.presentation.ui.fragments.settings.model.SettingRVItemModel
 import com.example.three_modules.app.presentation.ui.fragments.settings.model.toItem
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -12,7 +13,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SettingViewModel @Inject constructor(
-    private val mainRepository: MainRepository
+    private val mainRepository: MainRepository,
+    private val settingsDatabase: SettingsDatabase
 ): ViewModel() {
 
     @Inject
@@ -34,10 +36,6 @@ class SettingViewModel @Inject constructor(
         }
     }
 
-//    suspend fun saveChanges() {
-//
-//    }
-
     fun buildList() {
         viewModelScope.launch {
             val settingListEntity = mainRepository.getAllModules()
@@ -46,4 +44,14 @@ class SettingViewModel @Inject constructor(
             _list.emit(recyclerViewList)
         }
     }
+
+    fun saveList() {
+        viewModelScope.launch {
+
+        }
+    }
+
+
+
+
 }

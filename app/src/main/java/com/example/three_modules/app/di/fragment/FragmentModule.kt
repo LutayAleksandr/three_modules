@@ -1,15 +1,15 @@
 package com.example.three_modules.app.di.fragment
 
-import com.example.three_modules.app.presentation.ui.fragments.main.MainFragment
+import androidx.fragment.app.Fragment
 import dagger.Module
 import dagger.Provides
 
 @Module
-class FragmentModule (private val mainFragment: MainFragment){
+class FragmentModule (private val fragment: Fragment){
 
     @FragmentScope
     @Provides
-    fun provideFragment(): MainFragment {
-        return mainFragment
+    fun provideFragment(): Fragment {
+        return fragment
     }
 }

@@ -8,15 +8,14 @@ import com.yandex.mapkit.MapKitFactory
 
 class App: Application() {
 
-    val appComponent: AppComponent by lazy {
-        DaggerAppComponent
-            .builder()
-            .appModule(AppModule(application = this))
-            .build()
-    }
+    lateinit var appComponent: AppComponent
 
     override fun onCreate() {
         super.onCreate()
+        appComponent = DaggerAppComponent
+            .builder()
+            .appModule(AppModule(application = this))
+            .build()
         MapKitFactory.setApiKey("3eb038a7-9dc2-4c92-95dc-7fc8bd7239de")
     }
 
