@@ -14,6 +14,8 @@ class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
 
     var click: ((itemType: MainItemType) -> Unit)? = null
 
+    var clickReplace: ((itemType: MainItemType) -> Unit)? = null
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layout = when(viewType){
@@ -40,6 +42,7 @@ class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
             val currentItem = mainRVItemModelList[position]
             holder.bind(data = currentItem)
             holder.click = click
+            holder.clickReplace = clickReplace
         }
     }
 

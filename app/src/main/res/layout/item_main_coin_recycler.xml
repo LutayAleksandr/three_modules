@@ -12,7 +12,9 @@
     <ImageView
         android:id="@+id/imcrCardButton"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_error"
+        app:tint="@color/lightGray" />
 
     <ImageView
         android:id="@+id/imcrSettings"
@@ -24,6 +26,7 @@
         android:background="@color/blue"
         android:src="@drawable/ic_settings"
         app:tint="@color/darkBlue" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/imcrButton"
         android:layout_width="130dp"

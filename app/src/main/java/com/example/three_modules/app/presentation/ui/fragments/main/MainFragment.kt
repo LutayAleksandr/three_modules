@@ -56,13 +56,6 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupUI()
-
-        cardCoinButton?.setOnClickListener{
-            setupUI()
-        }
-        cardWeatherButton?.setOnClickListener{
-            setupUI()
-        }
     }
 
     private fun setupUI(){
@@ -98,6 +91,14 @@ class MainFragment : Fragment() {
                 MainItemType.CITY -> findNavController().navigate(R.id.action_mainFragment_to_cityFragment)
                 MainItemType.COIN -> findNavController().navigate(R.id.action_mainFragment_to_coinFragment)
                 MainItemType.WEATHER -> findNavController().navigate(R.id.action_mainFragment_to_weatherFragment2)
+            }
+        }
+
+        mainRVAdapter.clickReplace = {itemType ->
+            when (itemType) {
+                MainItemType.COIN -> setupUI()
+                MainItemType.WEATHER -> setupUI()
+                MainItemType.CITY -> setupUI()
             }
         }
 

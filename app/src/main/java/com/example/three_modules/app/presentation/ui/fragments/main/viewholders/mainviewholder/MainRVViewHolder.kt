@@ -26,6 +26,8 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     var click: ((itemType: MainItemType) -> Unit)? = null
 
+    var clickReplace: ((itemType: MainItemType) -> Unit)? = null
+
     private fun bindMainMap(item: DataModel.MainRVItemModel) {
         val button = itemView.findViewById<MaterialButton>(R.id.imrButton)
         val buttonSettings = itemView.findViewById<View>(R.id.imrSettings)
@@ -65,6 +67,7 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val button = itemView.findViewById<MaterialButton>(R.id.imwrButton)
         val buttonSettings = itemView.findViewById<View>(R.id.imwrSettings)
         val cardWeather = itemView.findViewById<View>(R.id.imwrWeather)
+        val imwrCardButton = itemView.findViewById<View>(R.id.imwrCardButton)
         if (item.weather?.weather.isNullOrEmpty()) {
             button.text = item.buttonText
             button.setOnClickListener {
@@ -72,15 +75,23 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             }
             buttonSettings.visibility = View.GONE
             cardWeather.visibility = View.GONE
+            imwrCardButton.visibility = View.GONE
         } else {
             buttonSettings.setOnClickListener {
                 click?.invoke(item.itemType)
             }
             button.visibility = View.GONE
+            imwrCardButton.visibility = View.GONE
         }
         if (item.weather?.cityName == "error") {
+            imwrCardButton.setOnClickListener {
+                clickReplace?.invoke(item.itemType)
+            }
+            buttonSettings.setOnClickListener {
+                click?.invoke(item.itemType)
+            }
             button.visibility = View.GONE
-            buttonSettings.visibility = View.GONE
+            buttonSettings.visibility = View.VISIBLE
             cardWeather.visibility = View.GONE
             Toast.makeText(itemView.context, "При загрузке погоды произошла ошибка" , Toast.LENGTH_SHORT).show()
         }
@@ -140,10 +151,15 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             cardButton.visibility = View.GONE
         }
         if (item.coins.firstOrNull()?.name == "error" || item.coins.firstOrNull()?.imageUrl == "error") {
+            cardButton.setOnClickListener {
+                clickReplace?.invoke(item.itemType)
+            }
+            buttonSettings.setOnClickListener {
+                click?.invoke(item.itemType)
+            }
             button.visibility = View.GONE
-            buttonSettings.visibility = View.GONE
             card.visibility = View.GONE
-            Toast.makeText(itemView.context, "При загрузке произошла ошибка" , Toast.LENGTH_SHORT).show()
+            Toast.makeText(itemView.context, "При загрузке криптовалюты произошла ошибка" , Toast.LENGTH_SHORT).show()
         }
     }
 

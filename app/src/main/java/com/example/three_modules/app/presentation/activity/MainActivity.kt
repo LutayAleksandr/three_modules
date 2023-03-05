@@ -17,6 +17,7 @@ import com.example.three_modules.app.di.activity.ActivityComponent
 import com.example.three_modules.app.di.activity.ActivityModule
 import com.example.three_modules.app.di.activity.DaggerActivityComponent
 import com.example.three_modules.app.presentation.ui.fragments.main.viewmodel.MainViewModel
+import com.example.three_modules.app.presentation.ui.fragments.settings.SettingFragment
 import com.example.three_modules.app.presentation.ui.fragments.settings.viewmodel.SettingViewModel
 import com.example.three_modules.app.presentation.ui.toolbarlistener.ToolbarListener
 import com.example.three_modules.app.presentation.ui.toolbarlistener.ToolbarListenerManager
@@ -103,8 +104,8 @@ class MainActivity() : AppCompatActivity() {
             }
             if (destination.id == R.id.settingFragment) {
                 binding.amToolbar.tbImageButton.setOnClickListener {
-                settingViewModel.getAllModules()
                 }
+
             }
         }
         binding.amToolbar.toolbar.setTitleTextColor(android.graphics.Color.WHITE)

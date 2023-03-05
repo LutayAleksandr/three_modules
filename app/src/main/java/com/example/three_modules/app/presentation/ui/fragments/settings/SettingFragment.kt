@@ -15,10 +15,13 @@ import com.example.three_modules.app.di.fragment.DaggerFragmentComponent
 import com.example.three_modules.app.di.fragment.FragmentModule
 import com.example.three_modules.app.presentation.activity.MainActivity
 import com.example.three_modules.app.presentation.ui.fragments.settings.adapter.SettingRVAdapter
+import com.example.three_modules.app.presentation.ui.fragments.settings.database.SettingsDao
 import com.example.three_modules.app.presentation.ui.fragments.settings.model.SettingRVItemModel
+import com.example.three_modules.app.presentation.ui.fragments.settings.model.toEntity
 import com.example.three_modules.app.presentation.ui.fragments.settings.viewmodel.SettingViewModel
 import com.example.three_modules.app.presentation.ui.toolbarlistener.ToolbarListenerManager
 import com.example.three_modules.databinding.FragmentSettingBinding
+import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
 import javax.inject.Inject
 
@@ -52,8 +55,8 @@ class SettingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         toolbarListenerManager.changeToolbarButtonState(isSaveButton = true)
-        settingViewModel.getAllModules()
         settingViewModel.buildList()
+        settingViewModel.getAllModules()
         lifecycleScope.launchWhenResumed {
             settingViewModel.list.collect { list ->
                 setupRecyclerView(list = list)
@@ -66,7 +69,7 @@ class SettingFragment : Fragment() {
         _binding = null
     }
 
-    private fun setupRecyclerView(list: List<SettingRVItemModel>) {
+     private fun setupRecyclerView(list: List<SettingRVItemModel>) {
 
         val settingRVAdapter = SettingRVAdapter(
             list
@@ -101,5 +104,4 @@ class SettingFragment : Fragment() {
         }
         itemTouchHelper.attachToRecyclerView(binding.fsRecyclerView)
     }
-
 }

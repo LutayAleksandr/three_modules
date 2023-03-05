@@ -2,19 +2,22 @@ package com.example.three_modules.app.presentation.ui.fragments.settings.viewmod
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.three_modules.app.data.MainRepository
 import com.example.three_modules.app.presentation.ui.fragments.settings.database.SettingsDao
 import com.example.three_modules.app.presentation.ui.fragments.settings.database.SettingsDatabase
+import com.example.three_modules.app.presentation.ui.fragments.settings.model.SettingEntity
 import com.example.three_modules.app.presentation.ui.fragments.settings.model.SettingRVItemModel
 import com.example.three_modules.app.presentation.ui.fragments.settings.model.toItem
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 class SettingViewModel @Inject constructor(
     private val mainRepository: MainRepository,
-    private val settingsDatabase: SettingsDatabase
 ): ViewModel() {
 
     @Inject
@@ -45,13 +48,9 @@ class SettingViewModel @Inject constructor(
         }
     }
 
-    fun saveList() {
+    fun saveList(list: List<SettingEntity>) {
         viewModelScope.launch {
-
+            settingsDao.insert(list)
         }
     }
-
-
-
-
 }

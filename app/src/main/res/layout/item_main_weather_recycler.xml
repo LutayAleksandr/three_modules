@@ -13,7 +13,23 @@
     <ImageView
         android:id="@+id/imwrCardButton"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_error"
+        app:tint="@color/lightGray" />
+
+    <ImageView
+        android:id="@+id/imwrSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/blue"
+        android:src="@drawable/ic_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/darkBlue"
+        tools:ignore="MissingConstraints" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/imwrWeather"
@@ -48,19 +64,6 @@
             app:layout_constraintTop_toBottomOf="@+id/imwrCityName"
             tools:ignore="MissingConstraints" />
 
-        <ImageView
-            android:id="@+id/imwrSettings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@color/blue"
-            android:src="@drawable/ic_settings"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/darkBlue"
-            tools:ignore="MissingConstraints" />
 
         <ImageView
             android:id="@+id/imwrImage"
