@@ -27,14 +27,17 @@ class MainRepository@Inject constructor(
                 SettingEntity(
                     id = 1,
                     textModules = "Погода",
+                    numPosition = 1
                 ),
                 SettingEntity(
                     id = 2,
                     textModules = "Город",
+                    numPosition = 2
                 ),
                 SettingEntity(
                     id = 3,
                     textModules = "Курс Криптовалют",
+                    numPosition = 3
                 )
             )
             settingsDatabase.settingsDao().insert(modules)
