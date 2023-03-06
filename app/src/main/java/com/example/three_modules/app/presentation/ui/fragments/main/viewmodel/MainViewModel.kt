@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.three_modules.app.data.CityRepository
 import com.example.three_modules.app.data.CoinRepository
+import com.example.three_modules.app.data.MainRepository
 import com.example.three_modules.app.data.WeatherRepository
 import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinRVItemModel
 import com.example.three_modules.app.presentation.ui.fragments.coin.models.toRVItemModel
@@ -28,7 +29,8 @@ open class MainViewModel @Inject constructor(
     private val cityRepository: CityRepository,
     private val weatherRepository: WeatherRepository,
     private val apiHelper: CoinApiHelper,
-    private val weatherApiHelper: WeatherApiHelper
+    private val weatherApiHelper: WeatherApiHelper,
+    private val mainRepository: MainRepository
 ) : ViewModel() {
 
     private val _list = MutableSharedFlow<List<DataModel>>()
@@ -76,6 +78,9 @@ open class MainViewModel @Inject constructor(
             val coinIsEmpty = listOf<CoinRVItemModel>()
             callback?.invoke(coinIsEmpty)
         }
+    }
+    suspend fun loadSettingList() {
+        mainRepository.loadModules()
     }
 
     suspend fun getSelectedCityForWeather(callback: ((WeatherJsonApiModel?) -> Unit)? = null) {

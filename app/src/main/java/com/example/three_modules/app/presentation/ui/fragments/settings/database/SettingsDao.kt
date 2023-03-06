@@ -14,4 +14,6 @@ abstract class SettingsDao {
     @Query("SELECT * FROM modules_table")
     abstract suspend fun getAllModules(): List<SettingEntity>
 
+//    @Query ("SELECT * from modules_table ORDER BY position DESC" )
+//    abstract suspend fun getAllPosition(): List<SettingEntity>
 }

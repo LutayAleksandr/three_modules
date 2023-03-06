@@ -21,6 +21,7 @@ import com.example.three_modules.app.presentation.ui.fragments.main.models.MainI
 import com.example.three_modules.app.presentation.ui.fragments.main.viewmodel.MainViewModel
 import com.example.three_modules.databinding.FragmentMainBinding
 import com.yandex.mapkit.mapview.MapView
+import kotlinx.coroutines.launch
 
 
 class MainFragment : Fragment() {
@@ -54,7 +55,9 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        lifecycleScope.launch{
+            mainViewModel.loadSettingList()
+        }
         setupUI()
     }
 
