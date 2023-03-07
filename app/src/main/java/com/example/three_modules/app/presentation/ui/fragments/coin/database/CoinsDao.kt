@@ -21,6 +21,9 @@ abstract class CoinsDao {
     @Query("DELETE FROM coins_table")
     abstract suspend fun deleteAll()
 
+    @Query("UPDATE coins_table SET isSelected = :isSelected, selected_position = :selectedPosition WHERE id =:id")
+    abstract suspend fun updateSelection(isSelected: Boolean, id: String, selectedPosition: Int? )
+
     @Query("UPDATE coins_table SET isSelected = :isSelected WHERE id =:id")
-    abstract suspend fun updateSelection(isSelected: Boolean, id: String, )
+    abstract suspend fun updateAllCoin(isSelected: Boolean, id: String)
 }

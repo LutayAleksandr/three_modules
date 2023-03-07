@@ -1,15 +1,12 @@
 package com.example.three_modules.app.data
 
 import android.content.Context
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.example.three_modules.app.presentation.ui.fragments.settings.database.SettingsDatabase
 import com.example.three_modules.app.presentation.ui.fragments.settings.model.SettingEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.withContext
-import java.util.*
 import javax.inject.Inject
 
 class MainRepository@Inject constructor(
@@ -27,17 +24,17 @@ class MainRepository@Inject constructor(
                 SettingEntity(
                     id = 1,
                     textModules = "Погода",
-                    numPosition = 1
+                    orderPosition = 1
                 ),
                 SettingEntity(
                     id = 2,
                     textModules = "Город",
-                    numPosition = 2
+                    orderPosition = 2
                 ),
                 SettingEntity(
                     id = 3,
                     textModules = "Курс Криптовалют",
-                    numPosition = 3
+                    orderPosition = 3
                 )
             )
             settingsDatabase.settingsDao().insert(modules)

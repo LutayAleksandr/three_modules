@@ -18,7 +18,6 @@ fun CoinJsonURLModel.toRVItemModel(index: Int): CoinRVItemModel {
         currentPrice = this.currentPrice,
         priceChange24h = this.priceChange24h,
         marketCapRank = this.marketCapRank
-
     )
 }
 

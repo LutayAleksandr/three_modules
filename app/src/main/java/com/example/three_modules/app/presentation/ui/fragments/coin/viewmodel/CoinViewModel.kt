@@ -98,13 +98,14 @@ class CoinViewModel @Inject constructor(
             repository.updateAllCoins(
                 id = item.id,
                 isSelected = false,
+                selectedPosition = null
             )
         }
         selectedCoinList.forEachIndexed { index, item ->
             repository.updateCoin(
                 id = item.id,
                 isSelected = item.isSelected,
-                selectedPosition = index
+                selectedPosition = index + 1
             )
         }
         _action.emit(CoinsActions.PopBackStack)

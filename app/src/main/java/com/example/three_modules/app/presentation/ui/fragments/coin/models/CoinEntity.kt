@@ -14,7 +14,9 @@ data class CoinEntity(
     val priceChange24h: Float,
     @ColumnInfo(name = "isSelected")
     var isSelected: Boolean = false,
-    val marketCapRank: Int
+    val marketCapRank: Int,
+    @ColumnInfo(name = "selected_position")
+    var selectedPosition: Int? = null
 )
 
 fun CoinJsonURLModel.toCoinEntity(): CoinEntity {
@@ -28,7 +30,7 @@ fun CoinJsonURLModel.toCoinEntity(): CoinEntity {
         )
 }
 
-fun CoinRVItemModel.toCoinEntityFromItem(): CoinEntity {
+fun CoinRVItemModel.toCoinEntityFromItem(index:Int): CoinEntity {
     return CoinEntity(
         id = this.id,
         name = this.name ,
@@ -36,6 +38,6 @@ fun CoinRVItemModel.toCoinEntityFromItem(): CoinEntity {
         currentPrice = this.currentPrice,
         priceChange24h = this.priceChange24h,
         isSelected = this.isSelected,
-        marketCapRank = this.marketCapRank
+        marketCapRank = this.marketCapRank,
     )
 }

@@ -154,6 +154,7 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             cardButton.setOnClickListener {
                 clickReplace?.invoke(item.itemType)
             }
+            cardButton.visibility = View.VISIBLE
             buttonSettings.setOnClickListener {
                 click?.invoke(item.itemType)
             }

@@ -9,23 +9,9 @@
     app:cardBackgroundColor="@color/blue"
     app:cardCornerRadius="24dp">
 
-    <ImageView
-        android:id="@+id/imcrCardButton"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_error"
-        app:tint="@color/lightGray" />
 
-    <ImageView
-        android:id="@+id/imcrSettings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:background="@color/blue"
-        android:src="@drawable/ic_settings"
-        app:tint="@color/darkBlue" />
+
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/imcrButton"
@@ -48,6 +34,23 @@
         android:layout_marginTop="40dp"
         android:layout_marginHorizontal="5dp"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ImageView
+        android:id="@+id/imcrCardButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_error"
+        app:tint="@color/lightGray" />
+    <ImageView
+        android:id="@+id/imcrSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/blue"
+        android:src="@drawable/ic_settings"
+        app:tint="@color/darkBlue" />
 
 
 

@@ -8,7 +8,7 @@ data class SettingRVItemModel(
     val id: Int ,
     val textModules: String,
     val color: Int,
-    val numPosition: Int
+    val orderPosition: Int
 )
 
 @Entity(tableName = "modules_table")
@@ -16,7 +16,7 @@ data class SettingEntity(
     @PrimaryKey
     val id: Int ,
     val textModules: String,
-    val numPosition: Int
+    val orderPosition: Int
 )
 
 fun SettingEntity.toItem(index: Int):SettingRVItemModel {
@@ -24,7 +24,7 @@ fun SettingEntity.toItem(index: Int):SettingRVItemModel {
         id = this.id,
         textModules = this.textModules,
         color = if (index % 2 == 0) R.color.blue  else R.color.lightBlue,
-        numPosition = this.numPosition
+        orderPosition = this.orderPosition
     )
 }
 
@@ -32,7 +32,7 @@ fun SettingRVItemModel.toEntity(): SettingEntity {
     return SettingEntity(
         id = this.id,
         textModules = this.textModules,
-        numPosition = this.numPosition
+        orderPosition = this.orderPosition
     )
 }
 

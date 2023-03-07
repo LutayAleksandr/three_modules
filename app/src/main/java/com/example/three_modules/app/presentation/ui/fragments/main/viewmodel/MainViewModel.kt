@@ -37,17 +37,15 @@ open class MainViewModel @Inject constructor(
     val list = _list.asSharedFlow()
 
     suspend fun getSelectedCoins(callback: ((List<CoinRVItemModel>?) -> Unit)? = null) {
+
         val threeCoins = coinRepository.getAllCoins().filter {
             it.isSelected
         }
-        if (threeCoins.isNotEmpty()) {
+        val sortCoins = threeCoins.sortedBy{ it.selectedPosition }
+        if (sortCoins.isNotEmpty()) {
             viewModelScope.launch {
                 apiHelper.getThreeCoinsRetrofit()
                     .flowOn(Dispatchers.IO)
-                    .retry(20) {
-                        delay(5000)
-                        return@retry true
-                    }
                     .catch { e ->
                         val coinIsEmpty = listOf<CoinRVItemModel>()
                         val listWithError = coinIsEmpty.toMutableList().also {
@@ -64,14 +62,14 @@ open class MainViewModel @Inject constructor(
                         }
                         callback?.invoke(listWithError)
                     }
+                    .retry(20) {
+                        delay(5000)
+                        return@retry true
+                    }
                     .collect {
-                        val ids = threeCoins.joinToString(",") { it.id }
+                        val ids = sortCoins.joinToString(",") { it.id }
                         callback?.invoke(Common.retrofitService.getThreeCoinsRetrofit(ids = ids)
-                            .mapIndexed { index, coinJsonURLModel ->
-                                coinJsonURLModel.toRVItemModel(
-                                    index = index
-                                )
-                            })
+                            .mapIndexed { index, coinJsonURLModel -> coinJsonURLModel.toRVItemModel(index = index) } )
                     }
             }
         } else {
@@ -145,6 +143,8 @@ open class MainViewModel @Inject constructor(
     }
 
     suspend fun buildList() {
+        mainRepository.loadModules()
+        val listSettings = mainRepository.getAllModules()
         getSelectedCityForWeather { weather ->
             viewModelScope.launch {
                 val city = getCoordinates()

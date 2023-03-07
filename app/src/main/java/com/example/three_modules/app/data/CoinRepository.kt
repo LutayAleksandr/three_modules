@@ -37,11 +37,11 @@ class CoinRepository @Inject constructor(
     }
 
     suspend fun updateCoin(id: String, isSelected: Boolean, selectedPosition: Int) {
-        coinDatabase.coinsDao().updateSelection(isSelected, id)
+        coinDatabase.coinsDao().updateSelection(isSelected, id, selectedPosition)
     }
 
-    suspend fun updateAllCoins(id: String, isSelected: Boolean, ) = withContext(scope.coroutineContext) {
-        coinDatabase.coinsDao().updateSelection(isSelected, id)
+    suspend fun updateAllCoins(id: String, isSelected: Boolean, selectedPosition: Int?) = withContext(scope.coroutineContext) {
+        coinDatabase.coinsDao().updateSelection(isSelected, id, selectedPosition)
     }
 
 }
