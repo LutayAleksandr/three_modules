@@ -40,8 +40,9 @@ open class MainViewModel @Inject constructor(
 
         val threeCoins = coinRepository.getAllCoins().filter {
             it.isSelected
-        }
+        }.toMutableList()
         val sortCoins = threeCoins.sortedBy{ it.selectedPosition }
+        val ids = sortCoins.joinToString(",") { it.id }
         if (sortCoins.isNotEmpty()) {
             viewModelScope.launch {
                 apiHelper.getThreeCoinsRetrofit()
@@ -179,11 +180,8 @@ open class MainViewModel @Inject constructor(
                         )
                         _list.emit(recyclerViewList)
                     }
-
                 }
             }
         }
-
     }
-
 }

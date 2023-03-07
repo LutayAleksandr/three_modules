@@ -30,7 +30,7 @@ class CoinRepository @Inject constructor(
         coinDatabase.coinsDao().getCoinsBySelection(isSelected)
     }
 
-    suspend fun getAllCoins(): List<CoinEntity> {
+    suspend fun getAllCoins(): MutableList<CoinEntity> {
         return withContext(scope.coroutineContext) {
             return@withContext coinDatabase.coinsDao().getAllCoins()
         }

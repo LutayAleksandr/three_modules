@@ -2,7 +2,6 @@ package com.example.three_modules.app.presentation.ui.fragments.coin.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.selection.SelectionTracker
 import com.example.three_modules.app.data.CoinRepository
 import com.example.three_modules.app.presentation.ui.fragments.coin.database.CoinsDao
 import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinEntity
@@ -22,12 +21,8 @@ class CoinViewModel @Inject constructor(
     val coins = _coins.asSharedFlow()
     private val _selectedTitle = MutableSharedFlow<String>()
     val selectedTitle = _selectedTitle.asSharedFlow()
-    private val _selectedCoin = MutableSharedFlow<List<CoinRVItemModel>>()
-    val selectedCoin = _selectedCoin.asSharedFlow()
-    private var tracker: SelectionTracker<Long>? = null
     var coinsList = listOf<CoinRVItemModel>()
     var coinsListEntity = listOf<CoinEntity>()
-
     private val _action = MutableSharedFlow<CoinsActions>()
     val action = _action.asSharedFlow()
 
@@ -113,16 +108,18 @@ class CoinViewModel @Inject constructor(
 
 
 
-    fun getSelectedCoins(callback: ((list: List<CoinRVItemModel>) -> Unit)? = null) {
+    fun getSelectedCoins(callback: ((list: MutableList<CoinRVItemModel>) -> Unit)? = null) {
         viewModelScope.launch {
             selectedCoinList = repository.getAllCoins().filter {
                 it.isSelected
-            }.mapIndexed { index, coinEntity -> coinEntity.toRVItemModel(index = index) }.toMutableList()
+            }.sortedBy { it.selectedPosition }.mapIndexed { index, coinEntity -> coinEntity.toRVItemModel(index = index) }.toMutableList()
+
             callback?.invoke(selectedCoinList)
             var selectedTitle = "Не выбрано"
             if (selectedCoinList.isEmpty()){
                 _selectedTitle.emit(selectedTitle)
             } else {
+
                 selectedTitle = selectedCoinList.joinToString("  ") { it.name }
                 viewModelScope.launch {
                     _selectedTitle.emit(selectedTitle)
