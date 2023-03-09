@@ -34,6 +34,9 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val cardMap = itemView.findViewById<MapView>(R.id.imrMapview)
         val pin = itemView.findViewById<View>(R.id.imrPin)
         button.text = item.buttonText
+        val title: TextView = itemView.findViewById(R.id.imrHeader)
+        title.text = item.title
+
         if (item.coordinates.isEmpty()) {
             button.setOnClickListener {
                 click?.invoke(item.itemType)
@@ -68,6 +71,8 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val buttonSettings = itemView.findViewById<View>(R.id.imwrSettings)
         val cardWeather = itemView.findViewById<View>(R.id.imwrWeather)
         val imwrCardButton = itemView.findViewById<View>(R.id.imwrCardButton)
+        val title: TextView = itemView.findViewById(R.id.imwrHeader)
+        title.text = item.title
         if (item.weather?.weather.isNullOrEmpty()) {
             button.text = item.buttonText
             button.setOnClickListener {
@@ -133,6 +138,8 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val buttonSettings = itemView.findViewById<View>(R.id.imcrSettings)
         val card = itemView.findViewById<View>(R.id.imcrRecyclerview)
         val cardButton = itemView.findViewById<View>(R.id.imcrCardButton)
+        val title: TextView = itemView.findViewById(R.id.imcrHeader)
+        title.text = item.title
 
         if (item.coins.isEmpty()) {
             button.text = item.buttonText
@@ -164,14 +171,14 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         }
     }
 
-    private fun bindHeader(data: DataModel.HeaderRVItemModel) {
-        val title: TextView = itemView.findViewById(R.id.ihmrTextView)
-        title.text = data.title
-    }
+//    private fun bindHeader(data: DataModel.HeaderRVItemModel) {
+//        val title: TextView = itemView.findViewById(R.id.ihmrTextView)
+//        title.text = data.title
+//    }
 
     fun bind(data: DataModel) {
         when(data){
-            is DataModel.HeaderRVItemModel -> bindHeader(data)
+//            is DataModel.HeaderRVItemModel -> bindHeader(data)
             is DataModel.MainRVItemModel -> bindMainMap(data)
             is DataModel.MainCoinRVItemModel -> bindMainCoin(data)
             is DataModel.MainWeatherItemModel -> bindMainWeather(data)
