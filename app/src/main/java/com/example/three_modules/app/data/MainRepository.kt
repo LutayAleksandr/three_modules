@@ -22,14 +22,14 @@ class MainRepository@Inject constructor(
         if (modules.isEmpty()) {
             modules = listOf(
                 SettingEntity(
-                    id = 1,
-                    textModules = "Погода",
-                    orderPosition = 1
-                ),
-                SettingEntity(
                     id = 2,
                     textModules = "Город",
                     orderPosition = 2
+                ),
+                SettingEntity(
+                    id = 1,
+                    textModules = "Погода",
+                    orderPosition = 1
                 ),
                 SettingEntity(
                     id = 3,

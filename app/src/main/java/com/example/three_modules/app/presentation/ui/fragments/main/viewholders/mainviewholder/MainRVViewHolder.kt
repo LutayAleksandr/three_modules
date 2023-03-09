@@ -116,7 +116,7 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         feelsLikeTemp.text = "${(item.weather.main.feelsLikeTemp - 273).roundToInt()}°C"
 
         val pressure = itemView.findViewById<TextView>(R.id.imwrPressure)
-        pressure.text = item.weather.main.pressure.roundToInt().toString()
+        pressure.text = (item.weather.main.pressure * 0.750062).roundToInt().toString()
 
         val visibility = itemView.findViewById<TextView>(R.id.imwrVisibility)
         visibility.text = item.weather.visibility.roundToInt().toString()

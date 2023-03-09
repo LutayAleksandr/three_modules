@@ -11,5 +11,5 @@ interface CoinApiHelper {
 //    fun getThreeCoinsError(): Flow<List<CoinJsonURLModel>>
 
 
-    fun getThreeCoinsRetrofit(): Flow<List<CoinJsonURLModel>>
+    fun getThreeCoinsRetrofit(ids: String): Flow<List<CoinJsonURLModel>>
 }

@@ -9,7 +9,7 @@ class CoinApiHelperImpl(private val apiService: RetrofitService): CoinApiHelper 
         emit(apiService.getCoinList())
     }
 
-    override fun getThreeCoinsRetrofit()= flow {
-        emit(apiService.getThreeCoinsRetrofit())
+    override fun getThreeCoinsRetrofit(ids: String)= flow {
+        emit(apiService.getThreeCoinsRetrofit(ids = ids))
     }
 }

@@ -7,6 +7,7 @@ import com.example.three_modules.app.data.CityRepository
 import com.example.three_modules.app.data.CoinRepository
 import com.example.three_modules.app.data.MainRepository
 import com.example.three_modules.app.data.WeatherRepository
+import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinJsonURLModel
 import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinRVItemModel
 import com.example.three_modules.app.presentation.ui.fragments.coin.models.toRVItemModel
 import com.example.three_modules.app.presentation.ui.fragments.main.models.Coordinates
@@ -17,7 +18,6 @@ import com.example.three_modules.app.presentation.ui.fragments.main.retrofitweat
 import com.example.three_modules.app.presentation.ui.fragments.main.retrofitweather.WeatherCommon
 import com.example.three_modules.app.presentation.ui.fragments.weather.models.*
 import com.example.three_modules.app.presentation.ui.retrofit.CoinApiHelper
-import com.example.three_modules.app.presentation.ui.retrofit.Common
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -36,16 +36,17 @@ open class MainViewModel @Inject constructor(
     private val _list = MutableSharedFlow<List<DataModel>>()
     val list = _list.asSharedFlow()
 
-    suspend fun getSelectedCoins(callback: ((List<CoinRVItemModel>?) -> Unit)? = null) {
+    suspend fun getSelectedCoins(callback: ((List<CoinRVItemModel>) -> Unit)? = null) {
 
         val threeCoins = coinRepository.getAllCoins().filter {
             it.isSelected
         }.toMutableList()
+        val ids = threeCoins.joinToString(",") { it.id }
         val sortCoins = threeCoins.sortedBy{ it.selectedPosition }
-        val ids = sortCoins.joinToString(",") { it.id }
+
         if (sortCoins.isNotEmpty()) {
             viewModelScope.launch {
-                apiHelper.getThreeCoinsRetrofit()
+                apiHelper.getThreeCoinsRetrofit(ids = ids)
                     .flowOn(Dispatchers.IO)
                     .catch { e ->
                         val coinIsEmpty = listOf<CoinRVItemModel>()
@@ -67,10 +68,13 @@ open class MainViewModel @Inject constructor(
                         delay(5000)
                         return@retry true
                     }
-                    .collect {
-                        val ids = sortCoins.joinToString(",") { it.id }
-                        callback?.invoke(Common.retrofitService.getThreeCoinsRetrofit(ids = ids)
-                            .mapIndexed { index, coinJsonURLModel -> coinJsonURLModel.toRVItemModel(index = index) } )
+                    .collect { it ->
+                        val map: Map<String, CoinJsonURLModel> = it.associateBy ({it.id}, {it})
+                        val sortedList = mutableListOf<CoinJsonURLModel>()
+                        sortCoins.forEach{
+                            sortedList.add(map[it.id]!!)
+                        }
+                        callback?.invoke(sortedList.toList().mapIndexed{ index, coinJsonURLModel -> coinJsonURLModel.toRVItemModel(index = index) })
                     }
             }
         } else {
