@@ -43,9 +43,9 @@ class SettingViewModel @Inject constructor(
         }
     }
 
-    fun saveList(list: List<SettingEntity>) {
+    fun saveList(list: MutableList<SettingEntity>) {
         viewModelScope.launch {
-            settingsDao.insert(list)
+            mainRepository.updateList(list)
         }
     }
 }

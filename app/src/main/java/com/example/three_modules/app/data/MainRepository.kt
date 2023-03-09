@@ -15,12 +15,12 @@ class MainRepository@Inject constructor(
     ) {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    private  var modules: List<SettingEntity> = listOf()
+    private  var modules: MutableList<SettingEntity> = mutableListOf()
 
     suspend fun loadModules() = withContext(scope.coroutineContext) {
         modules = settingsDatabase.settingsDao().getAllModules()
         if (modules.isEmpty()) {
-            modules = listOf(
+            modules = mutableListOf(
                 SettingEntity(
                     id = 2,
                     textModules = "Город",
@@ -41,13 +41,13 @@ class MainRepository@Inject constructor(
         }
     }
 
-    suspend fun getAllModules(): List<SettingEntity> {
+    suspend fun getAllModules(): MutableList<SettingEntity> {
         return withContext(scope.coroutineContext) {
             return@withContext settingsDatabase.settingsDao().getAllModules()
         }
     }
 
-    suspend fun updateList() = withContext(scope.coroutineContext) {
-        settingsDatabase.settingsDao().insert(modules)
+    suspend fun updateList(list: MutableList<SettingEntity>) = withContext(scope.coroutineContext) {
+        settingsDatabase.settingsDao().insert(list)
     }
 }
