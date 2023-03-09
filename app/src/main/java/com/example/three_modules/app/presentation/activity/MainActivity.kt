@@ -6,6 +6,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -25,6 +26,7 @@ import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.mapview.MapView
 import kotlinx.android.synthetic.main.fragment_coin.*
 import kotlinx.android.synthetic.main.fragment_town.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -103,7 +105,9 @@ class MainActivity() : AppCompatActivity() {
             }
             if (destination.id == R.id.settingFragment) {
                 binding.amToolbar.tbImageButton.setOnClickListener {
-
+                    lifecycleScope.launch {
+                        toolbarListenerManager.saveModules()
+                    }
                 }
 
             }

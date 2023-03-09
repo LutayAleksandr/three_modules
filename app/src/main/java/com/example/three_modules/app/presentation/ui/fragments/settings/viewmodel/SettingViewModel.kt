@@ -21,7 +21,7 @@ class SettingViewModel @Inject constructor(
 
 //    private val _modules = MutableSharedFlow<List<SettingRVItemModel>>()
 //    val modules = _modules.asSharedFlow()
-    private val _list = MutableSharedFlow<List<SettingRVItemModel>>()
+    private val _list = MutableSharedFlow<MutableList<SettingRVItemModel>>()
     val list = _list.asSharedFlow()
 
     private var modulesList = listOf<SettingRVItemModel>()
@@ -38,7 +38,7 @@ class SettingViewModel @Inject constructor(
         viewModelScope.launch {
             val settingListEntity = mainRepository.getAllModules()
             modulesList = settingListEntity.mapIndexed {index, settingEntity ->  settingEntity.toItem(index = index) }
-            val recyclerViewList = modulesList
+            val recyclerViewList = modulesList.toMutableList()
             _list.emit(recyclerViewList)
         }
     }

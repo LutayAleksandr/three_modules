@@ -33,6 +33,8 @@ class SettingFragment : Fragment() {
         (requireActivity().application as App).appComponent.provideViewModelFactory()
     }
 
+    var localList =  mutableListOf<SettingRVItemModel>()
+
     @Inject
     lateinit var toolbarListenerManager: ToolbarListenerManager
 
@@ -67,9 +69,10 @@ class SettingFragment : Fragment() {
         _binding = null
     }
 
-     private fun setupRecyclerView(list: List<SettingRVItemModel>) {
+     private fun setupRecyclerView(list: MutableList<SettingRVItemModel>) {
+         localList = list
         val settingRVAdapter = SettingRVAdapter(
-            list
+            localList
         )
 
         binding.fsRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -88,17 +91,25 @@ class SettingFragment : Fragment() {
                 ): Boolean {
                     val startPosition = viewHolder.absoluteAdapterPosition
                     val endPosition = target.absoluteAdapterPosition
-
-                    Collections.swap(list, startPosition, endPosition)
-                    binding.fsSave.setOnClickListener{
-                        settingViewModel.saveList(list.mapIndexed { _, settingRVItemModel -> settingRVItemModel.toEntity() }.toMutableList())
-                    }
+                    Collections.swap(localList, startPosition, endPosition)
                     recyclerView.adapter?.notifyItemMoved(startPosition, endPosition)
                     return true
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 }
+
+                override fun onSelectedChanged(
+                    viewHolder: RecyclerView.ViewHolder?,
+                    actionState: Int
+                ) {
+                    super.onSelectedChanged(viewHolder, actionState)
+
+                    if (actionState == ItemTouchHelper.ACTION_STATE_IDLE) {
+                        settingViewModel.saveList(localList.mapIndexed { _, settingRVItemModel -> settingRVItemModel.toEntity() }.toMutableList())
+                    }
+                }
+
 
             }
             ItemTouchHelper(simpleCallback)

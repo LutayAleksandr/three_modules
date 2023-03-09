@@ -155,5 +155,7 @@ class AppModule(private val application: Application) {
 
     @Singleton
     @Provides
-    fun provideToolbarListenerManager(): ToolbarListenerManager = ToolbarListenerManager()
+    fun provideToolbarListenerManager(
+        mainRepository: MainRepository
+    ): ToolbarListenerManager = ToolbarListenerManager(mainRepository = mainRepository)
 }

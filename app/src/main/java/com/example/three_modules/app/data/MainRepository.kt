@@ -47,7 +47,11 @@ class MainRepository@Inject constructor(
         }
     }
 
-    suspend fun updateList(list: MutableList<SettingEntity>) = withContext(scope.coroutineContext) {
-        settingsDatabase.settingsDao().insert(list)
+    fun updateList(list: MutableList<SettingEntity>) {
+        modules = list
+    }
+
+    suspend fun saveList() = withContext(scope.coroutineContext) {
+        settingsDatabase.settingsDao().insert(modules)
     }
 }
