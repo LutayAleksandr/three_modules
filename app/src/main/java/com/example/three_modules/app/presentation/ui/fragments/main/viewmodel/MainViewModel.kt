@@ -159,40 +159,34 @@ open class MainViewModel @Inject constructor(
                         val recyclerViewList = listOf(
                             DataModel.HeaderRVItemModel(
                                 title = "Город",
-                                id = 1
                             ),
                             DataModel.MainRVItemModel(
                                 buttonText = "Выбрать город",
                                 itemType = MainItemType.CITY,
                                 coordinates = city,
-                                id = 1
                             ),
                             DataModel.HeaderRVItemModel(
                                 title = "Погода",
-                                id = 2
                             ),
                             DataModel.MainWeatherItemModel(
                                 buttonText = "Выбрать город",
                                 itemType = MainItemType.WEATHER,
                                 weather = weather,
-                                id = 2
                             ),
                             DataModel.HeaderRVItemModel(
                                 title = "Курс криптовалют",
-                                id = 3
                             ),
                             DataModel.MainCoinRVItemModel(
                                 buttonText = "Выбрать криптовалюту",
                                 itemType = MainItemType.COIN,
                                 coins = coins,
-                                id = 3
                             )
                         )
-                        val map: Map<String, DataModel> = recyclerViewList.associateBy ({recyclerViewList}, {it})
-                        val sortedList = mutableListOf<DataModel>()
-                        listSettings.forEach{
-                            sortedList.add(map[it.textModules]!!)
-                        }
+//                        val map: Map<Int, DataModel> = recyclerViewList.associateBy ({recyclerViewList.}, {it})
+//                        val sortedList = mutableListOf<DataModel>()
+//                        listSettings.forEach{
+//                            sortedList.add(map[it.id]!!)
+//                        }
 
                         _list.emit(recyclerViewList)
                     }
