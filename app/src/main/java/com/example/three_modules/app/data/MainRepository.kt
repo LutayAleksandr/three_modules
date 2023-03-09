@@ -18,26 +18,24 @@ class MainRepository@Inject constructor(
     private  var modules: MutableList<SettingEntity> = mutableListOf()
 
     suspend fun loadModules() = withContext(scope.coroutineContext) {
-        modules = settingsDatabase.settingsDao().getAllModules()
         if (modules.isEmpty()) {
             modules = mutableListOf(
                 SettingEntity(
-                    id = 2,
+//                    id = 1,
                     textModules = "Город",
-                    orderPosition = 2
                 ),
                 SettingEntity(
-                    id = 1,
+//                    id = 3,
                     textModules = "Погода",
-                    orderPosition = 1
                 ),
                 SettingEntity(
-                    id = 3,
+//                    id = 1,
                     textModules = "Курс Криптовалют",
-                    orderPosition = 3
                 )
             )
             settingsDatabase.settingsDao().insert(modules)
+        } else {
+            modules = settingsDatabase.settingsDao().getAllModules()
         }
     }
 
