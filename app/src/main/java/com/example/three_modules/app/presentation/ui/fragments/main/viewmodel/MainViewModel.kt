@@ -22,6 +22,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 open class MainViewModel @Inject constructor(
@@ -45,46 +47,46 @@ open class MainViewModel @Inject constructor(
         val sortCoins = threeCoins.sortedBy { it.selectedPosition }
 
             if (sortCoins.isNotEmpty()) {
-//                Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(Runnable {
-                viewModelScope.launch {
+                Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(Runnable {
+                    viewModelScope.launch {
 
-                    apiHelper.getThreeCoinsRetrofit(ids = ids)
-                        .flowOn(Dispatchers.IO)
-                        .catch { e ->
-                            val coinIsEmpty = listOf<CoinRVItemModel>()
-                            val listWithError = coinIsEmpty.toMutableList().also {
-                                it.add(
-                                    CoinRVItemModel(
-                                        id = "error",
-                                        name = "error",
-                                        imageUrl = "error",
-                                        currentPrice = 1.11111.toFloat(),
-                                        priceChange24h = 1.11111.toFloat(),
-                                        marketCapRank = 1
+                        apiHelper.getThreeCoinsRetrofit(ids = ids)
+                            .flowOn(Dispatchers.IO)
+                            .catch { e ->
+                                val coinIsEmpty = listOf<CoinRVItemModel>()
+                                val listWithError = coinIsEmpty.toMutableList().also {
+                                    it.add(
+                                        CoinRVItemModel(
+                                            id = "error",
+                                            name = "error",
+                                            imageUrl = "error",
+                                            currentPrice = 1.11111.toFloat(),
+                                            priceChange24h = 1.11111.toFloat(),
+                                            marketCapRank = 1
+                                        )
                                     )
-                                )
+                                }
+                                callback?.invoke(listWithError)
                             }
-                            callback?.invoke(listWithError)
-                        }
-                        .retry(20) {
-                            delay(5000)
-                            return@retry true
-                        }
-                        .collect { it ->
-                            val map: Map<String, CoinJsonURLModel> =
-                                it.associateBy({ it.id }, { it })
-                            val sortedList = mutableListOf<CoinJsonURLModel>()
-                            sortCoins.forEach {
-                                sortedList.add(map[it.id]!!)
+                            .retry(20) {
+                                delay(5000)
+                                return@retry true
                             }
-                            callback?.invoke(
-                                sortedList.toList().mapIndexed { index, coinJsonURLModel ->
-                                    coinJsonURLModel.toRVItemModel(index = index)
-                                })
-                        }
+                            .collect { it ->
+                                val map: Map<String, CoinJsonURLModel> =
+                                    it.associateBy({ it.id }, { it })
+                                val sortedList = mutableListOf<CoinJsonURLModel>()
+                                sortCoins.forEach {
+                                    sortedList.add(map[it.id]!!)
+                                }
+                                callback?.invoke(
+                                    sortedList.toList().mapIndexed { index, coinJsonURLModel ->
+                                        coinJsonURLModel.toRVItemModel(index = index)
+                                    })
+                            }
 
-                }
-//            }, 0, 5, TimeUnit.SECONDS)
+                    }
+                }, 0, 5, TimeUnit.SECONDS)
 
             } else {
                 val coinIsEmpty = listOf<CoinRVItemModel>()

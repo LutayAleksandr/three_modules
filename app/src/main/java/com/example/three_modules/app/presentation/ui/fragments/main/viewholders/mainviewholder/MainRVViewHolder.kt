@@ -26,6 +26,8 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     var click: ((itemType: MainItemType) -> Unit)? = null
 
+    var rvAdapter = ThreeCoinAdapter()
+
     var clickReplace: ((itemType: MainItemType) -> Unit)? = null
 
     private fun bindMainMap(item: DataModel.MainRVItemModel) {
@@ -187,10 +189,8 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     private fun setupRecyclerViewThreeCoin(coins: List<CoinRVItemModel>) {
         val rv = itemView.findViewById<RecyclerView>(R.id.imcrRecyclerview)
-        val threeCoinAdapter = ThreeCoinAdapter(
-            coins
-        )
+        rvAdapter.submitList(coins)
         rv.layoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
-        rv.adapter = threeCoinAdapter
+        rv.adapter = rvAdapter
     }
 }

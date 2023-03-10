@@ -53,7 +53,8 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch{
-            mainViewModel.loadSettingList()
+            mainViewModel.buildList()
+            setupRecyclerView()
         }
         setupUI()
         setupRecyclerView()
@@ -61,10 +62,11 @@ class MainFragment : Fragment() {
 
     private fun setupUI(){
         lifecycleScope.launchWhenResumed {
+            mainViewModel.loadSettingList()
             mainViewModel.getSelectedCoins()
             mainViewModel.getSelectedCityForWeather()
             mainViewModel.getCoordinates()
-            mainViewModel.buildList()
+//            mainViewModel.buildList()
             mainViewModel.list.collect { list ->
                 if (list.isNotEmpty()) {
                     rvAdapter.submitList(list)
@@ -95,8 +97,14 @@ class MainFragment : Fragment() {
 
         rvAdapter.clickReplace = {itemType ->
             when (itemType) {
-                MainItemType.COIN -> setupUI()
-                MainItemType.WEATHER -> setupUI()
+                MainItemType.COIN -> {
+                    setupRecyclerView()
+                    setupUI()
+                }
+                MainItemType.WEATHER -> {
+                    setupRecyclerView()
+                    setupUI()
+                }
                 MainItemType.CITY -> setupUI()
             }
         }
