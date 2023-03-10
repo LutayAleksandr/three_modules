@@ -2,6 +2,7 @@ package com.example.three_modules.app.presentation.ui.fragments.main.adapters.ma
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.three_modules.R
@@ -9,8 +10,8 @@ import com.example.three_modules.app.presentation.ui.fragments.main.models.DataM
 import com.example.three_modules.app.presentation.ui.fragments.main.models.MainItemType
 import com.example.three_modules.app.presentation.ui.fragments.main.viewholders.mainviewholder.MainRVViewHolder
 
-class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
-    RecyclerView.Adapter<ViewHolder>() {
+class MainRVAdapter:
+    ListAdapter<DataModel, RecyclerView.ViewHolder>(MainDiffCallback()) {
 
     var click: ((itemType: MainItemType) -> Unit)? = null
 
@@ -39,7 +40,7 @@ class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (holder is MainRVViewHolder) {
-            val currentItem = mainRVItemModelList[position]
+            val currentItem = currentList[position]
             holder.bind(data = currentItem)
             holder.click = click
             holder.clickReplace = clickReplace
@@ -47,7 +48,7 @@ class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when(mainRVItemModelList[position]){
+        return when(currentList[position]){
 //            is DataModel.HeaderRVItemModel -> VIEW_HEADER
             is DataModel.MainRVItemModel -> VIEW_MAIN_ITEMS
             is DataModel.MainCoinRVItemModel -> VIEW_MAIN_COIN_ITEM
@@ -56,7 +57,7 @@ class MainRVAdapter(private val mainRVItemModelList: List<DataModel>) :
     }
 
     override fun getItemCount(): Int {
-        return mainRVItemModelList.size
+        return currentList.size
     }
 
     companion object{

@@ -21,16 +21,16 @@ class MainRepository@Inject constructor(
         if (modules.isEmpty()) {
             modules = mutableListOf(
                 SettingEntity(
-//                    id = 1,
+                    id = "City",
                     textModules = "Город",
                 ),
                 SettingEntity(
-//                    id = 3,
-                    textModules = "Погода",
+                    id = "Coin",
+                    textModules = "Курс Криптовалют",
                 ),
                 SettingEntity(
-//                    id = 1,
-                    textModules = "Курс Криптовалют",
+                    id = "Weather",
+                    textModules = "Погода",
                 )
             )
             settingsDatabase.settingsDao().insert(modules)

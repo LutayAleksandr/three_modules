@@ -42,46 +42,57 @@ open class MainViewModel @Inject constructor(
             it.isSelected
         }.toMutableList()
         val ids = threeCoins.joinToString(",") { it.id }
-        val sortCoins = threeCoins.sortedBy{ it.selectedPosition }
+        val sortCoins = threeCoins.sortedBy { it.selectedPosition }
 
-        if (sortCoins.isNotEmpty()) {
-            viewModelScope.launch {
-                apiHelper.getThreeCoinsRetrofit(ids = ids)
-                    .flowOn(Dispatchers.IO)
-                    .catch { e ->
-                        val coinIsEmpty = listOf<CoinRVItemModel>()
-                        val listWithError = coinIsEmpty.toMutableList().also {
-                            it.add(
-                                CoinRVItemModel(
-                                    id = "error",
-                                    name = "error",
-                                    imageUrl = "error",
-                                    currentPrice = 1.11111.toFloat(),
-                                    priceChange24h = 1.11111.toFloat(),
-                                    marketCapRank = 1
+            if (sortCoins.isNotEmpty()) {
+//                Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(Runnable {
+                viewModelScope.launch {
+
+                    apiHelper.getThreeCoinsRetrofit(ids = ids)
+                        .flowOn(Dispatchers.IO)
+                        .catch { e ->
+                            val coinIsEmpty = listOf<CoinRVItemModel>()
+                            val listWithError = coinIsEmpty.toMutableList().also {
+                                it.add(
+                                    CoinRVItemModel(
+                                        id = "error",
+                                        name = "error",
+                                        imageUrl = "error",
+                                        currentPrice = 1.11111.toFloat(),
+                                        priceChange24h = 1.11111.toFloat(),
+                                        marketCapRank = 1
+                                    )
                                 )
-                            )
+                            }
+                            callback?.invoke(listWithError)
                         }
-                        callback?.invoke(listWithError)
-                    }
-                    .retry(20) {
-                        delay(5000)
-                        return@retry true
-                    }
-                    .collect { it ->
-                        val map: Map<String, CoinJsonURLModel> = it.associateBy ({it.id}, {it})
-                        val sortedList = mutableListOf<CoinJsonURLModel>()
-                        sortCoins.forEach{
-                            sortedList.add(map[it.id]!!)
+                        .retry(20) {
+                            delay(5000)
+                            return@retry true
                         }
-                        callback?.invoke(sortedList.toList().mapIndexed{ index, coinJsonURLModel -> coinJsonURLModel.toRVItemModel(index = index) })
-                    }
+                        .collect { it ->
+                            val map: Map<String, CoinJsonURLModel> =
+                                it.associateBy({ it.id }, { it })
+                            val sortedList = mutableListOf<CoinJsonURLModel>()
+                            sortCoins.forEach {
+                                sortedList.add(map[it.id]!!)
+                            }
+                            callback?.invoke(
+                                sortedList.toList().mapIndexed { index, coinJsonURLModel ->
+                                    coinJsonURLModel.toRVItemModel(index = index)
+                                })
+                        }
+
+                }
+//            }, 0, 5, TimeUnit.SECONDS)
+
+            } else {
+                val coinIsEmpty = listOf<CoinRVItemModel>()
+                callback?.invoke(coinIsEmpty)
             }
-        } else {
-            val coinIsEmpty = listOf<CoinRVItemModel>()
-            callback?.invoke(coinIsEmpty)
-        }
+
     }
+
     suspend fun loadSettingList() {
         mainRepository.loadModules()
     }
@@ -148,7 +159,6 @@ open class MainViewModel @Inject constructor(
     }
 
     suspend fun buildList() {
-        mainRepository.loadModules()
         val listSettings = mainRepository.getAllModules()
         getSelectedCityForWeather { weather ->
             viewModelScope.launch {
@@ -156,150 +166,35 @@ open class MainViewModel @Inject constructor(
                 getSelectedCoins { coins ->
                     coins ?: return@getSelectedCoins
                     viewModelScope.launch {
-                        var recyclerViewList = listOf<DataModel>()
-
-                        if (listSettings[0].textModules == "Город" || listSettings[1].textModules == "Погода" || listSettings[2].textModules == "Курс криптовалют"){
-                            recyclerViewList = listOf(
-                                DataModel.MainRVItemModel(
-                                    buttonText = "Выбрать город",
-                                    itemType = MainItemType.CITY,
-                                    coordinates = city,
-                                    title = "Город",
-                                ),
-                                DataModel.MainWeatherItemModel(
-                                    buttonText = "Выбрать город",
-                                    itemType = MainItemType.WEATHER,
-                                    weather = weather,
-                                    title = "Погода",
-                                ),
-                                DataModel.MainCoinRVItemModel(
-                                    buttonText = "Выбрать криптовалюту",
-                                    itemType = MainItemType.COIN,
-                                    coins = coins,
-                                    title = "Курс криптовалют",
-                                )
+                        val recyclerViewList = listOf(
+                            DataModel.MainRVItemModel(
+                                buttonText = "Выбрать город",
+                                itemType = MainItemType.CITY,
+                                coordinates = city,
+                                title = "Город",
+                            ),
+                            DataModel.MainWeatherItemModel(
+                                buttonText = "Выбрать город",
+                                itemType = MainItemType.WEATHER,
+                                weather = weather,
+                                title = "Погода",
+                            ),
+                            DataModel.MainCoinRVItemModel(
+                                buttonText = "Выбрать криптовалюту",
+                                itemType = MainItemType.COIN,
+                                coins = coins,
+                                title = "Курс криптовалют",
                             )
+                        )
+
+                        val map: Map<String, DataModel> =
+                            recyclerViewList.associateBy({ it.id }, { it })
+                        val sortedModuleList = mutableListOf<DataModel>()
+                        listSettings.forEach {
+                            sortedModuleList.add(map[it.id]!!)
                         }
 
-                        if (listSettings[0].textModules == "Погода" || listSettings[1].textModules == "Город" || listSettings[2].textModules == "Курс криптовалют"){
-                            recyclerViewList = listOf(
-                                DataModel.MainWeatherItemModel(
-                                    buttonText = "Выбрать город",
-                                    itemType = MainItemType.WEATHER,
-                                    weather = weather,
-                                    title = "Погода",
-                                ),
-                                DataModel.MainRVItemModel(
-                                    buttonText = "Выбрать город",
-                                    itemType = MainItemType.CITY,
-                                    coordinates = city,
-                                    title = "Город",
-                                ),
-                                DataModel.MainCoinRVItemModel(
-                                    buttonText = "Выбрать криптовалюту",
-                                    itemType = MainItemType.COIN,
-                                    coins = coins,
-                                    title = "Курс криптовалют",
-                                )
-                            )
-                        }
-                        if (listSettings[0].textModules == "Курс криптовалют" || listSettings[1].textModules == "Город" || listSettings[2].textModules == "Погода"){
-                            recyclerViewList = listOf(
-                                DataModel.MainCoinRVItemModel(
-                                    buttonText = "Выбрать криптовалюту",
-                                    itemType = MainItemType.COIN,
-                                    coins = coins,
-                                    title = "Курс криптовалют",
-                                ),
-                                DataModel.MainRVItemModel(
-                                    buttonText = "Выбрать город",
-                                    itemType = MainItemType.CITY,
-                                    coordinates = city,
-                                    title = "Город",
-                                ),
-                                DataModel.MainWeatherItemModel(
-                                    buttonText = "Выбрать город",
-                                    itemType = MainItemType.WEATHER,
-                                    weather = weather,
-                                    title = "Погода",
-                                )
-                            )
-                        }
-
-                        if (listSettings[0].textModules == "Погода" || listSettings[1].textModules == "Курс криптовалют" || listSettings[2].textModules == "Город"){
-                            recyclerViewList = listOf(
-                                DataModel.MainWeatherItemModel(
-                                    buttonText = "Выбрать город",
-                                    itemType = MainItemType.WEATHER,
-                                    weather = weather,
-                                    title = "Погода",
-                                ),
-                                DataModel.MainCoinRVItemModel(
-                                    buttonText = "Выбрать криптовалюту",
-                                    itemType = MainItemType.COIN,
-                                    coins = coins,
-                                    title = "Курс криптовалют",
-                                ),
-                                DataModel.MainRVItemModel(
-                                    buttonText = "Выбрать город",
-                                    itemType = MainItemType.CITY,
-                                    coordinates = city,
-                                    title = "Город",
-                                ),
-
-                            )
-                        }
-
-                        if (listSettings[0].textModules == "Курс криптовалют" || listSettings[1].textModules == "Погода"|| listSettings[2].textModules == "Город"){
-                            recyclerViewList = listOf(
-                                DataModel.MainCoinRVItemModel(
-                                    buttonText = "Выбрать криптовалюту",
-                                    itemType = MainItemType.COIN,
-                                    coins = coins,
-                                    title = "Курс криптовалют",
-                                ),
-                                DataModel.MainWeatherItemModel(
-                                    buttonText = "Выбрать город",
-                                    itemType = MainItemType.WEATHER,
-                                    weather = weather,
-                                    title = "Погода",
-                                ),
-                                DataModel.MainRVItemModel(
-                                    buttonText = "Выбрать город",
-                                    itemType = MainItemType.CITY,
-                                    coordinates = city,
-                                    title = "Город",
-                                ),
-
-                            )
-                        }
-
-                        if (listSettings[0].textModules == "Город" || listSettings[1].textModules == "Курс криптовалют" || listSettings[2].textModules == "Погода"){
-                            recyclerViewList = listOf(
-                                DataModel.MainRVItemModel(
-                                    buttonText = "Выбрать город",
-                                    itemType = MainItemType.CITY,
-                                    coordinates = city,
-                                    title = "Город",
-                                ),
-                                DataModel.MainCoinRVItemModel(
-                                    buttonText = "Выбрать криптовалюту",
-                                    itemType = MainItemType.COIN,
-                                    coins = coins,
-                                    title = "Курс криптовалют",
-                                ),
-                                DataModel.MainWeatherItemModel(
-                                    buttonText = "Выбрать город",
-                                    itemType = MainItemType.WEATHER,
-                                    weather = weather,
-                                    title = "Погода",
-                                ),
-                            )
-                        }
-
-
-
-                        _list.emit(recyclerViewList)
+                        _list.emit(sortedModuleList.toList())
                     }
                 }
             }

@@ -3,6 +3,7 @@ package com.example.three_modules.app.presentation.activity
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -106,6 +107,7 @@ class MainActivity() : AppCompatActivity() {
             if (destination.id == R.id.settingFragment) {
                 binding.amToolbar.tbImageButton.setOnClickListener {
                     lifecycleScope.launch {
+                        Toast.makeText(applicationContext, "Cохранено", Toast.LENGTH_SHORT).show()
                         toolbarListenerManager.saveModules()
                     }
                 }

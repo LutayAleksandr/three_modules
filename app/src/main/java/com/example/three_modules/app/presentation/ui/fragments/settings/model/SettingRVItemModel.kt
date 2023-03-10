@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.example.three_modules.R
 
 data class SettingRVItemModel(
-//    val id: Int ,
+    val id: String ,
     val textModules: String,
     val color: Int,
 
@@ -14,14 +14,14 @@ data class SettingRVItemModel(
 @Entity(tableName = "modules_table")
 data class SettingEntity(
     @PrimaryKey
-//    val id: Int ,
+    val id: String ,
     val textModules: String,
 
 )
 
 fun SettingEntity.toItem(index: Int):SettingRVItemModel {
     return SettingRVItemModel(
-//        id = this.id,
+        id = this.id,
         textModules = this.textModules,
         color = if (index % 2 == 0) R.color.blue  else R.color.lightBlue,
 
@@ -30,7 +30,7 @@ fun SettingEntity.toItem(index: Int):SettingRVItemModel {
 
 fun SettingRVItemModel.toEntity(): SettingEntity {
     return SettingEntity(
-//        id = this.id,
+        id = this.id,
         textModules = this.textModules,
 
     )

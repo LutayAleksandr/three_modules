@@ -16,11 +16,9 @@ import com.example.three_modules.app.di.fragment.DaggerFragmentComponent
 import com.example.three_modules.app.di.fragment.FragmentModule
 import com.example.three_modules.app.presentation.activity.MainActivity
 import com.example.three_modules.app.presentation.ui.fragments.main.adapters.mainadapter.MainRVAdapter
-import com.example.three_modules.app.presentation.ui.fragments.main.models.DataModel
 import com.example.three_modules.app.presentation.ui.fragments.main.models.MainItemType
 import com.example.three_modules.app.presentation.ui.fragments.main.viewmodel.MainViewModel
 import com.example.three_modules.databinding.FragmentMainBinding
-import com.yandex.mapkit.mapview.MapView
 import kotlinx.coroutines.launch
 
 
@@ -31,9 +29,8 @@ class MainFragment : Fragment() {
     private val mainViewModel: MainViewModel by viewModels {
         (requireActivity().application as App).appComponent.provideViewModelFactory()
     }
-    private lateinit var mapView: MapView
-    private val cardCoinButton = view?.findViewById<View>(R.id.imcrCardButton)
-    private val cardWeatherButton = view?.findViewById<View>(R.id.imwrCardButton)
+
+    private var rvAdapter = MainRVAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +56,7 @@ class MainFragment : Fragment() {
             mainViewModel.loadSettingList()
         }
         setupUI()
+        setupRecyclerView()
     }
 
     private fun setupUI(){
@@ -69,7 +67,7 @@ class MainFragment : Fragment() {
             mainViewModel.buildList()
             mainViewModel.list.collect { list ->
                 if (list.isNotEmpty()) {
-                    setupRecyclerView(list = list)
+                    rvAdapter.submitList(list)
                     binding.fmProgressBar.visibility = View.GONE
                 } else {
                     binding.fmProgressBar.visibility = View.VISIBLE
@@ -83,13 +81,11 @@ class MainFragment : Fragment() {
         _binding = null
     }
 
-    private fun setupRecyclerView(list: List<DataModel>) {
+    private fun setupRecyclerView() {
         Log.d("LOG_TEST", "called")
-        val mainRVAdapter = MainRVAdapter(
-            list
-        )
 
-        mainRVAdapter.click = { itemType ->
+
+        rvAdapter.click = { itemType ->
             when (itemType) {
                 MainItemType.CITY -> findNavController().navigate(R.id.action_mainFragment_to_cityFragment)
                 MainItemType.COIN -> findNavController().navigate(R.id.action_mainFragment_to_coinFragment)
@@ -97,7 +93,7 @@ class MainFragment : Fragment() {
             }
         }
 
-        mainRVAdapter.clickReplace = {itemType ->
+        rvAdapter.clickReplace = {itemType ->
             when (itemType) {
                 MainItemType.COIN -> setupUI()
                 MainItemType.WEATHER -> setupUI()
@@ -106,6 +102,9 @@ class MainFragment : Fragment() {
         }
 
         binding.fmRecyclerView.layoutManager = LinearLayoutManager(context)
-        binding.fmRecyclerView.adapter = mainRVAdapter
+        binding.fmRecyclerView.adapter = rvAdapter
     }
 }
+
+//        Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(Runnable {
+//        }, 0, 5, TimeUnit.SECONDS)

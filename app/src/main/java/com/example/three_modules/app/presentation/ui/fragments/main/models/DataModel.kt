@@ -4,7 +4,9 @@ import com.example.three_modules.app.presentation.ui.fragments.city.models.CityE
 import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinRVItemModel
 import com.example.three_modules.app.presentation.ui.fragments.weather.models.WeatherJsonApiModel
 
-sealed class DataModel {
+sealed class DataModel(
+    val id: String
+) {
 //    data class HeaderRVItemModel(
 //        val title: String,
 //        ): DataModel()
@@ -14,21 +16,27 @@ sealed class DataModel {
         val buttonText: String,
         val itemType: MainItemType,
         val coordinates: List<Coordinates>,
-    ): DataModel()
+    ): DataModel(
+        id = "City"
+    )
 
     data class MainCoinRVItemModel(
         val title: String,
         val buttonText: String,
         val itemType: MainItemType,
         val coins: List<CoinRVItemModel>,
-    ): DataModel()
+    ): DataModel(
+        id = "Coin"
+    )
 
     data class MainWeatherItemModel(
         val title: String,
         val buttonText: String,
         val itemType: MainItemType,
         val weather: WeatherJsonApiModel?,
-    ): DataModel()
+    ): DataModel(
+        id = "Weather"
+    )
 }
 
 data class Coordinates(

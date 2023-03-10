@@ -3,13 +3,13 @@ package com.example.three_modules.app.presentation.ui.fragments.main.adapters.ma
 import androidx.recyclerview.widget.DiffUtil
 import com.example.three_modules.app.presentation.ui.fragments.main.models.DataModel
 
-class MainDiffCallback: DiffUtil.ItemCallback<DataModel.MainCoinRVItemModel>() {
+class MainDiffCallback:DiffUtil.ItemCallback<DataModel>() {
 
-    override fun areItemsTheSame(oldItem: DataModel.MainCoinRVItemModel, newItem: DataModel.MainCoinRVItemModel): Boolean {
-        return oldItem.coins == newItem.coins
+    override fun areItemsTheSame(oldItem: DataModel, newItem: DataModel): Boolean {
+        return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: DataModel.MainCoinRVItemModel, newItem: DataModel.MainCoinRVItemModel): Boolean {
-        return oldItem.coins == newItem.coins
+    override fun areContentsTheSame(oldItem: DataModel, newItem: DataModel): Boolean {
+        return oldItem.id == newItem.id
     }
 }
