@@ -1,5 +1,6 @@
 package com.example.three_modules.app.presentation.ui.fragments.main
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,10 +17,13 @@ import com.example.three_modules.app.di.fragment.DaggerFragmentComponent
 import com.example.three_modules.app.di.fragment.FragmentModule
 import com.example.three_modules.app.presentation.activity.MainActivity
 import com.example.three_modules.app.presentation.ui.fragments.main.adapters.mainadapter.MainRVAdapter
+import com.example.three_modules.app.presentation.ui.fragments.main.models.DataModel
 import com.example.three_modules.app.presentation.ui.fragments.main.models.MainItemType
 import com.example.three_modules.app.presentation.ui.fragments.main.viewmodel.MainViewModel
 import com.example.three_modules.databinding.FragmentMainBinding
 import kotlinx.coroutines.launch
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 
 class MainFragment : Fragment() {
@@ -52,12 +56,13 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupUI()
+        setupRecyclerView()
         lifecycleScope.launch{
             mainViewModel.buildList()
             setupRecyclerView()
         }
-        setupUI()
-        setupRecyclerView()
+
     }
 
     private fun setupUI(){
@@ -66,15 +71,6 @@ class MainFragment : Fragment() {
             mainViewModel.getSelectedCoins()
             mainViewModel.getSelectedCityForWeather()
             mainViewModel.getCoordinates()
-//            mainViewModel.buildList()
-            mainViewModel.list.collect { list ->
-                if (list.isNotEmpty()) {
-                    rvAdapter.submitList(list)
-                    binding.fmProgressBar.visibility = View.GONE
-                } else {
-                    binding.fmProgressBar.visibility = View.VISIBLE
-                }
-            }
         }
     }
 
@@ -83,11 +79,25 @@ class MainFragment : Fragment() {
         _binding = null
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun setupRecyclerView() {
         Log.d("LOG_TEST", "called")
 
 
-        rvAdapter.click = { itemType ->
+        lifecycleScope.launch {
+            mainViewModel.list.collect { list ->
+                if (list.isNotEmpty()) {
+                    rvAdapter.submitList(null)
+                    rvAdapter.submitList(list)
+                    rvAdapter.notifyDataSetChanged()
+                } else {
+                    binding.fmProgressBar.visibility = View.VISIBLE
+                }
+            }
+        }
+
+
+        rvAdapter.click = { itemType,  ->
             when (itemType) {
                 MainItemType.CITY -> findNavController().navigate(R.id.action_mainFragment_to_cityFragment)
                 MainItemType.COIN -> findNavController().navigate(R.id.action_mainFragment_to_coinFragment)
@@ -99,11 +109,9 @@ class MainFragment : Fragment() {
             when (itemType) {
                 MainItemType.COIN -> {
                     setupRecyclerView()
-                    setupUI()
                 }
                 MainItemType.WEATHER -> {
                     setupRecyclerView()
-                    setupUI()
                 }
                 MainItemType.CITY -> setupUI()
             }

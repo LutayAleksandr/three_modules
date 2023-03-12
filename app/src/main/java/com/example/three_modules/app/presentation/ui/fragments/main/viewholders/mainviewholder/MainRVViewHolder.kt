@@ -4,7 +4,6 @@ package com.example.three_modules.app.presentation.ui.fragments.main.viewholders
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -72,7 +71,8 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val button = itemView.findViewById<MaterialButton>(R.id.imwrButton)
         val buttonSettings = itemView.findViewById<View>(R.id.imwrSettings)
         val cardWeather = itemView.findViewById<View>(R.id.imwrWeather)
-        val imwrCardButton = itemView.findViewById<View>(R.id.imwrCardButton)
+        val cardButton = itemView.findViewById<View>(R.id.imwrCardView)
+        val weather = itemView.findViewById<View>(R.id.imwrCardButton)
         val title: TextView = itemView.findViewById(R.id.imwrHeader)
         title.text = item.title
         if (item.weather?.weather.isNullOrEmpty()) {
@@ -82,25 +82,25 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             }
             buttonSettings.visibility = View.GONE
             cardWeather.visibility = View.GONE
-            imwrCardButton.visibility = View.GONE
+            weather.visibility = View.GONE
         } else {
             buttonSettings.setOnClickListener {
                 click?.invoke(item.itemType)
             }
             button.visibility = View.GONE
-            imwrCardButton.visibility = View.GONE
+            weather.visibility = View.GONE
         }
         if (item.weather?.cityName == "error") {
-            imwrCardButton.setOnClickListener {
+            cardButton.setOnClickListener {
                 clickReplace?.invoke(item.itemType)
             }
             buttonSettings.setOnClickListener {
                 click?.invoke(item.itemType)
             }
+//            weather.visibility = View.VISIBLE
             button.visibility = View.GONE
             buttonSettings.visibility = View.VISIBLE
             cardWeather.visibility = View.GONE
-            Toast.makeText(itemView.context, "При загрузке погоды произошла ошибка" , Toast.LENGTH_SHORT).show()
         }
         val icon = itemView.findViewById<ImageView>(R.id.imwrImage)
         item.weather ?: return
@@ -139,7 +139,9 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val button = itemView.findViewById<MaterialButton>(R.id.imcrButton)
         val buttonSettings = itemView.findViewById<View>(R.id.imcrSettings)
         val card = itemView.findViewById<View>(R.id.imcrRecyclerview)
-        val cardButton = itemView.findViewById<View>(R.id.imcrCardButton)
+        val coin = itemView.findViewById<View>(R.id.imcrCardButton)
+        val cardButton = itemView.findViewById<View>(R.id.imcrCardView)
+
         val title: TextView = itemView.findViewById(R.id.imcrHeader)
         title.text = item.title
 
@@ -149,7 +151,7 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
                 click?.invoke(item.itemType)
             }
             buttonSettings.visibility = View.GONE
-            cardButton.visibility = View.GONE
+            coin.visibility = View.GONE
         } else {
             buttonSettings.setOnClickListener {
                 click?.invoke(item.itemType)
@@ -157,19 +159,19 @@ class MainRVViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             button.visibility = View.GONE
             setupRecyclerViewThreeCoin(coins = item.coins)
             buttonSettings.visibility = View.VISIBLE
-            cardButton.visibility = View.GONE
+            coin.visibility = View.GONE
         }
         if (item.coins.firstOrNull()?.name == "error" || item.coins.firstOrNull()?.imageUrl == "error") {
             cardButton.setOnClickListener {
                 clickReplace?.invoke(item.itemType)
             }
-            cardButton.visibility = View.VISIBLE
+            coin.visibility = View.VISIBLE
             buttonSettings.setOnClickListener {
                 click?.invoke(item.itemType)
             }
             button.visibility = View.GONE
             card.visibility = View.GONE
-            Toast.makeText(itemView.context, "При загрузке криптовалюты произошла ошибка" , Toast.LENGTH_SHORT).show()
+
         }
     }
 

@@ -54,12 +54,17 @@
             android:layout_marginHorizontal="5dp"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <ImageView
+        <TextView
             android:id="@+id/imcrCardButton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_error"
-            app:tint="@color/lightGray" />
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:text="При загрузке криптовалюты произошла ошибка"
+            android:textAlignment="center" />
+
         <ImageView
             android:id="@+id/imcrSettings"
             android:layout_width="wrap_content"

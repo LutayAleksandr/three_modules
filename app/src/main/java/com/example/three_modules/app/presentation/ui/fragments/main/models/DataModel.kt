@@ -7,9 +7,6 @@ import com.example.three_modules.app.presentation.ui.fragments.weather.models.We
 sealed class DataModel(
     val id: String
 ) {
-//    data class HeaderRVItemModel(
-//        val title: String,
-//        ): DataModel()
 
     data class MainRVItemModel(
         val title: String,
