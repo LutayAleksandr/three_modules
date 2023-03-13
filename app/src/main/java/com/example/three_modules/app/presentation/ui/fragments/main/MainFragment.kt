@@ -17,13 +17,15 @@ import com.example.three_modules.app.di.fragment.DaggerFragmentComponent
 import com.example.three_modules.app.di.fragment.FragmentModule
 import com.example.three_modules.app.presentation.activity.MainActivity
 import com.example.three_modules.app.presentation.ui.fragments.main.adapters.mainadapter.MainRVAdapter
-import com.example.three_modules.app.presentation.ui.fragments.main.models.DataModel
 import com.example.three_modules.app.presentation.ui.fragments.main.models.MainItemType
 import com.example.three_modules.app.presentation.ui.fragments.main.viewmodel.MainViewModel
 import com.example.three_modules.databinding.FragmentMainBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
+import java.time.LocalDateTime
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 
 class MainFragment : Fragment() {
@@ -57,20 +59,47 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
-        setupRecyclerView()
         lifecycleScope.launch{
+            mainViewModel.loadSettingList()
             mainViewModel.buildList()
             setupRecyclerView()
         }
-
+        tickerFlow(5.seconds)
+            .map { LocalDateTime.now() }
+            .distinctUntilChanged { old, new ->
+                old.second == new.second
+            }
+            .onEach {
+                mainViewModel.getSelectedCoins()
+                mainViewModel.buildList()
+            }
+            .launchIn(lifecycleScope)
     }
+    fun tickerFlow(period: Duration, initialDelay: Duration = Duration.ZERO) = flow {
+        delay(initialDelay)
+        while (true) {
+            emit(Unit)
+            delay(period)
+        }
+    }
+
+
 
     private fun setupUI(){
         lifecycleScope.launchWhenResumed {
-            mainViewModel.loadSettingList()
             mainViewModel.getSelectedCoins()
             mainViewModel.getSelectedCityForWeather()
             mainViewModel.getCoordinates()
+        }
+        lifecycleScope.launch {
+            mainViewModel.list.collect { list ->
+                if (list.isNotEmpty()) {
+                    rvAdapter.submitList(list)
+//                    rvAdapter.notifyDataSetChanged()
+                } else {
+                    binding.fmProgressBar.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
@@ -82,20 +111,6 @@ class MainFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     private fun setupRecyclerView() {
         Log.d("LOG_TEST", "called")
-
-
-        lifecycleScope.launch {
-            mainViewModel.list.collect { list ->
-                if (list.isNotEmpty()) {
-                    rvAdapter.submitList(null)
-                    rvAdapter.submitList(list)
-                    rvAdapter.notifyDataSetChanged()
-                } else {
-                    binding.fmProgressBar.visibility = View.VISIBLE
-                }
-            }
-        }
-
 
         rvAdapter.click = { itemType,  ->
             when (itemType) {
@@ -121,6 +136,3 @@ class MainFragment : Fragment() {
         binding.fmRecyclerView.adapter = rvAdapter
     }
 }
-
-//        Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(Runnable {
-//        }, 0, 5, TimeUnit.SECONDS)

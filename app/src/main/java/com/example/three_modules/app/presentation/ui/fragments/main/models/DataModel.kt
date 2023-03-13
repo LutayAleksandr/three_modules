@@ -5,7 +5,7 @@ import com.example.three_modules.app.presentation.ui.fragments.coin.models.CoinR
 import com.example.three_modules.app.presentation.ui.fragments.weather.models.WeatherJsonApiModel
 
 sealed class DataModel(
-    val id: String
+    val id: String,
 ) {
 
     data class MainRVItemModel(
