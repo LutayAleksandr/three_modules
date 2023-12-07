@@ -33,7 +33,7 @@ import javax.inject.Inject
 
 class MainActivity() : AppCompatActivity() {
 
-//    @Inject
+//    @Inject 
 //    lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var binding: ActivityMainBinding
