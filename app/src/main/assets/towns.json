@@ -1,11 +1,11 @@
 [
   {
-    "id": 1,
+    "id": 1, 
     "cityName": "Таганрог",
     "countryName": "Ru",
     "latitude": 47.2362,
     "longitude": 38.8969
-  }, 
+  },
   {
     "id": 2,
     "cityName": "Ростов-на-Дону",
